@@ -45,7 +45,7 @@ La instalación realizará 2 cosas importantes que deberemos que tener en cuenta
 
 ### ¿Qué es NPM?
 
-NPM significa Node Package Manager o en español Gestor de Paquetes de Node. Este es un herramienta que permite la instalacion de modulos o paquetes para nuestro entorno de ejecución, los paquetes nos permiten añadir funcionalidades especificas a nuestra aplicacion de manera sencilla y practica. Frameworks como React pueden ser integrados a traves de esta herramienta.
+NPM significa Node Package Manager o en español Gestor de Paquetes de Node. Este es un herramienta que permite la instalación de paquetes para nuestro entorno de ejecución. Los paquetes son, un conjunto de modulos o archivos javascript los cuales cumplen funcionalidades específicas, y pueden ser llamados desde nuestra aplicación de manera sencilla y práctica. Frameworks como React pueden ser integrados a traves de esta herramienta.
 
 ### ¿Qué es PATH?
 
@@ -53,7 +53,7 @@ El Path es el listado de las rutas a programas que pueden ser llamados desde nue
 
 ___
 
-## ¡ Hola Mundo en NodeJs \!
+## Hola Mundo en NodeJs
 
 Recomiendo que para la proxima lección
 Guardamos el siguiente codigo en un archivo holaMundoNode.js
@@ -89,7 +89,7 @@ Deberiamos ver algo como esto...
 
 En este caso se hace uso del modulo `http`, es se utiliza para montar el servidor en nuestra pc y es el que permite responder a los usuarios con información.
 `
-Con respecto a los modulos hay algo que tenemos que remarcar y es el tipo de modulo al que se esta haciendo referencia, en este caso, el modulo `http` es un modulo que ya viene instalado con Node por lo que no es necesario hacer ningun llamado "especial" o descargarlo de npm por ejemplo. Este tipo de modulos de los conoce como **Modulos Core**, ya que vienen preinstalados.
+Con respecto a los modulos hay algo que tenemos que remarcar y es el tipo de modulo al que se esta haciendo referencia, en este caso, el modulo `http` es un modulo que ya viene instalado con Node por lo que no es necesario hacer ningun llamado "especial" o descargarlo de npm por ejemplo. Este tipo de modulos se los conoce como **Modulos Core**, ya que vienen preinstalados. (Un poco más adelante veremos sobre módulos)
 
 Una vez importado en la linea uno, se guardan en variables constantes los datos para configurar el servidor (`const hostname = '127.0.0.1';` y `const port = 3000;`)
 
@@ -142,6 +142,81 @@ Hasta ahora vimos la utilización del modulo `http`, el cual es un fragmento de 
 
 Otra ventaja, es que si pensamos los modulos como piezas que encastran entre si, podemos decir que a la hora de construir un proyecto seremos capaces de elegir que piezas utilizar en nuestro proyecto y cuales no.
 
-### Tipos de modulos en JS
+### Tipos de módulos en JS
 
-#### CommonJS module 
+#### CommonJS modules
+
+Es la forma original en la cual el modulo se preparaba para ser importado, es el que viene por defecto integrado en el lenguaje de JS.
+
+Vease el siguiente ejemplo:
+
+Supongamos que el siguiente modulo es un archivo llamado `foo.js`
+
+```js
+module.exports.add = function(a, b) {
+        return a + b;
+} 
+
+module.exports.subtract = function(a, b) {
+        return a - b;
+} 
+```
+
+Lo que esta ocurriendo aqui es que se esta haciendo uso de una palabra reservada llamada `module`.
+La cual permite "empaquetar" funciones en variables para poder exportarlas y ser utilizadas desde otro modulo. Por ejemplo, el siguiente modulo, que denominaremos `main.js`
+
+```js
+const {add, subtract} = require('./foo')
+
+console.log(add(5, 5)) // 10
+console.log(subtract(10, 5)) // 5
+```
+
+Resaltemos algo importante, notece como en la declaración de `const {add, subtract} = require('./util')` las constantes estan encerradas entre `{}`, esto es una funcionalidad que se agregó en ES6.
+
+Esta permite asignarle a las constantes los valores del objeto en el orden en el que se declararon. Por ejemplo, si en `foo.js` primero declaré la función `add`, entonces cuando yo importe el modulo en mi `main.js` la primera constante que yo escriba se le va a asignar la función `add`, en este caso tambien se llama "add".
+
+Ademas notece una última cosa, fijese que al momento de pasar por parametro en `require()` la ubicación del modulo que queremos importar, este comienza con un `./`
+
+Esto significa que estamos buscando el modulo **desde la misma carpeta** que el "archivo llamador", en este caso seria desde la carpeta o directorio donde se encuentra `main.js`
+
+#### EMACASript modules (ES Modules)
+
+Por otro lado tenemos los ES Modules, que son modulos de javascript que se encuentran estandarizados. Esto quiere decir que estos tienen una estructura o sintaxis diferentes que los hace poseer mejores ventajas que los CommonJS Modules. Vease el anterior codigo pero esta vez como la metodologia de un ES Module...
+
+```js
+export function add(a, b) {
+        return a + b;
+}
+
+export function subtract(a, b) {
+        return a - b;
+}
+```
+
+Fijese que ahora la sintaxis es mucho mas limpia y agradable a la vista.
+Algo que tenemos que aclarar es que el codigo de arriba **NO** lo guardaremos como `foo.js` **SINO** como `foo.mjs`.
+
+Esto permite que Node identifique que el modulo se trata del tipo estandarizado. Pero ahora bien, como seria el archivo `main.js`?, vease el siguiente codigo...
+
+```js
+import {add, subtract} from './foo.mjs'
+
+console.log(add(5, 5)) // 10
+console.log(subtract(10, 5)) // 5
+```
+
+Vease que la forma de importar tambien cambia.
+
+### Diferencias (import and require)
+
+* Los `import` solo pueden ser llamados desde el principio del archivo (`main.js`), mientras que los `require()` pueden ser llamados en cualquier momento, por ejemplo.
+
+```js
+if(user.length > 0){
+   const userDetails = require(‘./userDetails.js’);
+  // Do something ..
+}
+```
+
+* Los `import` son **ASINCRONOS** y los `require()` son **SINCRONOS**, lo que quiere decir que, los `require()` esperan a que se terminen de cargar todas las funciones para poder continuar la ejecución. Esto puede perjudicar al rendimiento en grandes aplicaciones.
