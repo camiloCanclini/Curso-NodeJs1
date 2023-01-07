@@ -172,7 +172,7 @@ console.log(add(5, 5)) // 10
 console.log(subtract(10, 5)) // 5
 ```
 
-Resaltemos algo importante, notece como en la declaración de `const {add, subtract} = require('./util')` las constantes estan encerradas entre `{}`, esto es una funcionalidad que se agregó en ES6.
+Resaltemos algo importante, notece como en la declaración de `const {add, subtract} = require('./foo')` las constantes estan encerradas entre `{}`, esto es una funcionalidad que se agregó en ES6.
 
 Esta permite asignarle a las constantes los valores del objeto en el orden en el que se declararon. Por ejemplo, si en `foo.js` primero declaré la función `add`, entonces cuando yo importe el modulo en mi `main.js` la primera constante que yo escriba se le va a asignar la función `add`, en este caso tambien se llama "add".
 
@@ -220,3 +220,73 @@ if(user.length > 0){
 ```
 
 * Los `import` son **ASINCRONOS** y los `require()` son **SINCRONOS**, lo que quiere decir que, los `require()` esperan a que se terminen de cargar todas las funciones para poder continuar la ejecución. Esto puede perjudicar al rendimiento en grandes aplicaciones.
+
+### El objeto `global` En NodeJS
+
+El objeto `global`, es similar al objeto window, los 2 almacenan los objetos y metodos que comunmente usamos cuando trabajos con JS, por ejemplo:
+
+* `console`
+
+* `setInterval()`
+
+* `setTimeout()`
+
+La diferencia es que `window` se usa cuando js se esta ejecutando en el navegador y el otro se utliza en Node.
+
+### Los tipos de variables `var` en Node
+
+Algo importante a tener en cuenta cuando hablamos de módulos es que el comportamiento que toman las variables del tipo `var` cambia, ya que en node, su **scope** es el modulo desde donde se declaran. A diferencia del navegador que se comparte entre archivos porque se almacena en el objeto `window`.
+
+## NPM ( Node Package Manager )
+
+Ahora vamos a ver en mayor profundidad NPM. Como digimos anteriormente, este sirve para instalar paquetes que son consumidos por nuestra aplicación para realizar tareas especificas.
+
+### Como instalar paquetes
+
+Una vez instalado nodejs y npm, tan solo bastaria con abrir la terminal y navegar hasta la carpeta del proyecto para escribir el siguiente comando
+
+```bash
+npm install <NombreDelPaquete>
+```
+
+Este comando instalara el paquete indicado, creando una carpeta en la raiz de nuestro proyecto llamada `node_modules`. Aquí se almacenaran todos los paquetes.
+
+#### package.json y package-lock.json
+
+a
+
+### Como instalar dependencias
+
+Si nosotros bajamos un proyecto y necesitamos instalar todos los paquetes necesarios para que este funcione, tan solo bsataria, ir a la terminal, dirigirnos al directorio raiz del mismo proyecto y escribir el siguiente comando:
+
+```bash
+npm install
+```
+
+Esto lo que hara sera descargar todos los paquetes listados en el directorio (Que se supone que existe)
+
+### Como actualizar paquetes
+
+Para un actualizar paquete usamos
+
+```bash
+npm update <NombreDelPaquete>
+```
+
+Para actualizar **TODOS** los paquetes
+
+```bash
+npm update 
+```
+
+### Como importar paquetes
+
+```js
+require(<NombreDelPaquete>)
+```
+
+Con el metodo `require()` podemos hacer uso de los paquetes instalados en el proyecto. **No es necesario especificar ninguna ruta, solo indicar el nombre.**
+
+> Al integrar estos paquetes estos pasan a convertirse en **dependencias** que nuestra aplicación necesita para funcionar.
+
+### NPM Tasks
