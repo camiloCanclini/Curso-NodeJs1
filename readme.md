@@ -16,7 +16,7 @@ Obviamente necesitamos tener algun tipo de documentación o trabajo previo sobre
 
 [![YT](https://img.shields.io/badge/YT-%09%20Nodejs%20Curso%20Desde%20Cero%2C%20para%20principiantes%20%7C%20FZST%20%20-red)](https://www.youtube.com/watch?v=BhvLIzVL8_o)
 
-[![ROADMAP](https://img.shields.io/badge/ROADMAP-Node.js%20Developer-blue)](https://openlibra.com/es/book/node-js-notes-for-professionals)
+[![ROADMAP](https://roadmap.sh/nodejs/)
 
 ___
 
@@ -241,6 +241,16 @@ Algo importante a tener en cuenta cuando hablamos de módulos es que el comporta
 
 Ahora vamos a ver en mayor profundidad NPM. Como digimos anteriormente, este sirve para instalar paquetes que son consumidos por nuestra aplicación para realizar tareas especificas.
 
+### Preparando proyecto
+
+Para empezar a utilizar NPM se recomienda que empecemos con el siguiente comando.
+
+```bash
+npm init
+```
+
+Este comando lo que hará sera hacernos una serie de preguntas relacionadas con los metadatos del proyecto entero, posteriora esto creará un primer archivo para mantener esta configuración, llamado `package.json`.
+
 ### Como instalar paquetes
 
 Una vez instalado nodejs y npm, tan solo bastaria con abrir la terminal y navegar hasta la carpeta del proyecto para escribir el siguiente comando
@@ -253,11 +263,13 @@ Este comando instalara el paquete indicado, creando una carpeta en la raiz de nu
 
 #### package.json y package-lock.json
 
-a
+![img3](./readme-imgs/img3.png)
+
+Estos 2 se crean al momento de empezar a instalar paquetes o dependencias, como dijimos `package.json` es el archivo donde se guarda la configuración de la carpeta raiz, en mi caso Proyecto1. Mientras que el `package-lock.json` es el archivo donde se va a guardar el listado de módulos descargados, asi como un historial de versiones de los mismos.
 
 ### Como instalar dependencias
 
-Si nosotros bajamos un proyecto y necesitamos instalar todos los paquetes necesarios para que este funcione, tan solo bsataria, ir a la terminal, dirigirnos al directorio raiz del mismo proyecto y escribir el siguiente comando:
+Si nosotros bajamos un proyecto y necesitamos instalar *todos* los paquetes necesarios para que este funcione, tan solo bsataria, ir a la terminal, dirigirnos al directorio raiz del mismo proyecto y escribir el siguiente comando:
 
 ```bash
 npm install
@@ -290,3 +302,53 @@ Con el metodo `require()` podemos hacer uso de los paquetes instalados en el pro
 > Al integrar estos paquetes estos pasan a convertirse en **dependencias** que nuestra aplicación necesita para funcionar.
 
 ### NPM Tasks
+
+Si miramos el archivo `package.json` deberiamos ver algo parecido a lo siguiente:
+
+```json
+{
+  "name": "proyecto-1",
+  "version": "1.0.0",
+  "description": "Este es el primer proyecto del curso",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "curso"
+  ],
+  "author": "Camilo Canclini Stephano",
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.4.0"
+  }
+}
+```
+
+Si nos fijamos en la parte de `scripts` podremos ver que se esta almacenando un objeto (keys y values). Este objeto, en mi caso, se encuentra guardando la siguiente entrada: `"test": "echo \"Error: ..."`.
+
+Gracias a la estructura que brinda este archivo para el apartado de `"scripts"` es que somos capaces de guardar diferentes scripts, y **personalizados**. Esto nos permite generar una serie de comandos predefinidos que pueden ser leidos y ejecutados a traves de npm con la finalidad de poder ejecutar ciertas acciones en nuestro paquete o proyecto que estemos creando, como por ejemplo: configurar e iniciar el servidor, crear archivos iniciales, ejecutar testeos, entre otras cosas.
+
+#### Ejecutar Scripts con NPM
+
+Con el siguiente comando seremos capaces de ejecutar los scripts que esten definidos en nuestro `package.json`.
+
+```bash
+npm run <NombreDelScript>
+```
+
+### NPX
+
+npx es un comando que se integró con npm para poder realizar la ejecución de comandos basandoce en el **contexto de los paquetes**. Con contexto nos referimos a la **forma** en la que **tienen** que ser **accedidos** estos paquetes para funcionar.
+
+Hay veces que los paquetes requieren estar instalados de manera **global** en el equipo, pueden requerir **privilegios de administrador** para ejecutar cierta función, o bien pueden necesitar ser ejecutados mediante la aplicación que estemos desarrollando directamente. NPX surge para solucionar todo esto.
+
+NPX lo que hace es realizar todas las operaciones necesarias en un segundo plano para poder cumplir con el comando que queramos ejecutar. Un ejemplo muy sencillo podria ser el siguiente.
+
+```bash
+npx create-react-app prueba
+```
+
+`create-react-app` es un comando propio del framework de **React** que lo que hace es realizar las operaciones internas de la libreria para crear la estructura de una app con React. Obviamente para que funcione requiero tener instalado React en mi proyecto, pero si uso npx, esto no es necesario. Al ejecutarlo nos preguntará si queremos instalar React, y si seleccionamos que si, entonces npx lo instalará de forma temporal y lo posicionara basandose en el contexto de nuestro proyecto. Lo "instalará" manera local, en otras palabras.
+
+Podemos concluir con que NPX es un comando que permite saltarse ciertos requerimientos como, por ejemplo, tener que declarar un comando en especifico en el `package.json` para ejecutar cierto modulo.

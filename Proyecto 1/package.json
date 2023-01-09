@@ -1,4 +1,16 @@
 {
+  "name": "proyecto-1",
+  "version": "1.0.0",
+  "description": "Este es el primer proyecto del curso",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "curso"
+  ],
+  "author": "Camilo Canclini Stephano",
+  "license": "ISC",
   "dependencies": {
     "colors": "^1.4.0"
   }
