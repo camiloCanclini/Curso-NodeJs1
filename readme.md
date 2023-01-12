@@ -14,9 +14,11 @@ Obviamente necesitamos tener algun tipo de documentación o trabajo previo sobre
 
 [![PDF](https://img.shields.io/badge/PDF-%09%20%20%20%20Node.js%20Notes%20for%20Professionals-white)](https://openlibra.com/es/book/node-js-notes-for-professionals)
 
-[![YT](https://img.shields.io/badge/YT-%09%20Nodejs%20Curso%20Desde%20Cero%2C%20para%20principiantes%20%7C%20FZST%20%20-red)](https://www.youtube.com/watch?v=BhvLIzVL8_o)
+[![YT](https://img.shields.io/badge/YT-%09%20Nodejs%20Curso%20Desde%20Cero%2C%20para%20principiantes%20%7C%201HS%20%7C%20FAZT%20%20-red)](https://www.youtube.com/watch?v=BhvLIzVL8_o)
 
-[![ROADMAP](https://roadmap.sh/nodejs/)
+[![YT](https://img.shields.io/badge/YT-%09%20Nodejs%20Curso%20Práctico%20%7C%204HS%20%7C%20FAZT%20%20-red)](https://www.youtube.com/watch?v=i3OdKwuBjeM&t=6027s)
+
+[![ROADMAP](https://img.shields.io/badge/ROADMAP-%09%20Roadmap.sh%20|%20NodeJS%20%20-blue)](https://roadmap.sh/nodejs/)
 
 ___
 
@@ -128,6 +130,7 @@ server.listen(port, hostname, () => {
 ```
 
 Este metodo `server.listen()` es el que setea donde se esta ejecutando la aplicación web, en que dirección y que puerto. Y ademas nos permite realizar operaciones mietras que se incia. Ya qué, al igual que el anterior, esté acepta una función asíncrona, que en este caso arroja un mensaje por terminal que nos indica en que dirección se encuentra corriendo el servidor.
+___
 
 ## Modularización
 
@@ -141,6 +144,32 @@ La modularización es un concepto de la programación que hace referencia al hec
 Hasta ahora vimos la utilización del modulo `http`, el cual es un fragmento de codigo que permite gestionar las peticiones por el protocolo http. Esto nos facilita esa tarea en concreto y hace que no tengamos que preocuparnos por crear nosotros esa funcionalidad.
 
 Otra ventaja, es que si pensamos los modulos como piezas que encastran entre si, podemos decir que a la hora de construir un proyecto seremos capaces de elegir que piezas utilizar en nuestro proyecto y cuales no.
+
+### El objeto `module` En NodeJS
+
+El objeto `module` es un objeto que se comparte entre modulos, este guarda atributos y metodos que se mantienen durante la ejecución del programa.
+
+Veamos como se compone:
+
+```js
+Module {
+  id: '.',
+  path: '/home/camilocanclini/Programacion/Curso-NodeJs1',
+  exports: {},
+  filename: '/home/camilocanclini/Programacion/Curso-NodeJs1/holaMundoNode.js',
+  loaded: false,
+  children: [],
+  paths: [
+    '/home/camilocanclini/Programacion/Curso-NodeJs1/node_modules',
+    '/home/camilocanclini/Programacion/node_modules',
+    '/home/camilocanclini/node_modules',
+    '/home/node_modules',
+    '/node_modules'
+  ]
+}
+```
+
+Entre las propiedades mas importantes que guarda se encuentra `exports`, que guarda un objeto. A continuación veremos para que se utiliza...
 
 ### Tipos de módulos en JS
 
@@ -162,8 +191,7 @@ module.exports.subtract = function(a, b) {
 } 
 ```
 
-Lo que esta ocurriendo aqui es que se esta haciendo uso de una palabra reservada llamada `module`.
-La cual permite "empaquetar" funciones en variables para poder exportarlas y ser utilizadas desde otro modulo. Por ejemplo, el siguiente modulo, que denominaremos `main.js`
+Lo que esta ocurriendo aqui es que se esta haciendo uso del objeto global `module`. Debido a la característica ya mencionada este permite que se "comparta" su propiedad `exports` entre modulos. Por ejemplo, el siguiente modulo, que denominaremos `main.js`
 
 ```js
 const {add, subtract} = require('./foo')
@@ -236,6 +264,7 @@ La diferencia es que `window` se usa cuando js se esta ejecutando en el navegado
 ### Los tipos de variables `var` en Node
 
 Algo importante a tener en cuenta cuando hablamos de módulos es que el comportamiento que toman las variables del tipo `var` cambia, ya que en node, su **scope** es el modulo desde donde se declaran. A diferencia del navegador que se comparte entre archivos porque se almacena en el objeto `window`.
+___
 
 ## NPM ( Node Package Manager )
 
@@ -337,6 +366,8 @@ Con el siguiente comando seremos capaces de ejecutar los scripts que esten defin
 npm run <NombreDelScript>
 ```
 
+___
+
 ### NPX
 
 npx es un comando que se integró con npm para poder realizar la ejecución de comandos basandoce en el **contexto de los paquetes**. Con contexto nos referimos a la **forma** en la que **tienen** que ser **accedidos** estos paquetes para funcionar.
@@ -352,3 +383,154 @@ npx create-react-app prueba
 `create-react-app` es un comando propio del framework de **React** que lo que hace es realizar las operaciones internas de la libreria para crear la estructura de una app con React. Obviamente para que funcione requiero tener instalado React en mi proyecto, pero si uso npx, esto no es necesario. Al ejecutarlo nos preguntará si queremos instalar React, y si seleccionamos que si, entonces npx lo instalará de forma temporal y lo posicionara basandose en el contexto de nuestro proyecto. Lo "instalará" manera local, en otras palabras.
 
 Podemos concluir con que NPX es un comando que permite saltarse ciertos requerimientos como, por ejemplo, tener que declarar un comando en especifico en el `package.json` para ejecutar cierto modulo.
+___
+
+## Errors Handling
+
+Tambien conocidos como manejadores de errores, son las formas en las cuales se tratan los errores. Como dijimos antes, nuestra aplicación podrá ser accedida por muchos usuarios, y si esta escala requerirá de mas archivos y funcionalidades.
+
+Este tipo de aplicaciones no deberian ser detenidas por un simple error de codigo, esta tiene que poder responder siempre, aunque sea arrojando un mensaje de error. Se tiene que evitar detener la ejecución e impedir que los usuarios que disparen algun error sigan repercutiendo en el resto del sistema.
+
+### Tipos de errores
+
+Existen 2 grandes tipos de errores:
+
+#### Errores de Programador
+
+Estos son el tipo de errores que se encuentran en el codigo y que dependen exclusivamente de la forma en la cual se programó la aplicación. Estos pueden ser manejados simplemente optimizando y depurando el codigo.
+
+#### Errores Operacionales
+
+Estos son los mas complejos, ya que, dependen de **factores externos** a la programación de la aplicación. Son inesperados y se disparan a gracias a las operaciones que realizan los usuarios con nuestra aplicación o tambien debido a la forma en la que las disitintas partes de nuestra aplicación se comunican entre si.
+
+Por ejemplo, un usuario podria estar intentando leer un archivo que se encuentra vacio, podria ingresar información que puede generar vulnerabilidades en el sistema, o un script podria ejecutar alguna operación sobre un archivo que no existe aun.
+
+### El objeto `Error`
+
+En Nodejs existe el objeto `Error`, el cual permite crear instancias para "lanzar" errores en la aplicación.
+
+```js
+new Error("Aquí va el mensaje personalizado")
+```
+
+Algunos de sus priopiedades son:
+
+* `name`: Guarda el nombre del error
+* `message`: Guarda un texto que describé el error que a ocurrido
+* `stack`: Guarda el camino que a recorrido el error hasta ser arrojado, esto es sumamente útil, porque permite analizar función por función y bloque por bloque lo que se estaba ejecutando al momento de dispararse el error, esto tambien es conocido como **stack trace**.
+
+### Formas de manejar Errores
+
+A continuación vamos a presentar algunas formas de manejar errores:
+
+#### Bloque Try and Catch
+
+Los bloques `try`, `catch` y `finally` son sentencias muy parecidas a los `if` de la toda la vida, la diferencia radica en que son especiales para errores y evitan que se termine la ejecución del proceso actual.
+
+Veamos un ejemplo:
+
+```js
+var fs = require('fs')
+
+try {
+const data = fs.readFileSync('/Users/user/file.txt')
+} catch (err) {
+  console.log(err)
+}
+finally{
+  console.log('Finally will execute every time')
+}
+```
+
+Vamos por partes:
+
+* `try`: va a ejecutar un fragmento del código, si este arroja cualquier tipo de error, **no detiene la ejecución** y en cambio "le pasa" el error a la sentencia `catch`, si no occurre un error no arroga nada.
+En este caso hace uso del modulo `fs` para leer un archivo(la veremos mas adelante). Como es evidente la lectura puede fallar por causas externas a la aplicación, por esa razon se coloca dentro de `try` para ser "evaluada".
+
+* `catch (err)`: Esta sentencia recibe el error arrojado por la sentencia `try`, y realiza algun tipo de operación en consecuencia del mismo. En este caso devuelve el error por consola (Pero no se detiene la aplicación).
+
+* `finally`: Este bloque se ejecutará **independientemente del resultado anterior**, no es necesario agregarlo.
+
+Recordemos que en este caso tenemos que evitar a toda costa que la aplicación se bloqueé, ya que, necesitamos que, este disponible siempre para los usuarios, y que opere de manera autónoma.
+
+#### Funciones Callbacks
+
+Las funciones callbacks son aquellas que pueden ser pasadas como argumentos de otra función.
+En este caso, las usaremos para realizar operaciones si aparece un error.
+
+Generalmente estas se pasan como argumento *final* de la función principal, estas son llamadas cuando la funcion desde la que se llama a la callback espera necesita un resultado, o cuando se dispara un error. Actuan como manejadores de errores porque permiten ejecutar operaciones si existe un error. Por ejemplo:
+
+```js
+function operacionLargaConError(callback) {
+  setTimeout(() => {
+    const error = Math.random() < 0.5;
+    if(error){
+        callback(new Error('Ocurrio un error!'));
+    }else{
+        callback();
+    }
+  }, 1000);
+}
+
+function manejarError(error) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('La operacion finalizo correctamente');
+  }
+}
+
+operacionLargaConError(manejarError);
+```
+
+En el codigo anterior se le pasa a la función `operacionLargaConError()` como argumento la funcion `manejarError(error)` que a su vez tambien recibe un parametro  que es el error disparado, en la función anterior.
+
+Esta forma de operación permite separar la logica de principal del manejo de errores. Haciendo que el código sea modular y mas legible a la vista.
+
+Las callbacks son utilizados para seguir con la ejecución del codigo y tener que esperar al resultado de una función o metodo que tiene que devolver algo. Ya qué, en NodeJs y JS la mayoría de procesos son asíncronos, necesitamos realizar varios procesos en simultaneo y que el codigo siga ejecución.
+
+### Promesas - Promise
+
+Una promesa es un objeto que representa la terminación de una operación asíncrona, se utilizan para manejar tareas asincronicas como las que venimos viendo, a diferencia de las callbacks estas son mas sencilla de entender y de visualizar. La promesa tiene 3 estados:
+
+* pending (pendiente)
+
+* fulfilled (cumplida)
+
+* rejected (fallida)
+
+Una vez que cambia su estado a fulfilled o rejected no se puede volver para atras.
+
+El objeto promesa tiene dos métodos que se usan para manejar los resultados de una promesa:
+
+* `.then`: este método recibe una función que se ejecuta si la promesa se cumple.
+* `.catch`: este método recibe una función que se ejecuta si la promesa falla.
+
+Veamos un ejemplo:
+
+```js
+const promesa = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    if (Math.random() < 0.5) {
+      resolve("Todo bien");
+    } else {
+      reject(new Error("Algo salió mal"));
+    }
+  }, 1000);
+});
+
+promesa.then(response => console.log(response))
+promesa.catch(error => console.error(error));
+```
+
+Como podemos apreciar, primero se instancia el objeto promesa con `new Promise((resolve, reject) => {});`, el `resolve` y el `reject` son dos funciones callbacks que se asocian con los 2 metodos que mencionamos arriba.
+
+Luego se empieza una función flecha y adentro un `setTimeout` en el cual vuelven a aparecer `resolve` y `reject`. Aqui es donde se hace la llamada a la función correspondiente en cada caso, `resolve()` para cuando todo sale bien y se pasa algun valor como parametro, y `reject(Error)` cuando ocurré algo que pueda ser considerado un error, en este ultimo se pasa por parametro un objeto `Error`.
+
+Dependiendo de lo ocurrido en el bloque del `setTimeout` se ejecutan los metodos `.then` y `.catch`, para cuando todo sale bien y para cuando ocurrió un error respectivamente.
+
+#### Ventajas de usar promesas
+
+* Una callback no se llama antes de la terminación de la ejecución actual
+
+*
