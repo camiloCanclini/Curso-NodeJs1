@@ -489,15 +489,17 @@ Esta forma de operación permite separar la logica de principal del manejo de er
 
 Las callbacks son utilizados para seguir con la ejecución del codigo y tener que esperar al resultado de una función o metodo que tiene que devolver algo. Ya qué, en NodeJs y JS la mayoría de procesos son asíncronos, necesitamos realizar varios procesos en simultaneo y que el codigo siga ejecución.
 
-### Promesas - Promise
+### Promesas - Promises
 
-Una promesa es un objeto que representa la terminación de una operación asíncrona, se utilizan para manejar tareas asincronicas como las que venimos viendo, a diferencia de las callbacks estas son mas sencilla de entender y de visualizar. La promesa tiene 3 estados:
+Una promesa es un objeto que representa la terminación de una operación asíncrona, se utilizan para manejar tareas asincrónicas como las que venimos viendo, a diferencia de las callbacks estas son mas sencilla de entender y de visualizar. La promesa tiene 3 estados:
 
 * pending (pendiente)
 
 * fulfilled (cumplida)
 
 * rejected (fallida)
+
+![Promises-States](https://lenguajejs.com/javascript/asincronia/promesas/promises.png)
 
 Una vez que cambia su estado a fulfilled o rejected no se puede volver para atras.
 
@@ -523,14 +525,138 @@ promesa.then(response => console.log(response))
 promesa.catch(error => console.error(error));
 ```
 
-Como podemos apreciar, primero se instancia el objeto promesa con `new Promise((resolve, reject) => {});`, el `resolve` y el `reject` son dos funciones callbacks que se asocian con los 2 metodos que mencionamos arriba.
+Como podemos apreciar, primero se instancia el objeto promesa con `new Promise((resolve, reject) => {});`, la función que ejecuta la promesa se llama `executor` y sus argumento son los objetos: `resolve` y `reject`. Estos se asocian con los 2 metodos que mencionamos arriba.
 
-Luego se empieza una función flecha y adentro un `setTimeout` en el cual vuelven a aparecer `resolve` y `reject`. Aqui es donde se hace la llamada a la función correspondiente en cada caso, `resolve()` para cuando todo sale bien y se pasa algun valor como parametro, y `reject(Error)` cuando ocurré algo que pueda ser considerado un error, en este ultimo se pasa por parametro un objeto `Error`.
+Luego se empieza una función flecha y adentro un `setTimeout` en el cual vuelven a aparecer `resolve` y `reject`. Aqui es donde se hacen las operaciones para resolver la promesa. Recordemos que la promesa tiene solo 2 resultados posibles, `resolve(response)` para cuando todo sale bien y se pasa algun valor como parametro, y `reject(Error)` cuando ocurré algo que pueda ser considerado un error, en este último se pasa por parametro un objeto `Error`.
 
 Dependiendo de lo ocurrido en el bloque del `setTimeout` se ejecutan los metodos `.then` y `.catch`, para cuando todo sale bien y para cuando ocurrió un error respectivamente.
 
+Por último, tambien existe el método .finally, que al igual que con `try` y `catch`, se ejecuta, independientemente del la resolución de la promesa. Aqui un ejemplo:
+
+```js
+let promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        resolve('La operación ha sido completada');
+    }, 1000);
+});
+
+promise
+    .then((result) => {
+        console.log(result);
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+    .finally(() => {
+        console.log('Se ha completado la promesa INDEPENDIENTEMENTE del resultado');
+    });
+```
+
 #### Ventajas de usar promesas
 
-* Una callback no se llama antes de la terminación de la ejecución actual
+* A la hora de manejar errores el codigo se vuelven mas legible. Evitamos los "callbacks hell"
 
-*
+* Se pueden concatenar varias promesas, vease el siguiente ejemplo:
+
+```js
+let promise1 = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        resolve('Resultado de la operación 1');
+    }, 1000);
+});
+
+let promise2 = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        resolve('Resultado de la operación 2');
+    }, 2000);
+});
+
+promise1.then((result) => {
+    console.log(result);
+    return promise2;
+}).then((result) => {
+    console.log(result);
+});
+```
+
+Podemos ver como se resuelve la segunda promesa solo si antes se resolvió la primera.
+
+* Realizar varias operaciones asincronas en paralelo, vease el siguiente ejemplo:
+
+```js
+let promise1 = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        resolve('Resultado de la operación 1');
+    }, 1000);
+});
+
+let promise2 = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        resolve('Resultado de la operación 2');
+    }, 2000);
+});
+
+Promise.all([promise1, promise2]).then((results) => {
+    console.log(results);
+});
+```
+
+Aquí hacemos uso del metodo `.all` del objeto `Promise`, este recibe como parametro un arreglo con las promesas y si todas se realizaron correctamente, entonces se continua con la ejecución con `.then`. Recordemos que esto no detiene la aplicación en ningun momento, ya que son procesos asíncronos.
+
+* Concatenar varios `.then`, Utilización del metodo `fetch()`
+
+```js
+fetch('https://api.example.com/data')
+    .then((response) => {
+        return response.json();
+    })
+    .then((data) => {
+        console.log(data);
+    });
+```
+
+En este ejemplo, utilizamos la función `fetch` para realizar una solicitud HTTP asíncrona a una URL específica. El resultado de la solicitud se devuelve como un objeto llamado `response`. y a su vez el metodo devuelve una promesa, por lo que podemos hacer uso de los metodos propios de las promesas.
+
+Como podemos ver, la lógica detras de esto esta en que, al resolver el primer `.then` se devuelve un promesa, y esa es sobre la que trabaja el segundo `.then`, con la promesa resuelta del primero.
+
+### Async y Await
+
+La palabra reservada `async` se utiliza para definir funciones asíncronas, estas son, bloques de código que se ejecutan en "segundo plano", que no traban la ejecución del programa entero, y que **siempre** retornan una promesa. Al retornar una promesa se pueden aprovechar todas las ventajas mencionadas anteriormente. He aquí un ejemplo:
+
+```js
+async function getData() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve('Datos obtenidos');
+        }, 1000);
+    });
+}
+
+getData().then((result) => {
+    console.log(result);
+});
+
+console.log('Esto se ejecuta primero')
+```
+
+En este ejemplo podemos ver que la palabra `async` se pone antes de `function`, lo que convierte al bloque de codigo en una función asíncrona. Ademas vemos que cuando se llama a la función, inmediatamente se accede a la promesa (una vez que se resuelva en 1000ms) con `.then`.
+Por último, fijemonos que la ultima línea es un `console.log()`, esta linea se ejecutará **antes** que la función, por mas que la funcion haya sido llamada antes. Como sabemos que la función devuelve una promesa, podemos ejecutar todo el codigo que queramos sin necesidad a espera a que la función entregue un resultado.
+
+Por otro lado tenemos al `await`. Este lo que hace es **detener la ejecución de la función asíncrona** hasta qeu se resuelva una promesa, vease el siguiente ejemplo:
+
+```js
+async function getData() {
+    let result = await fetch('https://api.example.com/data');
+    let json = await result.json();
+    return json;
+}
+
+getData().then((data) => {
+    console.log(data);
+});
+```
+
+Miremos que el `await`, en este caso, va a esperar a que el método `fetch` retorne una promesa como respuesta, hasta que esto no ocurrá no se realizara la linea siguiente.
+Vuelvo a recalcar, solo detiene la ejecucion **de la función**, lo que quiere decir que todo el codigo que se encuentré afuera de la misma seguirá su ejecución normalmente.
+
+> El `await` solo esta habilitado en funciones asíncronas.
