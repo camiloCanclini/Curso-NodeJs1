@@ -20,6 +20,8 @@ Obviamente necesitamos tener algun tipo de documentación o trabajo previo sobre
 
 [![ROADMAP](https://img.shields.io/badge/ROADMAP-%09%20Roadmap.sh%20|%20NodeJS%20%20-blue)](https://roadmap.sh/nodejs/)
 
+[![CHATGPT](https://img.shields.io/badge/CHATGPT-%09%20CHATGPT%20|%20OPENIA%20%20-yellow)](https://chat.openai.com/chat)
+
 ___
 
 ## Conceptos Previos
@@ -723,6 +725,65 @@ ___
 
 ## Core Modules NodeJS
 
-### FS Module
+Ahora vamos a ver los modulos principales que vienen integrados con Node, estos son las bases de lso frameworks y demas librerías que se utilizan hoy en dia. Estos nos van a permitir, acceder a los recursos del sistema directamente desde JS.
+**De cada módulo se mostraran los métodos mas relevantes y ademas habrá en la carpeta 'Core Modules' un ejemplo de uso de cada uno**
 
+### OS Module
 
+Este modulo nos permite obtener datos del hardware y software del equipo que esta ejecutando nuestro script:
+
+#### Documentación Oficial
+
+Aquí se encuentra toda la información del módulo: [![OSMODULE](https://img.shields.io/badge/Documentacion%20Oficial-green)](https://nodejs.org/docs/latest-v17.x/api/os.html)
+
+#### Importación
+
+```js
+const os = require('os');
+```
+
+#### Métodos
+
+```js
+
+os.totalmem() //Devuelve INT de la memoria total
+os.freemem() // Devuelve INT de la memoria libre
+os.getPriority() // Devuelve un INT con el valor de PRIORIDAD del proceso actual
+os.homedir() //Devuelve un STRING de la ruta del directorio del usuario 
+os.tmpdir() //Devuelve un STRING de la ruta del directorio temporal 
+os.hostname() //Devuelve un STRING con el nombre del equipo
+os.platform() //Devuelve un STRING con el nombre del sistema operativo
+os.uptime() //Devuelve un ENTERO del tiempo que a estado corriendo la maquina desde que se encendió
+os.networkInterfaces() //Devuelve un OBJETO con la informaciónd del adaptador de red
+os.userInfo() //Devuelve un OBJETO con la información del usuario actual
+```
+
+### PATH Module
+
+Este módulo permite trabajar con las rutas de directorios y archivos del sistema operativo en el que nos encontremos. Recordemos que NodeJS, es multiplataforma, puede estarce ejecutando tanto en un windows como en un linux, por lo que, las formas y privilegios para acceder a los disntintos recursos del SO cambian, entre uno y otro.
+
+#### Documentación Oficial
+
+Aquí se encuentra toda la información del módulo: [![PATHMODULE](https://img.shields.io/badge/Documentacion%20Oficial-green)](https://nodejs.org/docs/latest-v17.x/api/path.html)
+
+#### Importación
+
+```js
+const path = require('path');
+```
+
+#### Métodos
+
+```js
+
+os.totalmem() //Devuelve INT de la memoria total
+os.freemem() // Devuelve INT de la memoria libre
+os.getPriority() // Devuelve un INT con el valor de PRIORIDAD del proceso actual
+os.homedir() //Devuelve un STRING de la ruta del directorio del usuario 
+os.tmpdir() //Devuelve un STRING de la ruta del directorio temporal 
+os.hostname() //Devuelve un STRING con el nombre del equipo
+os.platform() //Devuelve un STRING con el nombre del sistema operativo
+os.uptime() //Devuelve un ENTERO del tiempo que a estado corriendo la maquina desde que se encendió
+os.networkInterfaces() //Devuelve un OBJETO con la informaciónd del adaptador de red
+os.userInfo() //Devuelve un OBJETO con la información del usuario actual
+```
