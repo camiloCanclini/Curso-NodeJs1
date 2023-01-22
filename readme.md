@@ -721,4 +721,8 @@ console.log("Ejecutando tarea 4");
 
 ___
 
-a
+## Core Modules NodeJS
+
+### FS Module
+
+
