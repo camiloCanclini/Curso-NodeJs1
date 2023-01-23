@@ -76,7 +76,7 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(port, hostname, () => {
-    console.log(`Server running at http://${hostname}:${port}/`);
+    `Server running at http://${hostname}:${port}/`);
 });
 
 ```
@@ -126,7 +126,7 @@ Por otro lado tenemos...
 ```js
 
 server.listen(port, hostname, () => {
-    console.log(`Server running at http://${hostname}:${port}/`);
+    `Server running at http://${hostname}:${port}/`);
 });
 
 ```
@@ -198,8 +198,8 @@ Lo que esta ocurriendo aqui es que se esta haciendo uso del objeto global `modul
 ```js
 const {add, subtract} = require('./foo')
 
-console.log(add(5, 5)) // 10
-console.log(subtract(10, 5)) // 5
+add(5, 5)) // 10
+subtract(10, 5)) // 5
 ```
 
 Resaltemos algo importante, notece como en la declaración de `const {add, subtract} = require('./foo')` las constantes estan encerradas entre `{}`, esto es una funcionalidad que se agregó en ES6 llamada "destructuring assignment".
@@ -232,8 +232,8 @@ Esto permite que Node identifique que el modulo se trata del tipo estandarizado.
 ```js
 import {add, subtract} from './foo.mjs'
 
-console.log(add(5, 5)) // 10
-console.log(subtract(10, 5)) // 5
+add(5, 5)) // 10
+subtract(10, 5)) // 5
 ```
 
 Vease que la forma de importar tambien cambia.
@@ -437,10 +437,10 @@ var fs = require('fs')
 try {
 const data = fs.readFileSync('/Users/user/file.txt')
 } catch (err) {
-  console.log(err)
+  err)
 }
 finally{
-  console.log('Finally will execute every time')
+  'Finally will execute every time')
 }
 ```
 
@@ -482,7 +482,7 @@ function manejarError(error) {
   if (error) {
     console.error(error);
   } else {
-    console.log('La operacion finalizo correctamente');
+    'La operacion finalizo correctamente');
   }
 }
 
@@ -527,7 +527,7 @@ const promesa = new Promise((resolve, reject) => {
   }, 1000);
 });
 
-promesa.then(response => console.log(response))
+promesa.then(response => response))
 promesa.catch(error => console.error(error));
 ```
 
@@ -548,13 +548,13 @@ let promise = new Promise((resolve, reject) => {
 
 promise
     .then((result) => {
-        console.log(result);
+        result);
     })
     .catch((error) => {
-        console.log(error);
+        error);
     })
     .finally(() => {
-        console.log('Se ha completado la promesa INDEPENDIENTEMENTE del resultado');
+        'Se ha completado la promesa INDEPENDIENTEMENTE del resultado');
     });
 ```
 
@@ -578,10 +578,10 @@ let promise2 = new Promise((resolve, reject) => {
 });
 
 promise1.then((result) => {
-    console.log(result);
+    result);
     return promise2;
 }).then((result) => {
-    console.log(result);
+    result);
 });
 ```
 
@@ -603,7 +603,7 @@ let promise2 = new Promise((resolve, reject) => {
 });
 
 Promise.all([promise1, promise2]).then((results) => {
-    console.log(results);
+    results);
 });
 ```
 
@@ -617,7 +617,7 @@ fetch('https://api.example.com/data')
         return response.json();
     })
     .then((data) => {
-        console.log(data);
+        data);
     });
 ```
 
@@ -639,14 +639,14 @@ async function getData() {
 }
 
 getData().then((result) => {
-    console.log(result);
+    result);
 });
 
-console.log('Esto se ejecuta primero')
+'Esto se ejecuta primero')
 ```
 
 En este ejemplo podemos ver que la palabra `async` se pone antes de `function`, lo que convierte al bloque de codigo en una función asíncrona. Ademas vemos que cuando se llama a la función, inmediatamente se accede a la promesa (una vez que se resuelva en 1000ms) con `.then`.
-Por último, fijemonos que la ultima línea es un `console.log()`, esta linea se ejecutará **antes** que la función, por mas que la funcion haya sido llamada antes. Como sabemos que la función devuelve una promesa, podemos ejecutar todo el codigo que queramos sin necesidad a espera a que la función entregue un resultado.
+Por último, fijemonos que la ultima línea es un `)`, esta linea se ejecutará **antes** que la función, por mas que la funcion haya sido llamada antes. Como sabemos que la función devuelve una promesa, podemos ejecutar todo el codigo que queramos sin necesidad a espera a que la función entregue un resultado.
 
 Por otro lado tenemos al `await`. Este lo que hace es **detener la ejecución de la función asíncrona** hasta qeu se resuelva una promesa, vease el siguiente ejemplo:
 
@@ -658,7 +658,7 @@ async function getData() {
 }
 
 getData().then((data) => {
-    console.log(data);
+    data);
 });
 ```
 
@@ -700,17 +700,17 @@ Ahora bien, `setImmediate()` y `process.nextTick()` son dos funciones que se uti
 Un ejemplo sería:
 
 ```js
-console.log("Ejecutando tarea 1");
+"Ejecutando tarea 1");
 
 setImmediate(() => {
-  console.log("Ejecutando tarea 2 (setImmediate)");
+  "Ejecutando tarea 2 (setImmediate)");
 });
 
 process.nextTick(() => {
-  console.log("Ejecutando tarea 3 (process.nextTick)");
+  "Ejecutando tarea 3 (process.nextTick)");
 });
 
-console.log("Ejecutando tarea 4");
+"Ejecutando tarea 4");
 
 //SALIDA
 
@@ -775,15 +775,140 @@ const path = require('path');
 #### Métodos
 
 ```js
+const path = require('path');
 
-os.totalmem() //Devuelve INT de la memoria total
-os.freemem() // Devuelve INT de la memoria libre
-os.getPriority() // Devuelve un INT con el valor de PRIORIDAD del proceso actual
-os.homedir() //Devuelve un STRING de la ruta del directorio del usuario 
-os.tmpdir() //Devuelve un STRING de la ruta del directorio temporal 
-os.hostname() //Devuelve un STRING con el nombre del equipo
-os.platform() //Devuelve un STRING con el nombre del sistema operativo
-os.uptime() //Devuelve un ENTERO del tiempo que a estado corriendo la maquina desde que se encendió
-os.networkInterfaces() //Devuelve un OBJETO con la informaciónd del adaptador de red
-os.userInfo() //Devuelve un OBJETO con la información del usuario actual
+//Devuelve un STRING con el separador que utiliza el SO para los PATHS
+// WINDOWS --> \
+// LINUX --> /
+path.sep;
+
+//Retorna un STRING de la última parte de un path
+path.basename('/home/camilocanclini/Documents/hola.txt'); 
+//Retorna un STRING pero recortando lo que indiquemos en el segundo argumento
+path.basename('/home/camilocanclini/Documents/hola.txt', '.txt');
+//Devuelve un STRING del path sin la ultima parte
+path.dirname('/home/camilocanclini/Documents/hola.txt');
+
+
+//Devuelve un STRING con el separador que usa el OS para separar los paths 
+// WINDOWS --> ;
+// LINUX --> :
+path.delimiter;
+
+//Devuelve un STRING  que indica la extensión del path 
+path.extname('hola.txt');
+
+//Devuelve un STRING, este genera un PATH haciendo uso de los argumentos que pasemos
+path.join('/foo', 'bar', 'baz/asdf', 'quux', '..'); 
+
+//Devuelve un STRING, este genera un PATH NORMALIZADO para el SO en que nos enconetremos
+//Que este normalizado quiere decir que es valido, que puede ser reconocido por nuestro SO
+path.normalize('/foo/bar//baz///asdf/quux/..');
+
+//Devuelve un OBJETO con las propiedades del PATH que pasemos como argumento
+path.parse('/home/user/dir/file.txt');
+const pathObj = path.parse('/home/user/dir/file.txt');
+
+//Hace la operacion opuesta que path.parse
+path.format(pathObj);
+
+/*
+Hace lo mismo que path.join pero ademas tienen en cuenta
+si los argumentos pasados son PATHS ABSOLUTOS o RELATIVOS
+
+PATH ABSOLUTO --> /hola/como/estas
+PATH RELATIVO --> hola/como/estas ó ./hola/como/estas
+
+Este metodo analiza de derecha a izquierda
+Si es absoluto se toma  ese path y desde ahi, hacia la derecha se unen los demas paths
+Si NO HAY PATHS ABSOLUTOS se agrega el PATH total y se unifica con los pasados por Argumentos
+*/ 
+path.resolve('hola/pepe','argentina/moni');
+path.resolve('/hola/pepe','argentina/moni');
+path.resolve('hola/pepe','/argentina/moni');
 ```
+
+### FS Module
+
+Este módulo nos permite interactuar con los archivos del sistema, nos da las herramientas para modificarlos. Para comenzar tenemos que saber que este módulo nos pertmite interactuar con los archivos de 3 formas diferentes, dentro del entorno se las conoce como API (Aplication Program Interface | Interfaz de Programacion de la Aplicación), estas no son como las APIs WEB que comunmente se utilizan hoy en dia. Simplemente pensemos que son las **formas en las cuales podemos interactuar con los archivos**
+
+A continuación vamos a presentar 3 ejemplos en los cuales se importa la misma función con la forma de EMACScript6(`import { unlinkSync } from 'node:fs';`). En el primero vamos a trabajar de forma sincrona(la mas simple, pero tambien la mas vulnerable), en la segunda, vamos a usar callbacks y en la tercera vamos a usar promesas. De estas 2 últimas ya hemos hablado en profundidad anteriormente.
+
+API para Sincronía
+
+```js
+import { unlinkSync } from 'node:fs';
+
+try {
+  unlinkSync('/tmp/hello');
+  console.log('successfully deleted /tmp/hello');
+} catch (err) {
+  // handle the error
+}
+```
+
+API para Callbacks (Asincronía)
+
+```js
+import { unlink } from 'node:fs';
+
+unlink('/tmp/hello', (err) => {
+  if (err) throw err;
+  console.log('successfully deleted /tmp/hello');
+});
+```
+
+API para Promesas (Asincronía)
+
+```js
+import { unlink } from 'node:fs/promises';
+
+try {
+  await unlink('/tmp/hello');
+  console.log('successfully deleted /tmp/hello');
+} catch (error) {
+  console.error('there was an error:', error.message);
+}
+```
+
+Como podemos apreciar este módulo nos permite elegir si el método se ejecutará de manera asíncrona o síncrona. Como ya vimos, si trabaja de forma síncrona las lineas de código siguiente no se ejecutarán hasta que hayamos terminado la operación con el método indicado.
+
+Por último algo a tener en cuenta es que cuando definimos la rutas de los archivos con los que interactuamos tenemos que saber que las rutas son relativas con respecto al **Working Directory** y no con respecto al archivo desde el cual estamos ejecutando. Por ejemplo, vease la siguiente estructura:
+
+![estructura](readme-imgs/img5.png)
+
+y ahora vea el siguiente codigo del archivo llamado `fs.js`
+
+```js
+const fs = require('fs');
+console.log(fs.readFileSync('data/p.txt'));
+```
+
+Si yo ejecuto el script `fs.js` de la siguiente forma, voy a recibir un error:
+
+![bash1](readme-imgs/img6.png)
+
+¿Por qué ocurre esto?, porque al momento de yo ejecutar con `node ./CoreModules/fs.js` mi "Working Directory" es `.../Curso-NodeJS1/` por lo que cuando el script `fs.js` ejecuta la linea 2 (`console.log(fs.readFileSync('data/p.txt'));`) busca de la siguiente manera --> `/Curso-NodeJS1/data/p.txt` y esa ruta no existe, porque no pasa por la carpeta `CoreModules`. ¿Como se soluciona?, tenemos 2 formas:
+
+1. O bien cambiamos la ruta del script quedandonos: `console.log(fs.readFileSync('CoreModules/data/p.txt'));`
+
+2. O cambiamos el **Working Directory**: haciendo `cd CoreModules/` y despues ejecutamos node fs.js
+
+En el caso del segundo ya se volveria valida la ruta que especificamos en la segunda linea.
+
+#### La Clase `FileHandle`
+
+Esta clase nos permite instanciar objetos que describen un archivo numérico, esto sirven para representar al archivo que estamos operando dentro del entorno de NodeJS, al ser tratado como objeto este nos permite hacer uso de metodos. Ademas tambien permite, por ejemplo, abrir un archivo, "guardarlo" en un objeto `FileHandle` y para luego pasarlo a otra función como parametro o argumento. Generalemente este objeto aparece cuando usamos la API con Promesas.
+
+#### Documentación Oficial
+
+Aquí se encuentra toda la información del módulo: [![OSMODULE](https://img.shields.io/badge/Documentacion%20Oficial-green)](https://nodejs.org/api/fs.html)
+
+#### Importación
+
+```js
+const fs = require('fs');
+const fsPromise = require('fs/promises');
+```
+
+#### Métodos
