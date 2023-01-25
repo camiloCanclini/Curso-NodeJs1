@@ -900,6 +900,60 @@ En el caso del segundo ya se volveria valida la ruta que especificamos en la seg
 
 Esta clase nos permite instanciar objetos que describen un archivo numérico, esto sirven para representar al archivo que estamos operando dentro del entorno de NodeJS, al ser tratado como objeto este nos permite hacer uso de metodos. Ademas tambien permite, por ejemplo, abrir un archivo, "guardarlo" en un objeto `FileHandle` y para luego pasarlo a otra función como parametro o argumento. Generalemente este objeto aparece cuando usamos la API con Promesas.
 
+#### Buffers y Streams
+
+Cuando hablamos de archivos y servidores, en nodejs, aparecen terminos como "buffer", "chunks" y "streams". En este curso no vamos a entrar en muchos detalles, porque son temas que se relacionan directamente con la electronica, la comunicacion y la logica computacional. Pero vamos a explicar lo necesario para entender como se aplican en el entorno de Node.
+
+#### Buffer 
+
+Un buffer es un **espacio fijo** en la memoria que almacena **datos binarios**. Es similar a un array o matriz. Con datos binarios nos referimos a que guarda los datos en "crudo" o mas básicos que puede entender la PC. Estos se utilizan para **representar** información como, texto o imágenes. Si hablamos de Node, podemos manejar esta estructura de datos con la clase `Buffer` que proporciona el lenguaje JS.
+
+Si bien, el buffer, almacena datos binarios, estos se encuentran representados en hexadecimal. Esto para mejorar el rendimiento y visualización (Binario <==> Hexadecimal <==> Decimal)
+
+En el caso de la módulo `fs`, al momento de leer los archivos, los datos llegan como un buffer en formato hexadecimal, esto podriamos tomarlo como datos en formato **RAW**.
+
+```js
+const fs = require('fs');
+
+const dataRaw = fs.readFileSync('data/datos.txt');
+console.log('dataRaw: ', dataRaw);
+```
+
+![bash2](readme-imgs/img7.png)
+Siguiendo, una vez que llegan, tenemos que decodificar esta información a un sistema que nosotros entendemos (El Usuario / Programador), Aqui aparecen los formatos de códificacion, como **UTF-8**.
+
+```js
+const fs = require('fs');
+
+const dataRaw = fs.readFileSync('data/datos.txt');
+console.log('dataRaw: ', dataRaw);
+
+const dataConverted = dataRaw.toString('utf-8');
+console.log(dataConverted);
+```
+
+![bash3](readme-imgs/img8.png)
+
+Los formatos de codificación son los que convierten los datos del binario a las letras de nuestros respectivos lenguajes, dependiendo del lenguaje que hablemos deberemos traducirlos para un formato u otro. En Occidente el estandar es UTF-8. Siempre se recomienda establecer un formato en común para facilitar el trabajo.
+
+#### Streams Y Chunks
+
+Al momento de leer y escribir tenemos que ser conscientes del tamaño de los datos que estamos manejando, ya qué, si los datos son demasiado grandes, la aplicación del servidor tenderá a ir mas lento. La forma de solucionar esto es haciendo uso de 'Streams'.
+
+Los 'Streams' son flujos de datos, pueden ser de entrada, de salida o ambos, estos permiten recibir y enviar información en fragmentos de datos, o comunmente llamados, 'Chunks'.
+
+![streams](https://codemacaw.com/wp-content/uploads/2019/11/stream-1024x354.png)
+
+![streams2](https://pawelgrzybek.com/photos/2020-07-14-1.png)
+
+Debido a cuestiones de rendimiento, no sería eficiente enviar toda la información de un archivo grande ni tampoco procesarla toda de un tiron. Por eso nos conviene fragmentar el archivo total en 'Chunks' e ir procesando de a poco. Un ejemplo super claro es el de YT.
+
+Al momento de reproducir videos, YT nos envia el video de a poco para que ya podamos ir visualizandolo
+
+![YTejemplo](./readme-imgs/img9.png)
+
+> Estos conceptos seran vistos en mas detenimiento mas adelante
+
 #### Documentación Oficial
 
 Aquí se encuentra toda la información del módulo: [![OSMODULE](https://img.shields.io/badge/Documentacion%20Oficial-green)](https://nodejs.org/api/fs.html)
@@ -912,3 +966,11 @@ const fsPromise = require('fs/promises');
 ```
 
 #### Métodos
+
+Recordemos que las 3 maneras de programar con FS (Synchrounous, Callbacks y Promises) comparten la mayoría de los metodos y lo unico que cambia es la forma de llamar a ese método.
+
+Para este caso vamos a presentar todos los métodos con la forma de callback:
+
+```js
+
+```
