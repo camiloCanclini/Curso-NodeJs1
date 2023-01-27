@@ -493,7 +493,15 @@ En el codigo anterior se le pasa a la función `operacionLargaConError()` como a
 
 Esta forma de operación permite separar la logica de principal del manejo de errores. Haciendo que el código sea modular y mas legible a la vista.
 
-Las callbacks son utilizados para seguir con la ejecución del codigo y tener que esperar al resultado de una función o metodo que tiene que devolver algo. Ya qué, en NodeJs y JS la mayoría de procesos son asíncronos, necesitamos realizar varios procesos en simultaneo y que el codigo siga ejecución.
+> Las callbacks son utilizados para seguir con la ejecución del codigo y tener que esperar al resultado de una función o metodo que tiene que devolver algo. Ya qué, en NodeJs y JS la mayoría de procesos son asíncronos, necesitamos realizar varios procesos en simultaneo y que el codigo siga ejecución.
+
+![callbacks](./readme-imgs/img12.png)
+
+Como podemos ve en el dibujo anterior al momento de ejecutar el `main.js`, se guarda en `var1` el resultado de una función, y esta tiene un callback que va a ejecutar operaciones en segundo plano (sector rojo).
+
+Por otro lado, mientras el `callback1` ejecuta sus operaciones, se estara definiendo, `var2`, la cual tambien depende del resultado de una función, y esta a su vez tambien posee un callback que estara ejecutando operaciones en segundo plano.
+
+Alfinal las 2 variables se definiran casi a la par. Antes hubiesemos tenido que esperar a que se defina completamente `var1` para poder empezar a definir `var2`, con las callbacks esto ya no representa un problema.
 
 ### Promesas - Promises
 
@@ -732,17 +740,17 @@ Ahora vamos a ver los modulos principales que vienen integrados con Node, estos 
 
 Este modulo nos permite obtener datos del hardware y software del equipo que esta ejecutando nuestro script:
 
-#### Documentación Oficial
+#### Documentación Oficial OS
 
 Aquí se encuentra toda la información del módulo: [![OSMODULE](https://img.shields.io/badge/Documentacion%20Oficial-green)](https://nodejs.org/docs/latest-v17.x/api/os.html)
 
-#### Importación
+#### Importación OS
 
 ```js
 const os = require('os');
 ```
 
-#### Métodos
+#### Métodos OS
 
 ```js
 
@@ -762,17 +770,17 @@ os.userInfo() //Devuelve un OBJETO con la información del usuario actual
 
 Este módulo permite trabajar con las rutas de directorios y archivos del sistema operativo en el que nos encontremos. Recordemos que NodeJS, es multiplataforma, puede estarce ejecutando tanto en un windows como en un linux, por lo que, las formas y privilegios para acceder a los disntintos recursos del SO cambian, entre uno y otro.
 
-#### Documentación Oficial
+#### Documentación Oficial PATH
 
 Aquí se encuentra toda la información del módulo: [![PATHMODULE](https://img.shields.io/badge/Documentacion%20Oficial-green)](https://nodejs.org/docs/latest-v17.x/api/path.html)
 
-#### Importación
+#### Importación PATH
 
 ```js
 const path = require('path');
 ```
 
-#### Métodos
+#### Métodos PATH
 
 ```js
 const path = require('path');
@@ -896,17 +904,41 @@ Si yo ejecuto el script `fs.js` de la siguiente forma, voy a recibir un error:
 
 En el caso del segundo ya se volveria valida la ruta que especificamos en la segunda linea.
 
-#### La Clase `FileHandle`
+#### File Descriptors y  El objeto `FileHandle`
 
-Esta clase nos permite instanciar objetos que describen un archivo numérico, esto sirven para representar al archivo que estamos operando dentro del entorno de NodeJS, al ser tratado como objeto este nos permite hacer uso de metodos. Ademas tambien permite, por ejemplo, abrir un archivo, "guardarlo" en un objeto `FileHandle` y para luego pasarlo a otra función como parametro o argumento. Generalemente este objeto aparece cuando usamos la API con Promesas.
+Antes de empezar a explicar los metodos del módulo necesitamos aclarar los algunos conceptos. Al momento de interactuar con archivos se recurrirá a los binarios (programas) que ofrece el sistema operativo donde nos encontramos, ya qué en realidad, al momento de acceder a los archivos, necesitamos comunicarnos con el SO.
+
+Cosas a tener en cuenta:
+
+* Nuestra aplicación de NodeJs es tomada como un proceso para el sistema
+
+* Cada proceso es administrado por el sistema opertivo, y este determina la distribución y acceso que este tendrá a los recursos del sistema.
+
+* Cada vez que un proceso interactua con algun recurso, ya sea: hardware, software, perifericos u archivos(en este caso), el sistema reconocerá este consumo y limitará a nuestro proceso, para que no trabé a los demas.
+
+* Es importante administrar nosotros mismos nuestra aplicación para que no abusé del consumo de los recursos que el sistema provee.
+
+**File Descriptors:** Los descriptores de archivos son un **identificador único numérico** que el sistema operativo le determina a los recursos del tipo que estan siendo utilizados por un proceso. En otras palabras, son indices que le da el SO al proceso, para que este último pueda realizar sus tareas internas.
+
+**FileHandle:** Es un objeto de NodeJs que se utiliza como representación del archivo que estamos operando y este guarda el **File Descriptor**. Al ser tratado como objeto este nos permite hacer uso de metodos. Ademas tambien permite, abrir un archivo, "guardarlo" en un objeto `FileHandle` y para luego pasarlo a otra función como parametro o argumento.
+
+> El objeto FileHandle **Solo se crea y se utiliza** cuando usamos la **API de promesas** de Fs Módule
+
+Por lo que, tenemos que tener en cuenta cuando estamos trabajando con FileDescriptor y un FileHandle, ya qué, si bien estan relacionados, tienen muchas diferencias.
+
+![diagrama](./readme-imgs/img10.jpg)
 
 #### Buffers y Streams
 
 Cuando hablamos de archivos y servidores, en nodejs, aparecen terminos como "buffer", "chunks" y "streams". En este curso no vamos a entrar en muchos detalles, porque son temas que se relacionan directamente con la electronica, la comunicacion y la logica computacional. Pero vamos a explicar lo necesario para entender como se aplican en el entorno de Node.
 
-#### Buffer 
+#### Buffer
 
 Un buffer es un **espacio fijo** en la memoria que almacena **datos binarios**. Es similar a un array o matriz. Con datos binarios nos referimos a que guarda los datos en "crudo" o mas básicos que puede entender la PC. Estos se utilizan para **representar** información como, texto o imágenes. Si hablamos de Node, podemos manejar esta estructura de datos con la clase `Buffer` que proporciona el lenguaje JS.
+
+Documentacion de la Clase Buffer:
+
+[![BUFFER](https://img.shields.io/badge/Documentacion%20Oficial-blue)](https://nodejs.org/api/buffer.html#class-fileF)
 
 Si bien, el buffer, almacena datos binarios, estos se encuentran representados en hexadecimal. Esto para mejorar el rendimiento y visualización (Binario <==> Hexadecimal <==> Decimal)
 
@@ -920,6 +952,7 @@ console.log('dataRaw: ', dataRaw);
 ```
 
 ![bash2](readme-imgs/img7.png)
+
 Siguiendo, una vez que llegan, tenemos que decodificar esta información a un sistema que nosotros entendemos (El Usuario / Programador), Aqui aparecen los formatos de códificacion, como **UTF-8**.
 
 ```js
@@ -936,11 +969,19 @@ console.log(dataConverted);
 
 Los formatos de codificación son los que convierten los datos del binario a las letras de nuestros respectivos lenguajes, dependiendo del lenguaje que hablemos deberemos traducirlos para un formato u otro. En Occidente el estandar es UTF-8. Siempre se recomienda establecer un formato en común para facilitar el trabajo.
 
+![formatosUTF8](https://1.bp.blogspot.com/-JuYeQkciy8M/VONAHQHLobI/AAAAAAAACgU/oTZHsbN73js/w597-h328/Character%2BEncoding%2C%2BConverting%2BByte%2Barray%2Bto%2BString%2Bin%2BJava.png)
+
 #### Streams Y Chunks
 
 Al momento de leer y escribir tenemos que ser conscientes del tamaño de los datos que estamos manejando, ya qué, si los datos son demasiado grandes, la aplicación del servidor tenderá a ir mas lento. La forma de solucionar esto es haciendo uso de 'Streams'.
 
 Los 'Streams' son flujos de datos, pueden ser de entrada, de salida o ambos, estos permiten recibir y enviar información en fragmentos de datos, o comunmente llamados, 'Chunks'.
+
+Los Streams tambien tienen una clase que los representa dentro de NodeJS y nos permite operar con ellos
+
+Documentacion de la Clase Stream:
+
+[![STREAM](https://img.shields.io/badge/Documentacion%20Oficial-blue)](https://nodejs.org/api/stream.html)
 
 ![streams](https://codemacaw.com/wp-content/uploads/2019/11/stream-1024x354.png)
 
@@ -954,23 +995,41 @@ Al momento de reproducir videos, YT nos envia el video de a poco para que ya pod
 
 > Estos conceptos seran vistos en mas detenimiento mas adelante
 
-#### Documentación Oficial
+
+
+#### Documentación Oficial FS
 
 Aquí se encuentra toda la información del módulo: [![OSMODULE](https://img.shields.io/badge/Documentacion%20Oficial-green)](https://nodejs.org/api/fs.html)
 
-#### Importación
+#### Importación FS
 
 ```js
 const fs = require('fs');
 const fsPromise = require('fs/promises');
 ```
 
-#### Métodos
+#### Abrir y Cerrar Archivos
+
+Siguiendo con temas de optimización, al momento de abrir y cerrar archivos tenemos que ser conscientes que, la misma acción de abrir y cerrar, consume recursos. Por lo que cuando veamos a continuación los métodos, vamos a divirdirlos en 2 grupos:
+
+* Los métodos del primer grupo son todos aquellos que abren y cierran el archivo al terminar de ejecutarse
+
+* Y los metodos del segundo grupo, corresponden a los que necesitan que el archivo se encuentre abierto manualmente con el método `fs.open()`.
+
+Los del segundo grupo serán mas eficientes, ya que nos permiten ejecutar varias operaciones en un archivo sin al necesidad de estar abriendo y cerrando cada vez que ejecutamos una operación.
+
+En otras palabras, **solo se abre y se cierra una vez**. La unica contra es que, no debemos olvidar cerra el archivo con `fs.close()`
+
+#### Métodos FS
 
 Recordemos que las 3 maneras de programar con FS (Synchrounous, Callbacks y Promises) comparten la mayoría de los metodos y lo unico que cambia es la forma de llamar a ese método.
 
 Para este caso vamos a presentar todos los métodos con la forma de callback:
 
+Grupo de Metodos 1 (Abren y Cierran el archivo cada vez que se ejecutan)
+
 ```js
 
 ```
+
+Grupo de metodos 2 ( `fs.open()`, se habren y se cierran 1 sola vez )
