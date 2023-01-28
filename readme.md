@@ -836,6 +836,30 @@ path.resolve('/hola/pepe','argentina/moni');
 path.resolve('hola/pepe','/argentina/moni');
 ```
 
+### Constantes del modulo: `__filename` y `__dirname`
+
+La constantes del modulo son parecidas a los `global objects`, ya que cada modulo o script puede llamarlas, pero el valor dependera del script que la llame.
+
+En concreto, las que presentaremos a continuación, son para trabajar con los PATHs del script en cuestion.
+
+* `__filename`: Esta devuelve el PATH ABSOLUTO o RUTA ABSOLUTA del archivo.
+* `__dirname`: Esta devuelve el PATH ABSOLUTO o RUTA ABSOLUTA del directorio que contiene al archivo
+
+Ejemplos:
+
+Codigo:
+
+```js
+console.log('\n__filename:', __filename);
+console.log('__dirname:', __dirname,'\n');
+```
+
+Resultado:
+
+![dirnameFilename](./readme-imgs/img13.png)
+
+Estas costantes se suelen utilizar a la hora de confeccionar PATHS o para el manejo de archivos.
+
 ### FS Module
 
 Este módulo nos permite interactuar con los archivos del sistema, nos da las herramientas para modificarlos. Para comenzar tenemos que saber que este módulo nos pertmite interactuar con los archivos de 3 formas diferentes, dentro del entorno se las conoce como API (Aplication Program Interface | Interfaz de Programacion de la Aplicación), estas no son como las APIs WEB que comunmente se utilizan hoy en dia. Simplemente pensemos que son las **formas en las cuales podemos interactuar con los archivos**
@@ -1208,16 +1232,27 @@ Esto lo que indica es el tipo de operaciones o el alcance de las mismas, que ten
 
 ### PROCESS MODULE
 
-Este módulo permite 
+Este módulo permite obtener información y controlar el proceso actual que genera nuestra aplicación en el sistema operativo.
+
+#### Que es CLI y Command Line Apps
+
+El concepto CLI significa Command Line Interface, esta es simplemente la forma mediante la cual el usuario se comunica con el sistema operativo vía la linea de comandos. Dependiendo del Sistema Operativo estas varian, por ejemplo en Windows se utilza powershell y en linux bash, aunque estas pueden cambiar.
+
+Gracias a CLI es que podemos ejecutar comandos como `node app.js`, lo que ocurre aqui es que, le estamos diciendo a la consola de comandos que queremos usar el programa `node` y le pasamos un argumento que es la ruta del script que va a procesar.
+
+Esta forma simple de trabajar e interactuar con el sistema permite la crear aplicaciones que trabajen haciendo uso de la consola. Aqui aparecen las Command Line Apps, que basicamente son, aplicaciones que reciben instrucciones o argumentos desde la consola y ejecutan alguna tarea en base a esos parametros, o pueden responder con texto via la misma interfaz de comandos.
+
+NodeJS permite la creació de este tipo de aplicaciones. El siguiente módulo permitira tener un acercamiento con este concepto.
 
 #### Documentación Oficial PROCESS
 
-Aquí se encuentra toda la información del módulo: [![PATHMODULE](https://img.shields.io/badge/Documentacion%20Oficial-green)](https://nodejs.org/docs/latest-v17.x/api/path.html)
+Aquí se encuentra toda la información del módulo: [![PATHMODULE](https://img.shields.io/badge/Documentacion%20Oficial-green)](https://nodejs.org/docs/latest-v17.x/api/process.html)
 
 #### Importación PROCESS
 
 ```js
-const path = require('path');
+const process = require('process');
 ```
 
 #### Métodos PROCESS
+
