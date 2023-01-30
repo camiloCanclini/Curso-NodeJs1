@@ -731,6 +731,142 @@ process.nextTick(() => {
 
 ___
 
+## Conceptos Importantes antes de ver los Core Modules
+
+## File Descriptors y  El objeto `FileHandle`
+
+Antes de empezar a explicar los metodos del módulo necesitamos aclarar los algunos conceptos. Al momento de interactuar con archivos se recurrirá a los binarios (programas) que ofrece el sistema operativo donde nos encontramos, ya qué en realidad, al momento de acceder a los archivos, necesitamos comunicarnos con el SO.
+
+Cosas a tener en cuenta:
+
+* Nuestra aplicación de NodeJs es tomada como un proceso para el sistema
+
+* Cada proceso es administrado por el sistema opertivo, y este determina la distribución y acceso que este tendrá a los recursos del sistema.
+
+* Cada vez que un proceso interactua con algun recurso, ya sea: hardware, software, perifericos u archivos(en este caso), el sistema reconocerá este consumo y limitará a nuestro proceso, para que no trabé a los demas.
+
+* Es importante administrar nosotros mismos nuestra aplicación para que no abusé del consumo de los recursos que el sistema provee.
+
+**File Descriptors:** Los descriptores de archivos son un **identificador único numérico** que el sistema operativo le determina a los recursos del tipo que estan siendo utilizados por un proceso. En otras palabras, son indices que le da el SO al proceso, para que este último pueda realizar sus tareas internas.
+
+**FileHandle:** Es un objeto de NodeJs que se utiliza como representación del archivo que estamos operando y este guarda el **File Descriptor**. Al ser tratado como objeto este nos permite hacer uso de metodos. Ademas tambien permite, abrir un archivo, "guardarlo" en un objeto `FileHandle` y para luego pasarlo a otra función como parametro o argumento.
+
+> El objeto FileHandle **Solo se crea y se utiliza** cuando usamos la **API de promesas** de Fs Módule
+
+Por lo que, tenemos que tener en cuenta cuando estamos trabajando con FileDescriptor y un FileHandle, ya qué, si bien estan relacionados, tienen muchas diferencias.
+
+![diagrama](./readme-imgs/img10.jpg)
+
+## Buffers y Streams
+
+Cuando hablamos de archivos y servidores, en nodejs, aparecen terminos como "buffer", "chunks" y "streams". En este curso no vamos a entrar en muchos detalles, porque son temas que se relacionan directamente con la electronica, la comunicacion y la logica computacional. Pero vamos a explicar lo necesario para entender como se aplican en el entorno de Node.
+
+### Buffer
+
+Un buffer es un **espacio fijo** en la memoria que almacena **datos binarios**. Es similar a un array o matriz. Con datos binarios nos referimos a que guarda los datos en "crudo" o mas básicos que puede entender la PC. Estos se utilizan para **representar** información como, texto o imágenes. Si hablamos de Node, podemos manejar esta estructura de datos con la clase `Buffer` que proporciona el lenguaje JS.
+
+Documentacion de la Clase Buffer:
+
+[![BUFFER](https://img.shields.io/badge/Documentacion%20Oficial-blue)](https://nodejs.org/api/buffer.html#class-fileF)
+
+Si bien, el buffer, almacena datos binarios, estos se encuentran representados en hexadecimal. Esto para mejorar el rendimiento y visualización (Binario <==> Hexadecimal <==> Decimal)
+
+En el caso de la módulo `fs`, al momento de leer los archivos, los datos llegan como un buffer en formato hexadecimal, esto podriamos tomarlo como datos en formato **RAW**.
+
+```js
+const fs = require('fs');
+
+const dataRaw = fs.readFileSync('data/datos.txt');
+console.log('dataRaw: ', dataRaw);
+```
+
+![bash2](readme-imgs/img7.png)
+
+Siguiendo, una vez que llegan, tenemos que decodificar esta información a un sistema que nosotros entendemos (El Usuario / Programador), Aqui aparecen los formatos de códificacion, como **UTF-8**.
+
+```js
+const fs = require('fs');
+
+const dataRaw = fs.readFileSync('data/datos.txt');
+console.log('dataRaw: ', dataRaw);
+
+const dataConverted = dataRaw.toString('utf-8');
+console.log(dataConverted);
+```
+
+![bash3](readme-imgs/img8.png)
+
+Los formatos de codificación son los que convierten los datos del binario a las letras de nuestros respectivos lenguajes, dependiendo del lenguaje que hablemos deberemos traducirlos para un formato u otro. En Occidente el estandar es UTF-8. Siempre se recomienda establecer un formato en común para facilitar el trabajo.
+
+![formatosUTF8](https://1.bp.blogspot.com/-JuYeQkciy8M/VONAHQHLobI/AAAAAAAACgU/oTZHsbN73js/w597-h328/Character%2BEncoding%2C%2BConverting%2BByte%2Barray%2Bto%2BString%2Bin%2BJava.png)
+
+### Streams Y Chunks
+
+Al momento de leer y escribir tenemos que ser conscientes del tamaño de los datos que estamos manejando, ya qué, si los datos son demasiado grandes, la aplicación del servidor tenderá a ir mas lento. La forma de solucionar esto es haciendo uso de 'Streams'.
+
+Los 'Streams' son flujos de datos, pueden ser de entrada, de salida o ambos, estos permiten recibir y enviar información en fragmentos de datos, o comunmente llamados, 'Chunks'.
+
+Los Streams tambien tienen una clase que los representa dentro de NodeJS y nos permite operar con ellos
+
+Documentacion de la Clase Stream:
+
+[![STREAM](https://img.shields.io/badge/Documentacion%20Oficial-blue)](https://nodejs.org/api/stream.html)
+
+![streams](https://codemacaw.com/wp-content/uploads/2019/11/stream-1024x354.png)
+
+![streams2](https://pawelgrzybek.com/photos/2020-07-14-1.png)
+
+Debido a cuestiones de rendimiento, no sería eficiente enviar toda la información de un archivo grande ni tampoco procesarla toda de un tiron. Por eso nos conviene fragmentar el archivo total en 'Chunks' e ir procesando de a poco. Un ejemplo super claro es el de YT.
+
+Al momento de reproducir videos, YT nos envia el video de a poco para que ya podamos ir visualizandolo
+
+![YTejemplo](./readme-imgs/img9.png)
+
+## El objeto Stream en Nodejs
+
+Como dijimos anteriormente, un stream es un flujo de dato o un canal, pueden ser de entrada, de salida o ambos. Estos permiten recibir y enviar información en fragmentos de datos, o comunmente llamados, 'Chunks'.
+
+Tenemos que aprender sobre este objeto, ya que hay mucahs librerías que trabajan con instancias del objeto stream. A su vez este objeto es una instancia de `EventEmitter`, que tambien es otra clase que se utiliza muchisimo en el entorno de Node.
+
+> *Cabe acalarar que los streams tienen una API para trabajar con promesas. Esto se vera mejor en el módulo de FS*
+
+### Importanción
+
+```js
+const stream = require('stream');
+```
+
+### Tipos de Streams
+
+* Writable: Streams que pueden escribir la `data`.
+* Readable: Streams que pueden Leer la `data`.
+* Duplex: Streams que pueden escribir y leer la `data`.
+* Transform: Streams que pueden escribir y leer la `data`, ademas pueden modificarla a medida que la lee o escribe.
+
+### Concepto de Buffering en Streams
+
+Imaginemos que los streams son tanques de agua que se llenan con información y además como sabemos los `buffers` son un tipo de estructura de datos con **tamaño fijo**, por ende, este tanque de agua requiere un tope o límite. Este límite se conoce como `highWaterMark`(Marca de tope de agua).
+
+Ahora bien, en un proceso necesitamos que los streams se comuniquen entre si para que el sistema entero funcione, para comunicarlos utilizaremos los `pipelines`. Estos no son mas que un metodo propio de la libreria `stream` que permite conectar dos streams.
+
+![streamsDiagramas](./readme-imgs/img14.png)
+
+Si los visualizamos como tanques de agua, el concepto se ve entiende a simple vista. Al momento de que se alcanzan los `highWaterMarks` los streams se regulan por si solos, dependiendo del modo en el que se encuentren trabajando, esto para no abusar de la memoría y para sincronizarce con su par para mantener un flujo de datos aceptable.
+
+A continuación vamos a ver cada tipo de stream con sus metodos y eventos correspondientes, he aqui un pequeño resumen de los mismos y seguido, un lista de las los objetos que los utilizan.
+
+![tiposDeStreams](https://cdn-media-1.freecodecamp.org/images/1*HGXpeiF5-hJrOk_8tT2jFA.png)
+
+![instanciasDeStreams](https://cdn-media-1.freecodecamp.org/images/1*lhOvZiDrVbzF8_l8QX3ACw.png)
+
+### Writable Streams
+
+l
+
+### Readable Streams
+
+___
+
 ## Core Modules NodeJS
 
 Ahora vamos a ver los modulos principales que vienen integrados con Node, estos son las bases de lso frameworks y demas librerías que se utilizan hoy en dia. Estos nos van a permitir, acceder a los recursos del sistema directamente desde JS.
@@ -927,99 +1063,6 @@ Si yo ejecuto el script `fs.js` de la siguiente forma, voy a recibir un error:
 2. O cambiamos el **Working Directory**: haciendo `cd CoreModules/` y despues ejecutamos node fs.js
 
 En el caso del segundo ya se volveria valida la ruta que especificamos en la segunda linea.
-
-#### File Descriptors y  El objeto `FileHandle`
-
-Antes de empezar a explicar los metodos del módulo necesitamos aclarar los algunos conceptos. Al momento de interactuar con archivos se recurrirá a los binarios (programas) que ofrece el sistema operativo donde nos encontramos, ya qué en realidad, al momento de acceder a los archivos, necesitamos comunicarnos con el SO.
-
-Cosas a tener en cuenta:
-
-* Nuestra aplicación de NodeJs es tomada como un proceso para el sistema
-
-* Cada proceso es administrado por el sistema opertivo, y este determina la distribución y acceso que este tendrá a los recursos del sistema.
-
-* Cada vez que un proceso interactua con algun recurso, ya sea: hardware, software, perifericos u archivos(en este caso), el sistema reconocerá este consumo y limitará a nuestro proceso, para que no trabé a los demas.
-
-* Es importante administrar nosotros mismos nuestra aplicación para que no abusé del consumo de los recursos que el sistema provee.
-
-**File Descriptors:** Los descriptores de archivos son un **identificador único numérico** que el sistema operativo le determina a los recursos del tipo que estan siendo utilizados por un proceso. En otras palabras, son indices que le da el SO al proceso, para que este último pueda realizar sus tareas internas.
-
-**FileHandle:** Es un objeto de NodeJs que se utiliza como representación del archivo que estamos operando y este guarda el **File Descriptor**. Al ser tratado como objeto este nos permite hacer uso de metodos. Ademas tambien permite, abrir un archivo, "guardarlo" en un objeto `FileHandle` y para luego pasarlo a otra función como parametro o argumento.
-
-> El objeto FileHandle **Solo se crea y se utiliza** cuando usamos la **API de promesas** de Fs Módule
-
-Por lo que, tenemos que tener en cuenta cuando estamos trabajando con FileDescriptor y un FileHandle, ya qué, si bien estan relacionados, tienen muchas diferencias.
-
-![diagrama](./readme-imgs/img10.jpg)
-
-#### Buffers y Streams
-
-Cuando hablamos de archivos y servidores, en nodejs, aparecen terminos como "buffer", "chunks" y "streams". En este curso no vamos a entrar en muchos detalles, porque son temas que se relacionan directamente con la electronica, la comunicacion y la logica computacional. Pero vamos a explicar lo necesario para entender como se aplican en el entorno de Node.
-
-#### Buffer
-
-Un buffer es un **espacio fijo** en la memoria que almacena **datos binarios**. Es similar a un array o matriz. Con datos binarios nos referimos a que guarda los datos en "crudo" o mas básicos que puede entender la PC. Estos se utilizan para **representar** información como, texto o imágenes. Si hablamos de Node, podemos manejar esta estructura de datos con la clase `Buffer` que proporciona el lenguaje JS.
-
-Documentacion de la Clase Buffer:
-
-[![BUFFER](https://img.shields.io/badge/Documentacion%20Oficial-blue)](https://nodejs.org/api/buffer.html#class-fileF)
-
-Si bien, el buffer, almacena datos binarios, estos se encuentran representados en hexadecimal. Esto para mejorar el rendimiento y visualización (Binario <==> Hexadecimal <==> Decimal)
-
-En el caso de la módulo `fs`, al momento de leer los archivos, los datos llegan como un buffer en formato hexadecimal, esto podriamos tomarlo como datos en formato **RAW**.
-
-```js
-const fs = require('fs');
-
-const dataRaw = fs.readFileSync('data/datos.txt');
-console.log('dataRaw: ', dataRaw);
-```
-
-![bash2](readme-imgs/img7.png)
-
-Siguiendo, una vez que llegan, tenemos que decodificar esta información a un sistema que nosotros entendemos (El Usuario / Programador), Aqui aparecen los formatos de códificacion, como **UTF-8**.
-
-```js
-const fs = require('fs');
-
-const dataRaw = fs.readFileSync('data/datos.txt');
-console.log('dataRaw: ', dataRaw);
-
-const dataConverted = dataRaw.toString('utf-8');
-console.log(dataConverted);
-```
-
-![bash3](readme-imgs/img8.png)
-
-Los formatos de codificación son los que convierten los datos del binario a las letras de nuestros respectivos lenguajes, dependiendo del lenguaje que hablemos deberemos traducirlos para un formato u otro. En Occidente el estandar es UTF-8. Siempre se recomienda establecer un formato en común para facilitar el trabajo.
-
-![formatosUTF8](https://1.bp.blogspot.com/-JuYeQkciy8M/VONAHQHLobI/AAAAAAAACgU/oTZHsbN73js/w597-h328/Character%2BEncoding%2C%2BConverting%2BByte%2Barray%2Bto%2BString%2Bin%2BJava.png)
-
-#### Streams Y Chunks
-
-Al momento de leer y escribir tenemos que ser conscientes del tamaño de los datos que estamos manejando, ya qué, si los datos son demasiado grandes, la aplicación del servidor tenderá a ir mas lento. La forma de solucionar esto es haciendo uso de 'Streams'.
-
-Los 'Streams' son flujos de datos, pueden ser de entrada, de salida o ambos, estos permiten recibir y enviar información en fragmentos de datos, o comunmente llamados, 'Chunks'.
-
-Los Streams tambien tienen una clase que los representa dentro de NodeJS y nos permite operar con ellos
-
-Documentacion de la Clase Stream:
-
-[![STREAM](https://img.shields.io/badge/Documentacion%20Oficial-blue)](https://nodejs.org/api/stream.html)
-
-![streams](https://codemacaw.com/wp-content/uploads/2019/11/stream-1024x354.png)
-
-![streams2](https://pawelgrzybek.com/photos/2020-07-14-1.png)
-
-Debido a cuestiones de rendimiento, no sería eficiente enviar toda la información de un archivo grande ni tampoco procesarla toda de un tiron. Por eso nos conviene fragmentar el archivo total en 'Chunks' e ir procesando de a poco. Un ejemplo super claro es el de YT.
-
-Al momento de reproducir videos, YT nos envia el video de a poco para que ya podamos ir visualizandolo
-
-![YTejemplo](./readme-imgs/img9.png)
-
-> Estos conceptos seran vistos en mas detenimiento mas adelante
-
-
 
 #### Documentación Oficial FS
 
@@ -1245,10 +1288,6 @@ Esta forma simple de trabajar e interactuar con el sistema permite la crear apli
 NodeJS permite la creación de este tipo de aplicaciones. El siguiente módulo permitira tener un acercamiento con este concepto.
 
 > Este módulo permite manejar eventos que ocurren durante la ejecución del proceso, vea la sección de métodos
-
-#### El objeto Stream en Nodejs
-
-Debido a que el módulo process hace uso de este objeto es que debemos explicarlo. Como dijimos anteriormente, un stream es
 
 #### Documentación Oficial PROCESS
 
