@@ -1242,7 +1242,13 @@ Gracias a CLI es que podemos ejecutar comandos como `node app.js`, lo que ocurre
 
 Esta forma simple de trabajar e interactuar con el sistema permite la crear aplicaciones que trabajen haciendo uso de la consola. Aqui aparecen las Command Line Apps, que basicamente son, aplicaciones que reciben instrucciones o argumentos desde la consola y ejecutan alguna tarea en base a esos parametros, o pueden responder con texto via la misma interfaz de comandos.
 
-NodeJS permite la creació de este tipo de aplicaciones. El siguiente módulo permitira tener un acercamiento con este concepto.
+NodeJS permite la creación de este tipo de aplicaciones. El siguiente módulo permitira tener un acercamiento con este concepto.
+
+> Este módulo permite manejar eventos que ocurren durante la ejecución del proceso, vea la sección de métodos
+
+#### El objeto Stream en Nodejs
+
+Debido a que el módulo process hace uso de este objeto es que debemos explicarlo. Como dijimos anteriormente, un stream es
 
 #### Documentación Oficial PROCESS
 
