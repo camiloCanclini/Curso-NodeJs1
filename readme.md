@@ -859,11 +859,46 @@ A continuación vamos a ver cada tipo de stream con sus metodos y eventos corres
 
 ![instanciasDeStreams](https://cdn-media-1.freecodecamp.org/images/1*lhOvZiDrVbzF8_l8QX3ACw.png)
 
+Antes de explicar cada uno de los streams, recorda que la clase `Stream` esta directamente relacionada con la clase `EventEmiter`. (Comparten métodos)
+
 ### Writable Streams
 
-l
+#### Instanciación manual
+
+#### Eventos
+
+* `close`: Este evento cuando el archivo que estamos escribiendo se cierra, esto lo veremos mejor en el módulo fs.
+
+* `drain`: Este evento se dispara cuando podemos continuar la escritura con `write()`, recordemos el concepto del buffering.
+
+* `error`: Como su mismo nombre indica, y vimos, se dispara cuando ocurre un error de escritura o al "conectar" un pipe.
+
+* `pipe`/`unpipe`: Estos 2 eventos son opuestos, el primero se dispara cuando por ejemplo un `Stream Readable` se "conecta" con un pipe a nuestro `Writable Stream`, y el segundo se dispara cuando el pipe se "desconecta".
+
+#### Métodos
+
+*Writable = Stream.Writable instanciado*
+*Recorda que cuando un método o función tiene sus argumentos encerrados entre corchetes quiere decir que estos son opcionales*
+
+* ``writable.write(chunk[, encoding][, callback])``: Este método permite escribir los datos entrantes **en el Stream**. Tiene un callback que permite ingresar el argumento `err` para manejar erroes.
+
+* ``writable.end([chunk[, encoding]][, callback])``: Este método permite escrbir un ultimo dato en el stream , **despues de ser llamado no se puede llamar de vuelta a `writable.write()`**
+
+* ``writable.cork()``: Este método lo que hace es almacenar todos los datos **siguientes** que se escriban con `.write()` en memoría. Esto se usa para almacenar los chunks pequeños entrantes, ya que estos pueden relentizar en flujo de datos y por ende, tal vez, es mejor procesarlos despues.
+
+* ``writable.uncork()``: Es el método que saca lo datos almacenados previamente en memoría por `.cork()`. Si `cork()` fue llamado multiples veces, entonces `uncork()` debe ser llamado el mismo numero de veces.
 
 ### Readable Streams
+
+Para empezar este tipo a streams tienen 2 modos:
+
+* El `Flowing Mode`: Los datos se leen automatica e inmediatamente, y además se utilizan events emitters
+
+* Y el `Paused Mode`: Para leer los datos se necesita usar stream.read() manualmente.
+
+#### Eventos
+
+#### Métodos
 
 ___
 
