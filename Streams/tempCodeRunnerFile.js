@@ -1,0 +1,2 @@
+');
+readable.unshift(chunk);

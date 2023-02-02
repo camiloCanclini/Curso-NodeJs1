@@ -874,6 +874,8 @@ Antes de explicar cada uno de los streams, recorda que la clase `Stream` esta di
 * `error`: Como su mismo nombre indica, y vimos, se dispara cuando ocurre un error de escritura o al "conectar" un pipe.
 
 * `pipe`/`unpipe`: Estos 2 eventos son opuestos, el primero se dispara cuando por ejemplo un `Stream Readable` se "conecta" con un pipe a nuestro `Writable Stream`, y el segundo se dispara cuando el pipe se "desconecta".
+  
+* `finish`: Este evento se dispara cuando se escribe el ultimo pedazo de información, concretamente despues de que se utiliza el método `writable.end()`
 
 #### Métodos
 
@@ -882,7 +884,7 @@ Antes de explicar cada uno de los streams, recorda que la clase `Stream` esta di
 
 * ``writable.write(chunk[, encoding][, callback])``: Este método permite escribir los datos entrantes **en el Stream**. Tiene un callback que permite ingresar el argumento `err` para manejar erroes.
 
-* ``writable.end([chunk[, encoding]][, callback])``: Este método permite escrbir un ultimo dato en el stream , **despues de ser llamado no se puede llamar de vuelta a `writable.write()`**
+* ``writable.end([chunk[, encoding]][, callback])``: Este método permite escrbir un ultimo dato en el stream , **despues de ser llamado NO se puede llamar de vuelta a `writable.write()`**
 
 * ``writable.cork()``: Este método lo que hace es almacenar todos los datos **siguientes** que se escriban con `.write()` en memoría. Esto se usa para almacenar los chunks pequeños entrantes, ya que estos pueden relentizar en flujo de datos y por ende, tal vez, es mejor procesarlos despues.
 
@@ -896,9 +898,51 @@ Para empezar este tipo a streams tienen 2 modos:
 
 * Y el `Paused Mode`: Para leer los datos se necesita usar stream.read() manualmente.
 
+Todos los streams de este tipo comienza en `Pause Mode`. Para convertirlos a `Flowing Mode` tenemos 3 formas:
+
+1. Usando el Event `data`, lo vemos a continuación.
+
+2. Ustando el método `stream.resume()`, lo vemos a continuación.
+
+3. Usando `stream.pipe(writableStream)`, lo vemos a continuación.
+
+y para pasar a `Paused Mode`:
+
+1. Usando el método `stream.pause()`
+   
+2. Desconectando todos los pipes del stream, con el método `stream.unpipe()`
+   
+Ademas cada`readableStream` posee 3 estados internos, los cuales controlan indican el flujo de datos, esta propiedad se llama `readableFlowing`.
+
+* `readable.readableFlowing === null`: Este estado significa que no hay fuentes para leer los datos o que no hay destino a donde enviarlos.
+  
+* `readable.readableFlowing === true`: Este estado significa que sí hay una fuente (event listener para `data`), destino (`readable.pipe()`) o si se llamó a `readable.resume()` y se encuentra a la espera de datos.
+  
+* `readable.readableFlowing === false`: Este estado signifca que hay fuente y/o destino para los datos pero llamó a `readable.pause()`, `readable.unpipe()`
+  
 #### Eventos
 
+* `data`: Este evento se dispara cuando se detecta que hay información esperando por ser leida (Chunks)
+
+* `end`: Este evento se dispara cuando **ya no hay mas datos** que consumir
+  
+* `close`: Este evento cuando el archivo que estamos leyendo se cierra, esto lo veremos mejor en el módulo fs.
+
+* `error`: Como su mismo nombre indica, y vimos, se dispara cuando ocurre un error de escritura o al "conectar" un pipe.
+
+* `readable`: Este evento se dispara cuando hay datos que leer o cuando se llega al final. Si ya no hay nada que leer `stream.read()` devuelve null
+
 #### Métodos
+
+* ``readable.read([size])``: Este método lee los datos del buffer interno y los retorna, si no hay ninguna codificación seteada entonces devuelve un buffer. Podemos ver tambien que su argumento opcional es ``size``, este representa la cantidad de bytes maximos que leera, pero de vuelta, es opcional.
+
+* ``readable.pipe(destination[, options])``: Permite conectar un ``writableStream``, este cambiará al ``Flowing Mode`` y administrará el envio de los datos almacenados a el nuevo destino. Por otro lado, tambien retornará el ``writableStream``, esto para poder concatenar otros metodos seguido de este. *Es posible conectar un readableStream a varios writableStreams*.
+
+Cuando ocurre un error en el ``readableStream``, el ``writableStream`` seguira abierto, por lo que, es necesario cerrarlo manualmente.
+
+* ``readable.unpipe([destination])``: Para desconectar los pipes que establecimos con el anteriormente usamos este método. Además, como podemos ver, admite un solo argumento que es opcional, aquí va el ``writableStream`` que queremos desconectar, si no especificamos nada se van a desconectar todos los pipes conectados.
+
+* ``readable.unshift(chunk[, encoding])``: Este método
 
 ___
 

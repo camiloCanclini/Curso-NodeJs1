@@ -76,9 +76,15 @@ process.on('exit', (code) => {
 
 // Escribir por Consola
 console.log('\nprocess.stdout:');
-process.stdout.write('Hola Che')
-process.stderr.err
+process.stdout.write('Hola Che');
 
-process.stdin.
+
+process.stdin.on('data', (err)=>{
+    if (err) {
+        console.log('Ocurrió un error ',err );
+    }else{
+        console.log(`Aca estan los datos: ${data}`);
+    }
+})
 
 console.log('\n\n\n+------------+ \n');
