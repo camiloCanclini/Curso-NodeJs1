@@ -1,16 +1,20 @@
-// fs module for reading writing data
-const fs = require('fs');
+const { Readable } = require('stream');
 
-// readable stream using our declared file. 
-const readable = fs.createReadStream("unshift.txt");
-
-// initializing our chunk
-let chunk;
-
-readable.on('readable', () => {
-// while loop to iterate through the file
-    while (chunk = readable.read(1)) {
-        console.log(chunk);
-    }
-    console.log('holaa');
+const stream = new Readable({
+  read() {}
 });
+
+stream.push('chunk1\n');
+stream.push('chunk2\n');
+stream.push(null);
+
+stream.unshift('chunk0\n');
+
+stream.on('data', chunk => {
+  console.log(chunk.toString());
+});
+
+// Salida:
+// chunk0
+// chunk1
+// chunk2

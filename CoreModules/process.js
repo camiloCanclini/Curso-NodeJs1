@@ -48,7 +48,7 @@ process.on('exit', (code) => {
     console.log(`Codigo de Salida: ${code}`);
     console.log('Saliendo del Programa, estas es la ultima linea');
 })
-
+ 
 // Metodos para terminar el proceso
 
 // 1. Utilizando un event Listener (Como vimos antes)
@@ -77,14 +77,11 @@ process.on('exit', (code) => {
 // Escribir por Consola
 console.log('\nprocess.stdout:');
 process.stdout.write('Hola Che');
+console.log('\n\n+------------+ \n');
 
-
-process.stdin.on('data', (err)=>{
-    if (err) {
-        console.log('Ocurrió un error ',err );
-    }else{
-        console.log(`Aca estan los datos: ${data}`);
-    }
+process.stdin.once('data', (data)=>{
+    process.stdout.write(`process.stdout.write(): ${data}`);
+    //process.stdout.read()
+    
 })
 
-console.log('\n\n\n+------------+ \n');

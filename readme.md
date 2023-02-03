@@ -865,7 +865,7 @@ Antes de explicar cada uno de los streams, recorda que la clase `Stream` esta di
 
 #### Instanciación manual
 
-#### Eventos
+#### Eventos Writable Streams
 
 * `close`: Este evento cuando el archivo que estamos escribiendo se cierra, esto lo veremos mejor en el módulo fs.
 
@@ -877,7 +877,7 @@ Antes de explicar cada uno de los streams, recorda que la clase `Stream` esta di
   
 * `finish`: Este evento se dispara cuando se escribe el ultimo pedazo de información, concretamente despues de que se utiliza el método `writable.end()`
 
-#### Métodos
+#### Métodos Writable Streams
 
 *Writable = Stream.Writable instanciado*
 *Recorda que cuando un método o función tiene sus argumentos encerrados entre corchetes quiere decir que estos son opcionales*
@@ -909,9 +909,9 @@ Todos los streams de este tipo comienza en `Pause Mode`. Para convertirlos a `Fl
 y para pasar a `Paused Mode`:
 
 1. Usando el método `stream.pause()`
-   
+
 2. Desconectando todos los pipes del stream, con el método `stream.unpipe()`
-   
+
 Ademas cada`readableStream` posee 3 estados internos, los cuales controlan indican el flujo de datos, esta propiedad se llama `readableFlowing`.
 
 * `readable.readableFlowing === null`: Este estado significa que no hay fuentes para leer los datos o que no hay destino a donde enviarlos.
@@ -920,7 +920,7 @@ Ademas cada`readableStream` posee 3 estados internos, los cuales controlan indic
   
 * `readable.readableFlowing === false`: Este estado signifca que hay fuente y/o destino para los datos pero llamó a `readable.pause()`, `readable.unpipe()`
   
-#### Eventos
+#### Eventos Readable Stream
 
 * `data`: Este evento se dispara cuando se detecta que hay información esperando por ser leida (Chunks)
 
@@ -932,7 +932,7 @@ Ademas cada`readableStream` posee 3 estados internos, los cuales controlan indic
 
 * `readable`: Este evento se dispara cuando hay datos que leer o cuando se llega al final. Si ya no hay nada que leer `stream.read()` devuelve null
 
-#### Métodos
+#### Métodos Readable Stream
 
 * ``readable.read([size])``: Este método lee los datos del buffer interno y los retorna, si no hay ninguna codificación seteada entonces devuelve un buffer. Podemos ver tambien que su argumento opcional es ``size``, este representa la cantidad de bytes maximos que leera, pero de vuelta, es opcional.
 
@@ -942,8 +942,103 @@ Cuando ocurre un error en el ``readableStream``, el ``writableStream`` seguira a
 
 * ``readable.unpipe([destination])``: Para desconectar los pipes que establecimos con el anteriormente usamos este método. Además, como podemos ver, admite un solo argumento que es opcional, aquí va el ``writableStream`` que queremos desconectar, si no especificamos nada se van a desconectar todos los pipes conectados.
 
-* ``readable.unshift(chunk[, encoding])``: Este método
+* ``readable.unshift(chunk[, encoding])``: Este método permite ingresar datos al principio del buffer interno de un readableStream.
 
+* `readable.pause()`: Este método hace que el stream dejé de emitir el evento `data` y cambia al Pause Mode. Algo a acalarar es que, si se escucha el evento `readable`, este método no hará efecto.
+
+* `readable.resume()`: Este método hace lo opuesto al anterior. Tampoco tendrá efecto si se dispara el evento `readable`.
+
+## Los Eventos (Event Handlers - Event Emitters - Events Listeners)
+
+### Documentación Oficial Events
+
+Aquí se encuentra toda la información del módulo:
+
+[![OSMODULE](https://img.shields.io/badge/Documentacion%20Oficial-green)](https://nodejs.org/dist/latest-v18.x/docs/api/events.html#eventtarget-error-handling)
+
+### Paradigma de Eventos
+
+A la hora de programar en JS tenemos que ser conscientes de que gran parte de los metodos y objetos que manejamos en este lenguaje tienen propiedades o se relacionan con los eventos.
+
+Este paradigma de la programación hace referencia a un modelo ASÍNCRONO en el cual existen objetos o entidades que DISPARAN EVENTOS en la aplicación y otros los cuales quedan a la ESCUCHA de estos, estos 2 grupos se conocen como: `Event Emitters` y `Event Listeners` respectivamente.
+
+En Node tenemos que conocer aunque sea el concepto y los métodos basicos que se utilizan en este modelo, ya que como dijimos, muchos módulos y objetos que se utilizan en Node hacen uso de eventos.
+
+### Clase EventEmitter
+
+Para crear un disparador de eventos, podemos hacerlo usando instanciando un objeto con la clase `EventEmitter`
+
+```js
+import { EventEmitter } from 'node:events';
+```
+
+### EventEmitter
+
+Y para emitir un evento usamos `myEmitter.emit(nombreDelEvento,[,args])`. Como podemos ver, el método permite pasar tantos argumentos como veamos necesarios.
+
+```js
+myEmitter.emit('elEvento', 'arg1', 'arg2', 'argFina');
+```
+
+### EventListeners
+
+Ahora, para escuchar los eventos emitidos podemos hacer uso de los métodos:
+
+* `myEmitter.on(event,callback)`: Ejecuta una función callback **cada vez** que se detecta un evento, el evento que especifiquemos tiene que ser con un string.
+
+* `myEmitter.once(event,callback)`: Ejecuta una función callback la **primera vez** que se dispara el evento.
+
+* `myEmitter.addListener`: Hace exactamente lo mismo que `myEmitter.on()`, son sinonimos.
+
+### Ejemplo de Código
+
+```js
+//Importación y declaracion de Emitter
+const {EventEmitter} = require('events');
+const myEmitter = new EventEmitter();
+
+myEmitter.on('saludar',(arg1,arg2)=>{
+    console.log('Hola!, ',arg1 ,arg2);
+});
+myEmitter.on('despedir',(arg1,arg2)=>{
+    console.log('Chau!, ',arg1 ,arg2);
+})
+
+// Emisión de Eventos y Pasando Argumentos para las funcioens
+myEmitter.emit('saludar','Camilo','Canclini');
+myEmitter.emit('despedir','Camilo','Canclini');
+
+console.log(myEmitter.eventNames());// Muestra los eventos escuchados en el emitter
+console.log(myEmitter.listeners('saludar'));// Muestra las funciones Listeners asociadas a este evento
+
+// Despues de un tiempo le saca la escucha de un evento y vuelve a ejecutar las emisiones
+setTimeout(()=>{
+
+    //Remueve todas las funciones Listener Asociadas al evento saludar
+    myEmitter.removeAllListeners('saludar');
+    
+    myEmitter.emit('saludar','Camilo','Canclini');
+    myEmitter.emit('despedir','Camilo','Canclini');
+    
+},1000)
+
+```
+
+### Diferencias de eventos entre NodeJS y JS ejecutado en la web(JSDOM)
+
+Tenemos que saber diferenciar las formas de operar de cada uno, porque los eventos, como concepto, tienen propiedades diferentes dependiendo el contexto.
+
+Por ejemplo, cuando nos referimos al DOM del navegador, existe una jerarquía que relaciona a todos los elementos de la pagina que estamos desarrollando.
+
+Al momento de dispararse un evento, este se propaga entre los diferentes elementos  relacionados con el `target`. El `target` no es ni mas ni menos que el objeto que dispara esta notificación.
+
+Cada objeto se basa en la interfaz de eventTarget, con la cual cada uno define sus propios eventos, metodos y propiedades.
+
+Ahora cuando hablamos de NodeJS, esta propagación no existe, porque no existe una jerarquía, entre objetos. Ademas los objetos que definimos que disparan eventos son instancias de la clase `EventEmitter`.
+
+En conclusión, son modelos diferentes, que se utilizan para contextos diferentes, ya que, no es lo mismo estar trabajando con los objetos del DOM que con objetos propios creados desde el entorno de NodeJS.
+
+Igualmente cabe recalcar que Node ofrece en su módulo de `events` una clase que permite emular, por asi decirlo, a los eventTarget del DOM, la clase se llama: `nodeEventTargets`.
 ___
 
 ## Core Modules NodeJS
