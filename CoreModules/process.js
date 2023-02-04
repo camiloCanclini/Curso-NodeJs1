@@ -79,9 +79,11 @@ console.log('\nprocess.stdout:');
 process.stdout.write('Hola Che');
 console.log('\n\n+------------+ \n');
 
-process.stdin.once('data', (data)=>{
+// Leer por consola
+process.stdin.on('data', (data)=>{
     process.stdout.write(`process.stdout.write(): ${data}`);
-    //process.stdout.read()
-    
+
+    // Errores por consola
+    process.stderr.write('Error: esto es un error por consola :D')
 })
 
