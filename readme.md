@@ -1596,12 +1596,45 @@ process.stdin.on('data', (data)=>{
 
 ### HTTP MODULE
 
+Antes de entrar de explicar el modulo como tal y sus métodos necesitamos enteder y conocer varios conceptos relacionados con redes y protocolos.
+
+#### Modelo OSI
+
+Debido a la cantidad de fabricantes que existen en el mercado informatico, tanto de software, como de hardware, es que se necesitó crear algun tipo de regla para la comunicación entre los disntintos componentes.
+
+Cuando hablamos de redes informaticas, hoy en dia estas se basan en distintos protocolos para comunicar disntintos tipos de componentes y distintos formas de infomación.
+
+> "El modelo de interconexión de sistemas abiertos (ISO/IEC 7498-1), conocido como “modelo OSI”, (en inglés, Open Systems Interconnection) **es un modelo de referencia** para los protocolos de la red (no es una arquitectura de red)"
+
+Como su propia definicion indica, es un modelo de referencia, por lo que, los fabricantes no estan obligados a adoptarlo, aunque hoy en dia ya esta siendo utilizado por la mayoria de companias.
+
+Este agrupa protocolos, formas de organizar, llamar y tratar a la información. He aqui un pequeño esquema:
+
+![OSI](https://programacionfacil.org/blog/wp-content/uploads/2021/08/capas_osi.png)
+
+El modelo trabaja de la siguiente manera: Se organiza por capaz o niveles, de los cuales el primero es el de mayor complejidad y el primero es mas sencillo o parecido a nuestro lenguaje. Cada nivel tiene su propia forma de tratar y nombrar a la información con la trabaja (Unidad de datos).
+
+Cada nivel trabaja con sus propios protocolos y dispositivos de red. Por ejemplo en el nivel físico, aparecen los bits, las señales electricas, los cables de ethernet, y cualquier otro medio que se utilicé para el envio de datos binarios.
+
+Mientras que en el nivel de aplicación, como su nombre lo indica, aparecen los protocolos que usamos comunmente
+
+![modeloOsi-componentes](https://static.platzi.com/media/user_upload/Captura%20de%20Pantalla%202022-01-26%20a%20la%28s%29%207.18.25%20p.m.-c9668c1c-6cea-4114-a78f-a37d97f00bea.jpg)
+
+Con respecto a los paquetes de información, podemos decir que este sistema es similar a los sistemas de envios de cartas de la ***vida real***. En el que cada nivel añade su parte de información que debera ser tratada en el nivel par, esto quiere decir que, si nivel de red del TRANSMISOR añade al paquete, la IP del destinatario, entonces cuando el paquete llegué al RECEPTOR su nivel de red debera realizar las operaciones pertinentes para verificar que esa IP se corresponde con la de la maquina actual.
+
+![paquetes-OSI](https://upload.wikimedia.org/wikipedia/commons/9/90/Modelo_osi.png)
+
+Mas información: 
+[![Modelo Osi](https://img.shields.io/badge/Mas%20Informacion-blue)](https://es.wikipedia.org/wiki/Modelo_OSI)
+
+#### El Protocolo TCP/IP
+
 #### El Protocolo HTTP
 #### Documentación Oficial HTTP
 
 Aquí se encuentra toda la información del módulo:
 
-[![PATHMODULE](https://img.shields.io/badge/Documentacion%20Oficial-green)](https://nodejs.org/docs/latest-v17.x/api/process.html)
+[![HTTP](https://img.shields.io/badge/Documentacion%20Oficial-green)](https://nodejs.org/dist/latest-v18.x/docs/api/http.html)
 
 #### Importación HTTP
 
