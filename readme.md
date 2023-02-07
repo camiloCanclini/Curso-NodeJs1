@@ -1629,6 +1629,8 @@ Mas información:
 
 #### El Protocolo TCP/IP
 
+> El modelo TCP/IP es usado para comunicaciones en redes y, como todo protocolo, describe un conjunto de guías generales de operación para permitir que un equipo pueda comunicarse en una red. TCP/IP provee conectividad de extremo a extremo especificando cómo los datos deberían ser formateados, direccionados, transmitidos, enrutados y recibidos por el destinatario.
+
 #### El Protocolo HTTP
 #### Documentación Oficial HTTP
 
