@@ -1,0 +1,1868 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>readme.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="curso-de-nodejs-nodejs">Curso de NodeJs <img src="https://img.shields.io/badge/Node.JS-339933?logo=node.js&amp;logoColor=white" alt="Node.JS"></h1>
+<h2 id="por-camilo-canclini">Por Camilo Canclini</h2>
+<hr>
+<p>Este &quot;curso&quot; refleja mi propio aprendizaje con respecto a NodeJs. Ire recopilando todo lo que vaya aprendiendo y lo iré guardando en este repositorio. Me parece que es una forma interesante de estudiar y de demostrar como estudio. Sin mencionar que, por un lado, me sirve tener esta informacion guardada y documentada en un servicio online como github. Y, por otro lado, tambien soy consciente de que esto puede contruibuirle a alguna persona en el futuro.
+Por eso ten en cuenta que los siguientes &quot;apuntes&quot; provienen de alguien autodidacta que solo esta estudiando y que quiere compartir el conocimiento que obtenido.</p>
+<hr>
+<h2 id="documentaci%C3%B3n-utilizada">Documentación Utilizada</h2>
+<p>Obviamente necesitamos tener algun tipo de documentación o trabajo previo sobre el cual basarnos a la hora de estudiar. En mi caso voy a recomendar, un video de YT, un roadmap y un libro. <strong>Toda la información es gratuita y pública</strong></p>
+<p><a href="https://openlibra.com/es/book/node-js-notes-for-professionals"><img src="https://img.shields.io/badge/PDF-	    Node.js Notes for Professionals-white" alt="PDF"></a></p>
+<p><a href="https://www.youtube.com/watch?v=BhvLIzVL8_o"><img src="https://img.shields.io/badge/YT-	 Nodejs Curso Desde Cero, para principiantes | 1HS | FAZT  -red" alt="YT"></a></p>
+<p><a href="https://www.youtube.com/watch?v=i3OdKwuBjeM&amp;t=6027s"><img src="https://img.shields.io/badge/YT-	 Nodejs Curso Práctico | 4HS | FAZT  -red" alt="YT"></a></p>
+<p><a href="https://roadmap.sh/nodejs/"><img src="https://img.shields.io/badge/ROADMAP-	 Roadmap.sh | NodeJS  -blue" alt="ROADMAP"></a></p>
+<p><a href="https://chat.openai.com/chat"><img src="https://img.shields.io/badge/CHATGPT-	 CHATGPT | OPENIA  -yellow" alt="CHATGPT"></a></p>
+<hr>
+<h2 id="conceptos-previos">Conceptos Previos</h2>
+<p>En mi caso ya tengo conocimientos, redes informaticas, modelo OSI, modelo cliente-servidor, hardware, funcionamiento interno de la pc, etc. Para empezar a trabajar con Node se recomienda tener un minimo de conocimiento en estos temas ya que, al ser una tecnología que trabaja en el backend, todo estos conocimientos son fundamentales para entender la manera en la cual opera y como trabaja Node. Tampóco me centraré en explicar conceptos propios de javascript, ya qué, se supone que se debe tener conocimientos minimos en js para empezar a ver Node.</p>
+<hr>
+<h2 id="introducci%C3%B3n-a-nodejs">Introducción A NodeJS</h2>
+<blockquote>
+<h3 id="nodejs-es-un-entorno-de-ejecuci%C3%B3n-para-javascript-y-un-manejador-de-eventos-as%C3%ADncronos">NodeJs es un entorno de ejecución para Javascript y un manejador de eventos asíncronos</h3>
+</blockquote>
+<p>Vamos a empezar a desglozar esto.</p>
+<ul>
+<li><strong>Entorno de ejecución</strong>: Significa que haremos uso de un script o programa para poder ejecutar Javascript, esto quiere decir que no haremos uso del navegador para correr el codigo, este correra en nuestra maquina o servidor.</li>
+<li><strong>Manejador de eventos asíncronos:</strong> Significa que esté será capaz de escuchar, eventos del sistema y peticiones de usuarios. Los eventos son instancias en las que el estado de algun componente que esta siendo &quot;escuchado&quot; cambia o &quot;dispara&quot; una alerta al servidor. Con asíncronos se refiere a que pueden ocurrir en cualquier momento de la ejeccución, no existe un tiempo que marque cuando puede dispararse un evento.</li>
+</ul>
+<h2 id="%C2%BF-para-que-se-usa-node">¿ Para que se usa Node ?</h2>
+<p>Node es utilizado para crear <strong>aplicaciones web escalables</strong>, esto quiere decir que estaremos creando un programa que pueda ser corrido desde nuestra propia pc o servidor y que ademas tendrá funcionalidades web. Con escalables se refiere a que la sintaxis y la forma en la que se construyen estas aplicaciones pueden cubrir necesidades basicas o mas complejas, ya que, el entorno se ajusta dependiendo de la complejidad de sus funciones. Ademas otra ventaja es que, gracias a la asincronía, el sistema no se bloquea, por lo que es mas facil trabajar con este tipo de aplicaciones.</p>
+<h2 id="requerimientos">Requerimientos</h2>
+<p>Para empezar a trabajar con NodeJs primero necesitamos descargarlo desde la pagina oficial. <a href="https://nodejs.org/en/">NodeJs.org</a>
+La instalación realizará 2 cosas importantes que deberemos que tener en cuenta, la primera es que al instalar Node tambien estaremos instalando npm, y la segunda es que se integrará el comando &quot;node&quot; a nuestro PATH.</p>
+<h3 id="%C2%BFqu%C3%A9-es-npm">¿Qué es NPM?</h3>
+<p>NPM significa Node Package Manager o en español Gestor de Paquetes de Node. Este es un herramienta que permite la instalación de paquetes para nuestro entorno de ejecución. Los paquetes son, un conjunto de modulos o archivos javascript los cuales cumplen funcionalidades específicas, y pueden ser llamados desde nuestra aplicación de manera sencilla y práctica. Frameworks como React pueden ser integrados a traves de esta herramienta.</p>
+<h3 id="%C2%BFqu%C3%A9-es-path">¿Qué es PATH?</h3>
+<p>El Path es el listado de las rutas a programas que pueden ser llamados desde nuestra terminal, o sea, en este caso, el programa o script &quot;node&quot; se utilizara desde la terminal.</p>
+<hr>
+<h2 id="hola-mundo-en-nodejs">Hola Mundo en NodeJs</h2>
+<p>Recomiendo que para la proxima lección
+Guardamos el siguiente codigo en un archivo holaMundoNode.js</p>
+<pre class="hljs"><code><div>
+<span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>);
+
+<span class="hljs-keyword">const</span> hostname = <span class="hljs-string">'127.0.0.1'</span>;
+<span class="hljs-keyword">const</span> port = <span class="hljs-number">3000</span>;
+
+<span class="hljs-keyword">const</span> server = http.createServer(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+    res.statusCode = <span class="hljs-number">200</span>;
+  res.setHeader(<span class="hljs-string">'Content-Type'</span>, <span class="hljs-string">'text/plain'</span>);
+  res.end(<span class="hljs-string">'Hello World'</span>);
+});
+
+server.listen(port, hostname, () =&gt; {
+    <span class="hljs-string">`Server running at http://<span class="hljs-subst">${hostname}</span>:<span class="hljs-subst">${port}</span>/`</span>);
+});
+
+</div></code></pre>
+<p>Desde la terminal nos dirigimos a la carpeta donde guardamos el script anterior (<code>cd Curso-Nodejs</code>) y ejecutamos el comando <code>node holaMundoNode.js</code></p>
+<p>Luego nos dirigimos a la ruta que nos indica la aplicación en mi caso, <code>http://127.0.0.1:3000/</code>.</p>
+<p>Deberiamos ver algo como esto...
+<img src="readme-imgs/img1.png" alt="img1">
+<img src="readme-imgs/img2.png" alt="img2"></p>
+<h2 id="desglozando-el-hola-mundo">Desglozando el Hola Mundo</h2>
+<p>En este caso se hace uso del modulo <code>http</code>, es se utiliza para montar el servidor en nuestra pc y es el que permite responder a los usuarios con información.
+<code>Con respecto a los modulos hay algo que tenemos que remarcar y es el tipo de modulo al que se esta haciendo referencia, en este caso, el modulo</code>http` es un modulo que ya viene instalado con Node por lo que no es necesario hacer ningun llamado &quot;especial&quot; o descargarlo de npm por ejemplo. Este tipo de modulos se los conoce como <strong>Modulos Core</strong>, ya que vienen preinstalados. (Un poco más adelante veremos sobre módulos)</p>
+<p>Una vez importado en la linea uno, se guardan en variables constantes los datos para configurar el servidor (<code>const hostname = '127.0.0.1';</code> y <code>const port = 3000;</code>)</p>
+<p>Ahora bien, a continuación podemos ver uno de los conceptos mas importantes que se mencionaron anteriormente. Vease el siguiente fragmento...</p>
+<pre class="hljs"><code><div>
+<span class="hljs-keyword">const</span> server = http.createServer(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+    res.statusCode = <span class="hljs-number">200</span>;
+    res.setHeader(<span class="hljs-string">'Content-Type'</span>, <span class="hljs-string">'text/plain'</span>);
+    res.end(<span class="hljs-string">'Hello World'</span>);
+});
+
+</div></code></pre>
+<p>Lo que esta ocurriendo aquí es que se esta guardando el resultado de un metodo del objeto <code>http</code> que importamos antes. Fijese como, por parametros estamos pasando una <strong>función flecha</strong>. Esto es fundamental, ya que, permite que el código siga ejecutandoce a pesar de que el proceso dentro del bloque de la función no haya terminado.</p>
+<p>Esto es lo que hablamos antes, famosa <strong>asincronía</strong> de tareas o procesos,  evita que el programa se bloqueé y no pueda continuar. Si bien es un ejemplo sencillo, gracias a el podemos entender muchos otros conceptos y modulos.</p>
+<p>Despues vemos como por parametros le pasamos a la función flecha 2 variables, que despues se transforman en objetos:</p>
+<ul>
+<li>
+<p><code>req</code> : es el objeto que permite manejar los mensajes entrantes (En este caso no se usa).</p>
+</li>
+<li>
+<p><code>res</code> : es el objeto que permite manejar la respuesta que da el servidor al cliente que hace una petición. Este es el importante ya que setea el tipo de respuesta, el codigo de esta HTTP, y el mensaje (en este caso, hello world).</p>
+</li>
+</ul>
+<p>Para mas informacion, visita <a href="https://nodejs.org/dist/latest-v18.x/docs/api/http.html#httpcreateserveroptions-requestlistener">NodeJs.Org | http.methods</a></p>
+<p>Por otro lado tenemos...</p>
+<pre class="hljs"><code><div>
+server.listen(port, hostname, () =&gt; {
+    <span class="hljs-string">`Server running at http://<span class="hljs-subst">${hostname}</span>:<span class="hljs-subst">${port}</span>/`</span>);
+});
+
+</div></code></pre>
+<p>Este metodo <code>server.listen()</code> es el que setea donde se esta ejecutando la aplicación web, en que dirección y que puerto. Y ademas nos permite realizar operaciones mietras que se incia. Ya qué, al igual que el anterior, esté acepta una función asíncrona, que en este caso arroja un mensaje por terminal que nos indica en que dirección se encuentra corriendo el servidor.</p>
+<hr>
+<h2 id="modularizaci%C3%B3n">Modularización</h2>
+<p>La modularización es un concepto de la programación que hace referencia al hecho de dividir el código en disntintos fragmentos y cada uno realice una tarea específica. Las ventajas de esta metodología son:</p>
+<ul>
+<li>Mejor organización</li>
+<li>Mejor mantenimiento</li>
+<li>Mejor rendimiento</li>
+<li>Reutilización de codigo</li>
+</ul>
+<p>Hasta ahora vimos la utilización del modulo <code>http</code>, el cual es un fragmento de codigo que permite gestionar las peticiones por el protocolo http. Esto nos facilita esa tarea en concreto y hace que no tengamos que preocuparnos por crear nosotros esa funcionalidad.</p>
+<p>Otra ventaja, es que si pensamos los modulos como piezas que encastran entre si, podemos decir que a la hora de construir un proyecto seremos capaces de elegir que piezas utilizar en nuestro proyecto y cuales no.</p>
+<h3 id="el-objeto-module-en-nodejs">El objeto <code>module</code> En NodeJS</h3>
+<p>El objeto <code>module</code> es un objeto que se comparte entre modulos, este guarda atributos y metodos que se mantienen durante la ejecución del programa.</p>
+<p>Veamos como se compone:</p>
+<pre class="hljs"><code><div>Module {
+  <span class="hljs-attr">id</span>: <span class="hljs-string">'.'</span>,
+  <span class="hljs-attr">path</span>: <span class="hljs-string">'/home/camilocanclini/Programacion/Curso-NodeJs1'</span>,
+  <span class="hljs-attr">exports</span>: {},
+  <span class="hljs-attr">filename</span>: <span class="hljs-string">'/home/camilocanclini/Programacion/Curso-NodeJs1/holaMundoNode.js'</span>,
+  <span class="hljs-attr">loaded</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-attr">children</span>: [],
+  <span class="hljs-attr">paths</span>: [
+    <span class="hljs-string">'/home/camilocanclini/Programacion/Curso-NodeJs1/node_modules'</span>,
+    <span class="hljs-string">'/home/camilocanclini/Programacion/node_modules'</span>,
+    <span class="hljs-string">'/home/camilocanclini/node_modules'</span>,
+    <span class="hljs-string">'/home/node_modules'</span>,
+    <span class="hljs-string">'/node_modules'</span>
+  ]
+}
+</div></code></pre>
+<p>Entre las propiedades mas importantes que guarda se encuentra <code>exports</code>, que guarda un objeto. A continuación veremos para que se utiliza...</p>
+<h3 id="tipos-de-m%C3%B3dulos-en-js">Tipos de módulos en JS</h3>
+<h4 id="commonjs-modules">CommonJS modules</h4>
+<p>Es la forma original en la cual el modulo se preparaba para ser importado, es el que viene por defecto integrado en el lenguaje de JS.</p>
+<p>Vease el siguiente ejemplo:</p>
+<p>Supongamos que el siguiente modulo es un archivo llamado <code>foo.js</code></p>
+<pre class="hljs"><code><div><span class="hljs-built_in">module</span>.exports.add = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">a, b</span>) </span>{
+        <span class="hljs-keyword">return</span> a + b;
+} 
+
+<span class="hljs-built_in">module</span>.exports.subtract = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">a, b</span>) </span>{
+        <span class="hljs-keyword">return</span> a - b;
+} 
+</div></code></pre>
+<p>Lo que esta ocurriendo aqui es que se esta haciendo uso del objeto global <code>module</code>. Debido a la característica ya mencionada este permite que se &quot;comparta&quot; su propiedad <code>exports</code> entre modulos. Por ejemplo, el siguiente modulo, que denominaremos <code>main.js</code></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> {add, subtract} = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./foo'</span>)
+
+add(<span class="hljs-number">5</span>, <span class="hljs-number">5</span>)) <span class="hljs-comment">// 10</span>
+subtract(<span class="hljs-number">10</span>, <span class="hljs-number">5</span>)) <span class="hljs-comment">// 5</span>
+</div></code></pre>
+<p>Resaltemos algo importante, notece como en la declaración de <code>const {add, subtract} = require('./foo')</code> las constantes estan encerradas entre <code>{}</code>, esto es una funcionalidad que se agregó en ES6 llamada &quot;destructuring assignment&quot;.</p>
+<p>Lo que permite la &quot;asignación de destructuración&quot; es acceder directamente a las propiedades o metodos de una objeto (en este caso) ignorando todas las que no sean especificadas. En el código dado anteriormente el objeto es <code>module</code>, el cual, <em>solo</em> contiene las 2 funciones que importamos desde <code>./foo.js</code>, entonces si yo al momento de declarar las constantes las declaro entre { } lo que va a ocurrir es que solo se hará uso de esas 2 funciones. En el caso de que el objeto <code>module</code> contenga mas funciones ademas de <code>add()</code> y <code>subtract()</code>, estas seran <strong>&quot;ignoradas&quot;</strong> y solo se importaran las que especifiquemos.</p>
+<p>Ademas notece una última cosa, fijese que al momento de pasar por parametro en <code>require()</code> la ubicación del modulo que queremos importar, este comienza con un <code>./</code></p>
+<p>Esto significa que estamos buscando el modulo <strong>desde la misma carpeta</strong> que el &quot;archivo llamador&quot;, en este caso seria desde la carpeta o directorio donde se encuentra <code>main.js</code></p>
+<h4 id="emacasript-modules-es-modules">EMACASript modules (ES Modules)</h4>
+<p>Por otro lado tenemos los ES Modules, que son modulos de javascript que se encuentran estandarizados. Esto quiere decir que estos tienen una estructura o sintaxis diferentes que los hace poseer mejores ventajas que los CommonJS Modules. Vease el anterior codigo pero esta vez como la metodologia de un ES Module...</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">add</span>(<span class="hljs-params">a, b</span>) </span>{
+        <span class="hljs-keyword">return</span> a + b;
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">subtract</span>(<span class="hljs-params">a, b</span>) </span>{
+        <span class="hljs-keyword">return</span> a - b;
+}
+</div></code></pre>
+<p>Fijese que ahora la sintaxis es mucho mas limpia y agradable a la vista.
+Algo que tenemos que aclarar es que el codigo de arriba <strong>NO</strong> lo guardaremos como <code>foo.js</code> <strong>SINO</strong> como <code>foo.mjs</code>.</p>
+<p>Esto permite que Node identifique que el modulo se trata del tipo estandarizado. Pero ahora bien, como seria el archivo <code>main.js</code>?, vease el siguiente codigo...</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> {add, subtract} <span class="hljs-keyword">from</span> <span class="hljs-string">'./foo.mjs'</span>
+
+add(<span class="hljs-number">5</span>, <span class="hljs-number">5</span>)) <span class="hljs-comment">// 10</span>
+subtract(<span class="hljs-number">10</span>, <span class="hljs-number">5</span>)) <span class="hljs-comment">// 5</span>
+</div></code></pre>
+<p>Vease que la forma de importar tambien cambia.</p>
+<h3 id="diferencias-import-and-require">Diferencias (import and require)</h3>
+<ul>
+<li>Los <code>import</code> solo pueden ser llamados desde el principio del archivo (<code>main.js</code>), mientras que los <code>require()</code> pueden ser llamados en cualquier momento, por ejemplo.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-keyword">if</span>(user.length &gt; <span class="hljs-number">0</span>){
+   <span class="hljs-keyword">const</span> userDetails = <span class="hljs-built_in">require</span>(‘./userDetails.js’);
+  <span class="hljs-comment">// Do something ..</span>
+}
+</div></code></pre>
+<ul>
+<li>Los <code>import</code> son <strong>ASINCRONOS</strong> y los <code>require()</code> son <strong>SINCRONOS</strong>, lo que quiere decir que, los <code>require()</code> esperan a que se terminen de cargar todas las funciones para poder continuar la ejecución. Esto puede perjudicar al rendimiento en grandes aplicaciones.</li>
+</ul>
+<h3 id="el-objeto-global-en-nodejs">El objeto <code>global</code> En NodeJS</h3>
+<p>El objeto <code>global</code>, es similar al objeto window, los 2 almacenan los objetos y metodos que comunmente usamos cuando trabajos con JS, por ejemplo:</p>
+<ul>
+<li>
+<p><code>console</code></p>
+</li>
+<li>
+<p><code>setInterval()</code></p>
+</li>
+<li>
+<p><code>setTimeout()</code></p>
+</li>
+</ul>
+<p>La diferencia es que <code>window</code> se usa cuando js se esta ejecutando en el navegador y el otro se utliza en Node.</p>
+<h3 id="los-tipos-de-variables-var-en-node">Los tipos de variables <code>var</code> en Node</h3>
+<p>Algo importante a tener en cuenta cuando hablamos de módulos es que el comportamiento que toman las variables del tipo <code>var</code> cambia, ya que en node, su <strong>scope</strong> es el modulo desde donde se declaran. A diferencia del navegador que se comparte entre archivos porque se almacena en el objeto <code>window</code>.</p>
+<hr>
+<h2 id="npm--node-package-manager">NPM ( Node Package Manager )</h2>
+<p>Ahora vamos a ver en mayor profundidad NPM. Como digimos anteriormente, este sirve para instalar paquetes que son consumidos por nuestra aplicación para realizar tareas especificas.</p>
+<h3 id="preparando-proyecto">Preparando proyecto</h3>
+<p>Para empezar a utilizar NPM se recomienda que empecemos con el siguiente comando.</p>
+<pre class="hljs"><code><div>npm init
+</div></code></pre>
+<p>Este comando lo que hará sera hacernos una serie de preguntas relacionadas con los metadatos del proyecto entero, posteriora esto creará un primer archivo para mantener esta configuración, llamado <code>package.json</code>.</p>
+<h3 id="como-instalar-paquetes">Como instalar paquetes</h3>
+<p>Una vez instalado nodejs y npm, tan solo bastaria con abrir la terminal y navegar hasta la carpeta del proyecto para escribir el siguiente comando</p>
+<pre class="hljs"><code><div>npm install &lt;NombreDelPaquete&gt;
+</div></code></pre>
+<p>Este comando instalara el paquete indicado, creando una carpeta en la raiz de nuestro proyecto llamada <code>node_modules</code>. Aquí se almacenaran todos los paquetes.</p>
+<h4 id="packagejson-y-package-lockjson">package.json y package-lock.json</h4>
+<p><img src="./readme-imgs/img3.png" alt="img3"></p>
+<p>Estos 2 se crean al momento de empezar a instalar paquetes o dependencias, como dijimos <code>package.json</code> es el archivo donde se guarda la configuración de la carpeta raiz, en mi caso Proyecto1. Mientras que el <code>package-lock.json</code> es el archivo donde se va a guardar el listado de módulos descargados, asi como un historial de versiones de los mismos.</p>
+<h3 id="como-instalar-dependencias">Como instalar dependencias</h3>
+<p>Si nosotros bajamos un proyecto y necesitamos instalar <em>todos</em> los paquetes necesarios para que este funcione, tan solo bsataria, ir a la terminal, dirigirnos al directorio raiz del mismo proyecto y escribir el siguiente comando:</p>
+<pre class="hljs"><code><div>npm install
+</div></code></pre>
+<p>Esto lo que hara sera descargar todos los paquetes listados en el directorio (Que se supone que existe)</p>
+<h3 id="como-actualizar-paquetes">Como actualizar paquetes</h3>
+<p>Para un actualizar paquete usamos</p>
+<pre class="hljs"><code><div>npm update &lt;NombreDelPaquete&gt;
+</div></code></pre>
+<p>Para actualizar <strong>TODOS</strong> los paquetes</p>
+<pre class="hljs"><code><div>npm update 
+</div></code></pre>
+<h3 id="como-importar-paquetes">Como importar paquetes</h3>
+<pre class="hljs"><code><div><span class="hljs-built_in">require</span>(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">NombreDelPaquete</span>&gt;</span>)
+</span></div></code></pre>
+<p>Con el metodo <code>require()</code> podemos hacer uso de los paquetes instalados en el proyecto. <strong>No es necesario especificar ninguna ruta, solo indicar el nombre.</strong></p>
+<blockquote>
+<p>Al integrar estos paquetes estos pasan a convertirse en <strong>dependencias</strong> que nuestra aplicación necesita para funcionar.</p>
+</blockquote>
+<h3 id="npm-tasks">NPM Tasks</h3>
+<p>Si miramos el archivo <code>package.json</code> deberiamos ver algo parecido a lo siguiente:</p>
+<pre class="hljs"><code><div>{
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"proyecto-1"</span>,
+  <span class="hljs-attr">"version"</span>: <span class="hljs-string">"1.0.0"</span>,
+  <span class="hljs-attr">"description"</span>: <span class="hljs-string">"Este es el primer proyecto del curso"</span>,
+  <span class="hljs-attr">"main"</span>: <span class="hljs-string">"main.js"</span>,
+  <span class="hljs-attr">"scripts"</span>: {
+    <span class="hljs-attr">"test"</span>: <span class="hljs-string">"echo \"Error: no test specified\" &amp;&amp; exit 1"</span>
+  },
+  <span class="hljs-attr">"keywords"</span>: [
+    <span class="hljs-string">"curso"</span>
+  ],
+  <span class="hljs-attr">"author"</span>: <span class="hljs-string">"Camilo Canclini Stephano"</span>,
+  <span class="hljs-attr">"license"</span>: <span class="hljs-string">"ISC"</span>,
+  <span class="hljs-attr">"dependencies"</span>: {
+    <span class="hljs-attr">"colors"</span>: <span class="hljs-string">"^1.4.0"</span>
+  }
+}
+</div></code></pre>
+<p>Si nos fijamos en la parte de <code>scripts</code> podremos ver que se esta almacenando un objeto (keys y values). Este objeto, en mi caso, se encuentra guardando la siguiente entrada: <code>&quot;test&quot;: &quot;echo \&quot;Error: ...&quot;</code>.</p>
+<p>Gracias a la estructura que brinda este archivo para el apartado de <code>&quot;scripts&quot;</code> es que somos capaces de guardar diferentes scripts, y <strong>personalizados</strong>. Esto nos permite generar una serie de comandos predefinidos que pueden ser leidos y ejecutados a traves de npm con la finalidad de poder ejecutar ciertas acciones en nuestro paquete o proyecto que estemos creando, como por ejemplo: configurar e iniciar el servidor, crear archivos iniciales, ejecutar testeos, entre otras cosas.</p>
+<h4 id="ejecutar-scripts-con-npm">Ejecutar Scripts con NPM</h4>
+<p>Con el siguiente comando seremos capaces de ejecutar los scripts que esten definidos en nuestro <code>package.json</code>.</p>
+<pre class="hljs"><code><div>npm run &lt;NombreDelScript&gt;
+</div></code></pre>
+<hr>
+<h3 id="npx">NPX</h3>
+<p>npx es un comando que se integró con npm para poder realizar la ejecución de comandos basandoce en el <strong>contexto de los paquetes</strong>. Con contexto nos referimos a la <strong>forma</strong> en la que <strong>tienen</strong> que ser <strong>accedidos</strong> estos paquetes para funcionar.</p>
+<p>Hay veces que los paquetes requieren estar instalados de manera <strong>global</strong> en el equipo, pueden requerir <strong>privilegios de administrador</strong> para ejecutar cierta función, o bien pueden necesitar ser ejecutados mediante la aplicación que estemos desarrollando directamente. NPX surge para solucionar todo esto.</p>
+<p>NPX lo que hace es realizar todas las operaciones necesarias en un segundo plano para poder cumplir con el comando que queramos ejecutar. Un ejemplo muy sencillo podria ser el siguiente.</p>
+<pre class="hljs"><code><div>npx create-react-app prueba
+</div></code></pre>
+<p><code>create-react-app</code> es un comando propio del framework de <strong>React</strong> que lo que hace es realizar las operaciones internas de la libreria para crear la estructura de una app con React. Obviamente para que funcione requiero tener instalado React en mi proyecto, pero si uso npx, esto no es necesario. Al ejecutarlo nos preguntará si queremos instalar React, y si seleccionamos que si, entonces npx lo instalará de forma temporal y lo posicionara basandose en el contexto de nuestro proyecto. Lo &quot;instalará&quot; manera local, en otras palabras.</p>
+<p>Podemos concluir con que NPX es un comando que permite saltarse ciertos requerimientos como, por ejemplo, tener que declarar un comando en especifico en el <code>package.json</code> para ejecutar cierto modulo.</p>
+<hr>
+<h2 id="errors-handling">Errors Handling</h2>
+<p>Tambien conocidos como manejadores de errores, son las formas en las cuales se tratan los errores. Como dijimos antes, nuestra aplicación podrá ser accedida por muchos usuarios, y si esta escala requerirá de mas archivos y funcionalidades.</p>
+<p>Este tipo de aplicaciones no deberian ser detenidas por un simple error de codigo, esta tiene que poder responder siempre, aunque sea arrojando un mensaje de error. Se tiene que evitar detener la ejecución e impedir que los usuarios que disparen algun error sigan repercutiendo en el resto del sistema.</p>
+<h3 id="tipos-de-errores">Tipos de errores</h3>
+<p>Existen 2 grandes tipos de errores:</p>
+<h4 id="errores-de-programador">Errores de Programador</h4>
+<p>Estos son el tipo de errores que se encuentran en el codigo y que dependen exclusivamente de la forma en la cual se programó la aplicación. Estos pueden ser manejados simplemente optimizando y depurando el codigo.</p>
+<h4 id="errores-operacionales">Errores Operacionales</h4>
+<p>Estos son los mas complejos, ya que, dependen de <strong>factores externos</strong> a la programación de la aplicación. Son inesperados y se disparan a gracias a las operaciones que realizan los usuarios con nuestra aplicación o tambien debido a la forma en la que las disitintas partes de nuestra aplicación se comunican entre si.</p>
+<p>Por ejemplo, un usuario podria estar intentando leer un archivo que se encuentra vacio, podria ingresar información que puede generar vulnerabilidades en el sistema, o un script podria ejecutar alguna operación sobre un archivo que no existe aun.</p>
+<h3 id="el-objeto-error">El objeto <code>Error</code></h3>
+<p>En Nodejs existe el objeto <code>Error</code>, el cual permite crear instancias para &quot;lanzar&quot; errores en la aplicación.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"Aquí va el mensaje personalizado"</span>)
+</div></code></pre>
+<p>Algunos de sus priopiedades son:</p>
+<ul>
+<li><code>name</code>: Guarda el nombre del error</li>
+<li><code>message</code>: Guarda un texto que describé el error que a ocurrido</li>
+<li><code>stack</code>: Guarda el camino que a recorrido el error hasta ser arrojado, esto es sumamente útil, porque permite analizar función por función y bloque por bloque lo que se estaba ejecutando al momento de dispararse el error, esto tambien es conocido como <strong>stack trace</strong>.</li>
+</ul>
+<h3 id="formas-de-manejar-errores">Formas de manejar Errores</h3>
+<p>A continuación vamos a presentar algunas formas de manejar errores:</p>
+<h4 id="bloque-try-and-catch">Bloque Try and Catch</h4>
+<p>Los bloques <code>try</code>, <code>catch</code> y <code>finally</code> son sentencias muy parecidas a los <code>if</code> de la toda la vida, la diferencia radica en que son especiales para errores y evitan que se termine la ejecución del proceso actual.</p>
+<p>Veamos un ejemplo:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">var</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>)
+
+<span class="hljs-keyword">try</span> {
+<span class="hljs-keyword">const</span> data = fs.readFileSync(<span class="hljs-string">'/Users/user/file.txt'</span>)
+} <span class="hljs-keyword">catch</span> (err) {
+  err)
+}
+<span class="hljs-keyword">finally</span>{
+  <span class="hljs-string">'Finally will execute every time'</span>)
+}
+</div></code></pre>
+<p>Vamos por partes:</p>
+<ul>
+<li>
+<p><code>try</code>: va a ejecutar un fragmento del código, si este arroja cualquier tipo de error, <strong>no detiene la ejecución</strong> y en cambio &quot;le pasa&quot; el error a la sentencia <code>catch</code>, si no occurre un error no arroga nada.
+En este caso hace uso del modulo <code>fs</code> para leer un archivo(la veremos mas adelante). Como es evidente la lectura puede fallar por causas externas a la aplicación, por esa razon se coloca dentro de <code>try</code> para ser &quot;evaluada&quot;.</p>
+</li>
+<li>
+<p><code>catch (err)</code>: Esta sentencia recibe el error arrojado por la sentencia <code>try</code>, y realiza algun tipo de operación en consecuencia del mismo. En este caso devuelve el error por consola (Pero no se detiene la aplicación).</p>
+</li>
+<li>
+<p><code>finally</code>: Este bloque se ejecutará <strong>independientemente del resultado anterior</strong>, no es necesario agregarlo.</p>
+</li>
+</ul>
+<p>Recordemos que en este caso tenemos que evitar a toda costa que la aplicación se bloqueé, ya que, necesitamos que, este disponible siempre para los usuarios, y que opere de manera autónoma.</p>
+<hr>
+<h2 id="programaci%C3%B3n-as%C3%ADncrona">Programación Asíncrona</h2>
+<h3 id="funciones-callbacks">Funciones Callbacks</h3>
+<p>Las funciones callbacks son aquellas que pueden ser pasadas como argumentos de otra función.
+En este caso, las usaremos para realizar operaciones si aparece un error.</p>
+<p>Generalmente estas se pasan como argumento <em>final</em> de la función principal, estas son llamadas cuando la funcion desde la que se llama a la callback espera necesita un resultado, o cuando se dispara un error. Actuan como manejadores de errores porque permiten ejecutar operaciones si existe un error. Por ejemplo:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">operacionLargaConError</span>(<span class="hljs-params">callback</span>) </span>{
+  setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    <span class="hljs-keyword">const</span> error = <span class="hljs-built_in">Math</span>.random() &lt; <span class="hljs-number">0.5</span>;
+    <span class="hljs-keyword">if</span>(error){
+        callback(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Ocurrio un error!'</span>));
+    }<span class="hljs-keyword">else</span>{
+        callback();
+    }
+  }, <span class="hljs-number">1000</span>);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">manejarError</span>(<span class="hljs-params">error</span>) </span>{
+  <span class="hljs-keyword">if</span> (error) {
+    <span class="hljs-built_in">console</span>.error(error);
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-string">'La operacion finalizo correctamente'</span>);
+  }
+}
+
+operacionLargaConError(manejarError);
+</div></code></pre>
+<p>En el codigo anterior se le pasa a la función <code>operacionLargaConError()</code> como argumento la funcion <code>manejarError(error)</code> que a su vez tambien recibe un parametro  que es el error disparado, en la función anterior.</p>
+<p>Esta forma de operación permite separar la logica de principal del manejo de errores. Haciendo que el código sea modular y mas legible a la vista.</p>
+<blockquote>
+<p>Las callbacks son utilizados para seguir con la ejecución del codigo y tener que esperar al resultado de una función o metodo que tiene que devolver algo. Ya qué, en NodeJs y JS la mayoría de procesos son asíncronos, necesitamos realizar varios procesos en simultaneo y que el codigo siga ejecución.</p>
+</blockquote>
+<p><img src="./readme-imgs/img12.png" alt="callbacks"></p>
+<p>Como podemos ve en el dibujo anterior al momento de ejecutar el <code>main.js</code>, se guarda en <code>var1</code> el resultado de una función, y esta tiene un callback que va a ejecutar operaciones en segundo plano (sector rojo).</p>
+<p>Por otro lado, mientras el <code>callback1</code> ejecuta sus operaciones, se estara definiendo, <code>var2</code>, la cual tambien depende del resultado de una función, y esta a su vez tambien posee un callback que estara ejecutando operaciones en segundo plano.</p>
+<p>Alfinal las 2 variables se definiran casi a la par. Antes hubiesemos tenido que esperar a que se defina completamente <code>var1</code> para poder empezar a definir <code>var2</code>, con las callbacks esto ya no representa un problema.</p>
+<h3 id="promesas---promises">Promesas - Promises</h3>
+<p>Una promesa es un objeto que representa la terminación de una operación asíncrona, se utilizan para manejar tareas asincrónicas como las que venimos viendo, a diferencia de las callbacks estas son mas sencilla de entender y de visualizar. La promesa tiene 3 estados:</p>
+<ul>
+<li>
+<p>pending (pendiente)</p>
+</li>
+<li>
+<p>fulfilled (cumplida)</p>
+</li>
+<li>
+<p>rejected (fallida)</p>
+</li>
+</ul>
+<p><img src="https://lenguajejs.com/javascript/asincronia/promesas/promises.png" alt="Promises-States"></p>
+<p>Una vez que cambia su estado a fulfilled o rejected no se puede volver para atras.</p>
+<p>El objeto promesa tiene dos métodos que se usan para manejar los resultados de una promesa:</p>
+<ul>
+<li><code>.then</code>: este método recibe una función que se ejecuta si la promesa se cumple.</li>
+<li><code>.catch</code>: este método recibe una función que se ejecuta si la promesa falla.</li>
+</ul>
+<p>Veamos un ejemplo:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> promesa = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+  setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Math</span>.random() &lt; <span class="hljs-number">0.5</span>) {
+      resolve(<span class="hljs-string">"Todo bien"</span>);
+    } <span class="hljs-keyword">else</span> {
+      reject(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"Algo salió mal"</span>));
+    }
+  }, <span class="hljs-number">1000</span>);
+});
+
+promesa.then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> response))
+promesa.catch(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> <span class="hljs-built_in">console</span>.error(error));
+</div></code></pre>
+<p>Como podemos apreciar, primero se instancia el objeto promesa con <code>new Promise((resolve, reject) =&gt; {});</code>, la función que ejecuta la promesa se llama <code>executor</code> y sus argumento son los objetos: <code>resolve</code> y <code>reject</code>. Estos se asocian con los 2 metodos que mencionamos arriba.</p>
+<p>Luego se empieza una función flecha y adentro un <code>setTimeout</code> en el cual vuelven a aparecer <code>resolve</code> y <code>reject</code>. Aqui es donde se hacen las operaciones para resolver la promesa. Recordemos que la promesa tiene solo 2 resultados posibles, <code>resolve(response)</code> para cuando todo sale bien y se pasa algun valor como parametro, y <code>reject(Error)</code> cuando ocurré algo que pueda ser considerado un error, en este último se pasa por parametro un objeto <code>Error</code>.</p>
+<p>Dependiendo de lo ocurrido en el bloque del <code>setTimeout</code> se ejecutan los metodos <code>.then</code> y <code>.catch</code>, para cuando todo sale bien y para cuando ocurrió un error respectivamente.</p>
+<p>Por último, tambien existe el método .finally, que al igual que con <code>try</code> y <code>catch</code>, se ejecuta, independientemente del la resolución de la promesa. Aqui un ejemplo:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">let</span> promise = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+    setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        resolve(<span class="hljs-string">'La operación ha sido completada'</span>);
+    }, <span class="hljs-number">1000</span>);
+});
+
+promise
+    .then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+        result);
+    })
+    .catch(<span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
+        error);
+    })
+    .finally(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        <span class="hljs-string">'Se ha completado la promesa INDEPENDIENTEMENTE del resultado'</span>);
+    });
+</div></code></pre>
+<h4 id="ventajas-de-usar-promesas">Ventajas de usar promesas</h4>
+<ul>
+<li>
+<p>A la hora de manejar errores el codigo se vuelven mas legible. Evitamos los &quot;callbacks hell&quot;</p>
+</li>
+<li>
+<p>Se pueden concatenar varias promesas, vease el siguiente ejemplo:</p>
+</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-keyword">let</span> promise1 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+    setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        resolve(<span class="hljs-string">'Resultado de la operación 1'</span>);
+    }, <span class="hljs-number">1000</span>);
+});
+
+<span class="hljs-keyword">let</span> promise2 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+    setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        resolve(<span class="hljs-string">'Resultado de la operación 2'</span>);
+    }, <span class="hljs-number">2000</span>);
+});
+
+promise1.then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+    result);
+    <span class="hljs-keyword">return</span> promise2;
+}).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+    result);
+});
+</div></code></pre>
+<p>Podemos ver como se resuelve la segunda promesa solo si antes se resolvió la primera.</p>
+<ul>
+<li>Realizar varias operaciones asincronas en paralelo, vease el siguiente ejemplo:</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-keyword">let</span> promise1 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+    setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        resolve(<span class="hljs-string">'Resultado de la operación 1'</span>);
+    }, <span class="hljs-number">1000</span>);
+});
+
+<span class="hljs-keyword">let</span> promise2 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+    setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        resolve(<span class="hljs-string">'Resultado de la operación 2'</span>);
+    }, <span class="hljs-number">2000</span>);
+});
+
+<span class="hljs-built_in">Promise</span>.all([promise1, promise2]).then(<span class="hljs-function">(<span class="hljs-params">results</span>) =&gt;</span> {
+    results);
+});
+</div></code></pre>
+<p>Aquí hacemos uso del metodo <code>.all</code> del objeto <code>Promise</code>, este recibe como parametro un arreglo con las promesas y si todas se realizaron correctamente, entonces se continua con la ejecución con <code>.then</code>. Recordemos que esto no detiene la aplicación en ningun momento, ya que son procesos asíncronos.</p>
+<ul>
+<li>Concatenar varios <code>.then</code>, Utilización del metodo <code>fetch()</code></li>
+</ul>
+<pre class="hljs"><code><div>fetch(<span class="hljs-string">'https://api.example.com/data'</span>)
+    .then(<span class="hljs-function">(<span class="hljs-params">response</span>) =&gt;</span> {
+        <span class="hljs-keyword">return</span> response.json();
+    })
+    .then(<span class="hljs-function">(<span class="hljs-params">data</span>) =&gt;</span> {
+        data);
+    });
+</div></code></pre>
+<p>En este ejemplo, utilizamos la función <code>fetch</code> para realizar una solicitud HTTP asíncrona a una URL específica. El resultado de la solicitud se devuelve como un objeto llamado <code>response</code>. y a su vez el metodo devuelve una promesa, por lo que podemos hacer uso de los metodos propios de las promesas.</p>
+<p>Como podemos ver, la lógica detras de esto esta en que, al resolver el primer <code>.then</code> se devuelve un promesa, y esa es sobre la que trabaja el segundo <code>.then</code>, con la promesa resuelta del primero.</p>
+<h3 id="async-y-await">Async y Await</h3>
+<p>La palabra reservada <code>async</code> se utiliza para definir funciones asíncronas, estas son, bloques de código que se ejecutan en &quot;segundo plano&quot;, que no traban la ejecución del programa entero, y que <strong>siempre</strong> retornan una promesa. Al retornar una promesa se pueden aprovechar todas las ventajas mencionadas anteriormente. He aquí un ejemplo:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getData</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve</span>) =&gt;</span> {
+        setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+            resolve(<span class="hljs-string">'Datos obtenidos'</span>);
+        }, <span class="hljs-number">1000</span>);
+    });
+}
+
+getData().then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+    result);
+});
+
+<span class="hljs-string">'Esto se ejecuta primero'</span>)
+</div></code></pre>
+<p>En este ejemplo podemos ver que la palabra <code>async</code> se pone antes de <code>function</code>, lo que convierte al bloque de codigo en una función asíncrona. Ademas vemos que cuando se llama a la función, inmediatamente se accede a la promesa (una vez que se resuelva en 1000ms) con <code>.then</code>.
+Por último, fijemonos que la ultima línea es un <code>)</code>, esta linea se ejecutará <strong>antes</strong> que la función, por mas que la funcion haya sido llamada antes. Como sabemos que la función devuelve una promesa, podemos ejecutar todo el codigo que queramos sin necesidad a espera a que la función entregue un resultado.</p>
+<p>Por otro lado tenemos al <code>await</code>. Este lo que hace es <strong>detener la ejecución de la función asíncrona</strong> hasta qeu se resuelva una promesa, vease el siguiente ejemplo:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getData</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">let</span> result = <span class="hljs-keyword">await</span> fetch(<span class="hljs-string">'https://api.example.com/data'</span>);
+    <span class="hljs-keyword">let</span> json = <span class="hljs-keyword">await</span> result.json();
+    <span class="hljs-keyword">return</span> json;
+}
+
+getData().then(<span class="hljs-function">(<span class="hljs-params">data</span>) =&gt;</span> {
+    data);
+});
+</div></code></pre>
+<p>Miremos que el <code>await</code>, en este caso, va a esperar a que el método <code>fetch</code> retorne una promesa como respuesta, hasta que esto no ocurrá no se realizara la linea siguiente.
+Vuelvo a recalcar, solo detiene la ejecucion <strong>de la función</strong>, lo que quiere decir que todo el codigo que se encuentré afuera de la misma seguirá su ejecución normalmente.</p>
+<blockquote>
+<p>El <code>await</code> solo esta habilitado en funciones asíncronas.</p>
+</blockquote>
+<h3 id="setimmediate-y-processnexttick">setImmediate y process.nextTick</h3>
+<p>Para entender el funcionamiento de setImmediate() y process.nextTick(), primero necesitamos conocer bien que es el event loop en javascript.</p>
+<h4 id="event-loop-de-js">Event Loop de JS</h4>
+<p>El event loop es la forma en la cual Javascript ejecuta y da orden a las tareas asíncronas. Además este consta de varias &quot;fases&quot; o &quot;ciclos&quot; que se repiten de forma continua, cada una de las cuales se encarga de procesar un conjunto específico de tareas. Algunas de estas fases son:</p>
+<ul>
+<li>
+<p>Fase de Entrada: en esta fase, el event loop revisa las colas de eventos para ver si hay algún evento nuevo para procesar, como por ejemplo, un evento de click en un botón.</p>
+</li>
+<li>
+<p>Fase de Ejecución: en esta fase, el event loop ejecuta las tareas correspondientes al evento detectado en la fase anterior. Por ejemplo, ejecutar la función asociada a un evento de click en un botón.</p>
+</li>
+<li>
+<p>Fase de Salida: en esta fase, el event loop limpia cualquier información o estado de las tareas ejecutadas en la fase anterior, para estar preparado para el próximo ciclo del event loop.</p>
+</li>
+</ul>
+<p>JavaScript es un lenguaje single-threaded, esto significa que solo puede ejecutar una tarea a la vez. Sin embargo, al usar el event loop, se logra simular la concurrencia permitiendo ejecutar varias tareas al mismo tiempo sin bloquear el hilo principal de ejecución, esto es el famoso 'paralelismo'.</p>
+<p><img src="https://miro.medium.com/max/720/1*7coLKNPemPd9o40PmUvuvQ.gif" alt="Event-Loop"></p>
+<ul>
+<li>
+<p>Call Stack: Es una estructura de datos que almacena las funciones y las variables en ejecución. Cada vez que se llama a una función, se añade una entrada al call stack, y cada vez que se regresa de una función, se elimina una entrada del call stack. El call stack es el lugar donde <strong>se lleva a cabo la ejecución de las instrucciones del programa</strong>.</p>
+</li>
+<li>
+<p>Event queue: es una estructura de datos que contiene los eventos y tareas que deben ser procesadas por el event loop. Por ejemplo, un evento de click en un botón o una petición HTTP. Cada vez que un evento ocurre, se agrega a la cola de eventos. El event loop revisa esta cola de forma continua y ejecuta las tareas correspondientes.</p>
+</li>
+<li>
+<p>Web API: Son las funciones y objetos proporcionados por el navegador (como el objeto setTimeout, setInterval, el objeto XMLHttpRequest). Cada vez que una función de la Web API es llamada, se ejecuta de manera asíncrona y una vez completada, agrega una tarea a la cola de eventos, para ser ejecutada por el event loop.</p>
+</li>
+</ul>
+<p>Ahora bien, <code>setImmediate()</code> y <code>process.nextTick()</code> son dos funciones que se utilizan para programar la ejecución de tareas en el futuro en Node.js. Sin embargo, existen algunas diferencias importantes entre ellas:</p>
+<ul>
+<li>
+<p>setImmediate(): La función setImmediate() programa una tarea para ser ejecutada inmediatamente después de que todas las operaciones pendientes en el event loop actual hayan sido completadas. Es decir, setImmediate() se ejecuta en el siguiente ciclo del bucle de eventos.</p>
+</li>
+<li>
+<p>process.nextTick(): La función process.nextTick() programa una tarea para ser ejecutada en el siguiente ciclo del bucle de eventos, antes de que se ejecuten cualquier otra tarea programada con setImmediate(). <strong>Es decir, process.nextTick() se ejecuta antes de que setImmediate() se ejecute.</strong></p>
+</li>
+</ul>
+<p>Un ejemplo sería:</p>
+<pre class="hljs"><code><div><span class="hljs-string">"Ejecutando tarea 1"</span>);
+
+setImmediate(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-string">"Ejecutando tarea 2 (setImmediate)"</span>);
+});
+
+process.nextTick(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-string">"Ejecutando tarea 3 (process.nextTick)"</span>);
+});
+
+<span class="hljs-string">"Ejecutando tarea 4"</span>);
+
+<span class="hljs-comment">//SALIDA</span>
+
+<span class="hljs-comment">// Ejecutando tarea 1</span>
+<span class="hljs-comment">// Ejecutando tarea 4</span>
+<span class="hljs-comment">// Ejecutando tarea 3 (process.nextTick)</span>
+<span class="hljs-comment">// Ejecutando tarea 2 (setImmediate)</span>
+
+</div></code></pre>
+<hr>
+<h2 id="conceptos-importantes-antes-de-ver-los-core-modules">Conceptos Importantes antes de ver los Core Modules</h2>
+<h2 id="file-descriptors-y-el-objeto-filehandle">File Descriptors y  El objeto <code>FileHandle</code></h2>
+<p>Antes de empezar a explicar los metodos del módulo necesitamos aclarar los algunos conceptos. Al momento de interactuar con archivos se recurrirá a los binarios (programas) que ofrece el sistema operativo donde nos encontramos, ya qué en realidad, al momento de acceder a los archivos, necesitamos comunicarnos con el SO.</p>
+<p>Cosas a tener en cuenta:</p>
+<ul>
+<li>
+<p>Nuestra aplicación de NodeJs es tomada como un proceso para el sistema</p>
+</li>
+<li>
+<p>Cada proceso es administrado por el sistema opertivo, y este determina la distribución y acceso que este tendrá a los recursos del sistema.</p>
+</li>
+<li>
+<p>Cada vez que un proceso interactua con algun recurso, ya sea: hardware, software, perifericos u archivos(en este caso), el sistema reconocerá este consumo y limitará a nuestro proceso, para que no trabé a los demas.</p>
+</li>
+<li>
+<p>Es importante administrar nosotros mismos nuestra aplicación para que no abusé del consumo de los recursos que el sistema provee.</p>
+</li>
+</ul>
+<p><strong>File Descriptors:</strong> Los descriptores de archivos son un <strong>identificador único numérico</strong> que el sistema operativo le determina a los recursos del tipo que estan siendo utilizados por un proceso. En otras palabras, son indices que le da el SO al proceso, para que este último pueda realizar sus tareas internas.</p>
+<p><strong>FileHandle:</strong> Es un objeto de NodeJs que se utiliza como representación del archivo que estamos operando y este guarda el <strong>File Descriptor</strong>. Al ser tratado como objeto este nos permite hacer uso de metodos. Ademas tambien permite, abrir un archivo, &quot;guardarlo&quot; en un objeto <code>FileHandle</code> y para luego pasarlo a otra función como parametro o argumento.</p>
+<blockquote>
+<p>El objeto FileHandle <strong>Solo se crea y se utiliza</strong> cuando usamos la <strong>API de promesas</strong> de Fs Módule</p>
+</blockquote>
+<p>Por lo que, tenemos que tener en cuenta cuando estamos trabajando con FileDescriptor y un FileHandle, ya qué, si bien estan relacionados, tienen muchas diferencias.</p>
+<p><img src="./readme-imgs/img10.jpg" alt="diagrama"></p>
+<h2 id="buffers-y-streams">Buffers y Streams</h2>
+<p>Cuando hablamos de archivos y servidores, en nodejs, aparecen terminos como &quot;buffer&quot;, &quot;chunks&quot; y &quot;streams&quot;. En este curso no vamos a entrar en muchos detalles, porque son temas que se relacionan directamente con la electronica, la comunicacion y la logica computacional. Pero vamos a explicar lo necesario para entender como se aplican en el entorno de Node.</p>
+<h3 id="buffer">Buffer</h3>
+<p>Un buffer es un <strong>espacio fijo</strong> en la memoria que almacena <strong>datos binarios</strong>. Es similar a un array o matriz. Con datos binarios nos referimos a que guarda los datos en &quot;crudo&quot; o mas básicos que puede entender la PC. Estos se utilizan para <strong>representar</strong> información como, texto o imágenes. Si hablamos de Node, podemos manejar esta estructura de datos con la clase <code>Buffer</code> que proporciona el lenguaje JS.</p>
+<p>Documentacion de la Clase Buffer:</p>
+<p><a href="https://nodejs.org/api/buffer.html#class-fileF"><img src="https://img.shields.io/badge/Documentacion Oficial-blue" alt="BUFFER"></a></p>
+<p>Si bien, el buffer, almacena datos binarios, estos se encuentran representados en hexadecimal. Esto para mejorar el rendimiento y visualización (Binario &lt;==&gt; Hexadecimal &lt;==&gt; Decimal)</p>
+<p>En el caso de la módulo <code>fs</code>, al momento de leer los archivos, los datos llegan como un buffer en formato hexadecimal, esto podriamos tomarlo como datos en formato <strong>RAW</strong>.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+
+<span class="hljs-keyword">const</span> dataRaw = fs.readFileSync(<span class="hljs-string">'data/datos.txt'</span>);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'dataRaw: '</span>, dataRaw);
+</div></code></pre>
+<p><img src="readme-imgs/img7.png" alt="bash2"></p>
+<p>Siguiendo, una vez que llegan, tenemos que decodificar esta información a un sistema que nosotros entendemos (El Usuario / Programador), Aqui aparecen los formatos de códificacion, como <strong>UTF-8</strong>.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+
+<span class="hljs-keyword">const</span> dataRaw = fs.readFileSync(<span class="hljs-string">'data/datos.txt'</span>);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'dataRaw: '</span>, dataRaw);
+
+<span class="hljs-keyword">const</span> dataConverted = dataRaw.toString(<span class="hljs-string">'utf-8'</span>);
+<span class="hljs-built_in">console</span>.log(dataConverted);
+</div></code></pre>
+<p><img src="readme-imgs/img8.png" alt="bash3"></p>
+<p>Los formatos de codificación son los que convierten los datos del binario a las letras de nuestros respectivos lenguajes, dependiendo del lenguaje que hablemos deberemos traducirlos para un formato u otro. En Occidente el estandar es UTF-8. Siempre se recomienda establecer un formato en común para facilitar el trabajo.</p>
+<p><img src="https://1.bp.blogspot.com/-JuYeQkciy8M/VONAHQHLobI/AAAAAAAACgU/oTZHsbN73js/w597-h328/Character+Encoding,+Converting+Byte+array+to+String+in+Java.png" alt="formatosUTF8"></p>
+<h3 id="streams-y-chunks">Streams Y Chunks</h3>
+<p>Al momento de leer y escribir tenemos que ser conscientes del tamaño de los datos que estamos manejando, ya qué, si los datos son demasiado grandes, la aplicación del servidor tenderá a ir mas lento. La forma de solucionar esto es haciendo uso de 'Streams'.</p>
+<p>Los 'Streams' son flujos de datos, pueden ser de entrada, de salida o ambos, estos permiten recibir y enviar información en fragmentos de datos, o comunmente llamados, 'Chunks'.</p>
+<p>Los Streams tambien tienen una clase que los representa dentro de NodeJS y nos permite operar con ellos</p>
+<p>Documentacion de la Clase Stream:</p>
+<p><a href="https://nodejs.org/api/stream.html"><img src="https://img.shields.io/badge/Documentacion Oficial-blue" alt="STREAM"></a></p>
+<p><img src="https://codemacaw.com/wp-content/uploads/2019/11/stream-1024x354.png" alt="streams"></p>
+<p><img src="https://pawelgrzybek.com/photos/2020-07-14-1.png" alt="streams2"></p>
+<p>Debido a cuestiones de rendimiento, no sería eficiente enviar toda la información de un archivo grande ni tampoco procesarla toda de un tiron. Por eso nos conviene fragmentar el archivo total en 'Chunks' e ir procesando de a poco. Un ejemplo super claro es el de YT.</p>
+<p>Al momento de reproducir videos, YT nos envia el video de a poco para que ya podamos ir visualizandolo</p>
+<p><img src="./readme-imgs/img9.png" alt="YTejemplo"></p>
+<h2 id="el-objeto-stream-en-nodejs">El objeto Stream en Nodejs</h2>
+<p>Como dijimos anteriormente, un stream es un flujo de dato o un canal, pueden ser de entrada, de salida o ambos. Estos permiten recibir y enviar información en fragmentos de datos, o comunmente llamados, 'Chunks'.</p>
+<p>Tenemos que aprender sobre este objeto, ya que hay mucahs librerías que trabajan con instancias del objeto stream. A su vez este objeto es una instancia de <code>EventEmitter</code>, que tambien es otra clase que se utiliza muchisimo en el entorno de Node.</p>
+<blockquote>
+<p><em>Cabe acalarar que los streams tienen una API para trabajar con promesas. Esto se vera mejor en el módulo de FS</em></p>
+</blockquote>
+<h3 id="importanci%C3%B3n">Importanción</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> stream = <span class="hljs-built_in">require</span>(<span class="hljs-string">'stream'</span>);
+</div></code></pre>
+<h3 id="tipos-de-streams">Tipos de Streams</h3>
+<ul>
+<li>Writable: Streams que pueden escribir la <code>data</code>.</li>
+<li>Readable: Streams que pueden Leer la <code>data</code>.</li>
+<li>Duplex: Streams que pueden escribir y leer la <code>data</code>.</li>
+<li>Transform: Streams que pueden escribir y leer la <code>data</code>, ademas pueden modificarla a medida que la lee o escribe.</li>
+</ul>
+<h3 id="concepto-de-buffering-en-streams">Concepto de Buffering en Streams</h3>
+<p>Imaginemos que los streams son tanques de agua que se llenan con información y además como sabemos los <code>buffers</code> son un tipo de estructura de datos con <strong>tamaño fijo</strong>, por ende, este tanque de agua requiere un tope o límite. Este límite se conoce como <code>highWaterMark</code>(Marca de tope de agua).</p>
+<p>Ahora bien, en un proceso necesitamos que los streams se comuniquen entre si para que el sistema entero funcione, para comunicarlos utilizaremos los <code>pipelines</code>. Estos no son mas que un metodo propio de la libreria <code>stream</code> que permite conectar dos streams.</p>
+<p><img src="./readme-imgs/img14.png" alt="streamsDiagramas"></p>
+<p>Si los visualizamos como tanques de agua, el concepto se ve entiende a simple vista. Al momento de que se alcanzan los <code>highWaterMarks</code> los streams se regulan por si solos, dependiendo del modo en el que se encuentren trabajando, esto para no abusar de la memoría y para sincronizarce con su par para mantener un flujo de datos aceptable.</p>
+<p>A continuación vamos a ver cada tipo de stream con sus metodos y eventos correspondientes, he aqui un pequeño resumen de los mismos y seguido, un lista de las los objetos que los utilizan.</p>
+<p><img src="https://cdn-media-1.freecodecamp.org/images/1*HGXpeiF5-hJrOk_8tT2jFA.png" alt="tiposDeStreams"></p>
+<p><img src="https://cdn-media-1.freecodecamp.org/images/1*lhOvZiDrVbzF8_l8QX3ACw.png" alt="instanciasDeStreams"></p>
+<p>Antes de explicar cada uno de los streams, recorda que la clase <code>Stream</code> esta directamente relacionada con la clase <code>EventEmiter</code>. (Comparten métodos)</p>
+<h3 id="writable-streams">Writable Streams</h3>
+<h4 id="instanciaci%C3%B3n-manual">Instanciación manual</h4>
+<h4 id="eventos-writable-streams">Eventos Writable Streams</h4>
+<ul>
+<li>
+<p><code>close</code>: Este evento cuando el archivo que estamos escribiendo se cierra, esto lo veremos mejor en el módulo fs.</p>
+</li>
+<li>
+<p><code>drain</code>: Este evento se dispara cuando podemos continuar la escritura con <code>write()</code>, recordemos el concepto del buffering.</p>
+</li>
+<li>
+<p><code>error</code>: Como su mismo nombre indica, y vimos, se dispara cuando ocurre un error de escritura o al &quot;conectar&quot; un pipe.</p>
+</li>
+<li>
+<p><code>pipe</code>/<code>unpipe</code>: Estos 2 eventos son opuestos, el primero se dispara cuando por ejemplo un <code>Stream Readable</code> se &quot;conecta&quot; con un pipe a nuestro <code>Writable Stream</code>, y el segundo se dispara cuando el pipe se &quot;desconecta&quot;.</p>
+</li>
+<li>
+<p><code>finish</code>: Este evento se dispara cuando se escribe el ultimo pedazo de información, concretamente despues de que se utiliza el método <code>writable.end()</code></p>
+</li>
+</ul>
+<h4 id="m%C3%A9todos-writable-streams">Métodos Writable Streams</h4>
+<p><em>Writable = Stream.Writable instanciado</em>
+<em>Recorda que cuando un método o función tiene sus argumentos encerrados entre corchetes quiere decir que estos son opcionales</em></p>
+<ul>
+<li>
+<p><code>writable.write(chunk[, encoding][, callback])</code>: Este método permite escribir los datos entrantes <strong>en el Stream</strong>. Tiene un callback que permite ingresar el argumento <code>err</code> para manejar erroes.</p>
+</li>
+<li>
+<p><code>writable.end([chunk[, encoding]][, callback])</code>: Este método permite escrbir un ultimo dato en el stream , <strong>despues de ser llamado NO se puede llamar de vuelta a <code>writable.write()</code></strong></p>
+</li>
+<li>
+<p><code>writable.cork()</code>: Este método lo que hace es almacenar todos los datos <strong>siguientes</strong> que se escriban con <code>.write()</code> en memoría. Esto se usa para almacenar los chunks pequeños entrantes, ya que estos pueden relentizar en flujo de datos y por ende, tal vez, es mejor procesarlos despues.</p>
+</li>
+<li>
+<p><code>writable.uncork()</code>: Es el método que saca lo datos almacenados previamente en memoría por <code>.cork()</code>. Si <code>cork()</code> fue llamado multiples veces, entonces <code>uncork()</code> debe ser llamado el mismo numero de veces.</p>
+</li>
+</ul>
+<h3 id="readable-streams">Readable Streams</h3>
+<p>Para empezar este tipo a streams tienen 2 modos:</p>
+<ul>
+<li>
+<p>El <code>Flowing Mode</code>: Los datos se leen automatica e inmediatamente, y además se utilizan events emitters</p>
+</li>
+<li>
+<p>Y el <code>Paused Mode</code>: Para leer los datos se necesita usar stream.read() manualmente.</p>
+</li>
+</ul>
+<p>Todos los streams de este tipo comienza en <code>Pause Mode</code>. Para convertirlos a <code>Flowing Mode</code> tenemos 3 formas:</p>
+<ol>
+<li>
+<p>Usando el Event <code>data</code>, lo vemos a continuación.</p>
+</li>
+<li>
+<p>Ustando el método <code>stream.resume()</code>, lo vemos a continuación.</p>
+</li>
+<li>
+<p>Usando <code>stream.pipe(writableStream)</code>, lo vemos a continuación.</p>
+</li>
+</ol>
+<p>y para pasar a <code>Paused Mode</code>:</p>
+<ol>
+<li>
+<p>Usando el método <code>stream.pause()</code></p>
+</li>
+<li>
+<p>Desconectando todos los pipes del stream, con el método <code>stream.unpipe()</code></p>
+</li>
+</ol>
+<p>Ademas cada<code>readableStream</code> posee 3 estados internos, los cuales controlan indican el flujo de datos, esta propiedad se llama <code>readableFlowing</code>.</p>
+<ul>
+<li>
+<p><code>readable.readableFlowing === null</code>: Este estado significa que no hay fuentes para leer los datos o que no hay destino a donde enviarlos.</p>
+</li>
+<li>
+<p><code>readable.readableFlowing === true</code>: Este estado significa que sí hay una fuente (event listener para <code>data</code>), destino (<code>readable.pipe()</code>) o si se llamó a <code>readable.resume()</code> y se encuentra a la espera de datos.</p>
+</li>
+<li>
+<p><code>readable.readableFlowing === false</code>: Este estado signifca que hay fuente y/o destino para los datos pero llamó a <code>readable.pause()</code>, <code>readable.unpipe()</code></p>
+</li>
+</ul>
+<h4 id="eventos-readable-stream">Eventos Readable Stream</h4>
+<ul>
+<li>
+<p><code>data</code>: Este evento se dispara cuando se detecta que hay información esperando por ser leida (Chunks)</p>
+</li>
+<li>
+<p><code>end</code>: Este evento se dispara cuando <strong>ya no hay mas datos</strong> que consumir</p>
+</li>
+<li>
+<p><code>close</code>: Este evento cuando el archivo que estamos leyendo se cierra, esto lo veremos mejor en el módulo fs.</p>
+</li>
+<li>
+<p><code>error</code>: Como su mismo nombre indica, y vimos, se dispara cuando ocurre un error de escritura o al &quot;conectar&quot; un pipe.</p>
+</li>
+<li>
+<p><code>readable</code>: Este evento se dispara cuando hay datos que leer o cuando se llega al final. Si ya no hay nada que leer <code>stream.read()</code> devuelve null</p>
+</li>
+</ul>
+<h4 id="m%C3%A9todos-readable-stream">Métodos Readable Stream</h4>
+<ul>
+<li>
+<p><code>readable.read([size])</code>: Este método lee los datos del buffer interno y los retorna, si no hay ninguna codificación seteada entonces devuelve un buffer. Podemos ver tambien que su argumento opcional es <code>size</code>, este representa la cantidad de bytes maximos que leera, pero de vuelta, es opcional.</p>
+</li>
+<li>
+<p><code>readable.pipe(destination[, options])</code>: Permite conectar un <code>writableStream</code>, este cambiará al <code>Flowing Mode</code> y administrará el envio de los datos almacenados a el nuevo destino. Por otro lado, tambien retornará el <code>writableStream</code>, esto para poder concatenar otros metodos seguido de este. <em>Es posible conectar un readableStream a varios writableStreams</em>.</p>
+</li>
+</ul>
+<p>Cuando ocurre un error en el <code>readableStream</code>, el <code>writableStream</code> seguira abierto, por lo que, es necesario cerrarlo manualmente.</p>
+<ul>
+<li>
+<p><code>readable.unpipe([destination])</code>: Para desconectar los pipes que establecimos con el anteriormente usamos este método. Además, como podemos ver, admite un solo argumento que es opcional, aquí va el <code>writableStream</code> que queremos desconectar, si no especificamos nada se van a desconectar todos los pipes conectados.</p>
+</li>
+<li>
+<p><code>readable.unshift(chunk[, encoding])</code>: Este método permite ingresar datos al principio del buffer interno de un readableStream.</p>
+</li>
+<li>
+<p><code>readable.pause()</code>: Este método hace que el stream dejé de emitir el evento <code>data</code> y cambia al Pause Mode. Algo a acalarar es que, si se escucha el evento <code>readable</code>, este método no hará efecto.</p>
+</li>
+<li>
+<p><code>readable.resume()</code>: Este método hace lo opuesto al anterior. Tampoco tendrá efecto si se dispara el evento <code>readable</code>.</p>
+</li>
+</ul>
+<h2 id="los-eventos-event-handlers---event-emitters---events-listeners">Los Eventos (Event Handlers - Event Emitters - Events Listeners)</h2>
+<h3 id="documentaci%C3%B3n-oficial-events">Documentación Oficial Events</h3>
+<p>Aquí se encuentra toda la información del módulo:</p>
+<p><a href="https://nodejs.org/dist/latest-v18.x/docs/api/events.html#eventtarget-error-handling"><img src="https://img.shields.io/badge/Documentacion Oficial-green" alt="OSMODULE"></a></p>
+<h3 id="paradigma-de-eventos">Paradigma de Eventos</h3>
+<p>A la hora de programar en JS tenemos que ser conscientes de que gran parte de los metodos y objetos que manejamos en este lenguaje tienen propiedades o se relacionan con los eventos.</p>
+<p>Este paradigma de la programación hace referencia a un modelo ASÍNCRONO en el cual existen objetos o entidades que DISPARAN EVENTOS en la aplicación y otros los cuales quedan a la ESCUCHA de estos, estos 2 grupos se conocen como: <code>Event Emitters</code> y <code>Event Listeners</code> respectivamente.</p>
+<p>En Node tenemos que conocer aunque sea el concepto y los métodos basicos que se utilizan en este modelo, ya que como dijimos, muchos módulos y objetos que se utilizan en Node hacen uso de eventos.</p>
+<h3 id="clase-eventemitter">Clase EventEmitter</h3>
+<p>Para crear un disparador de eventos, podemos hacerlo usando instanciando un objeto con la clase <code>EventEmitter</code></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> { EventEmitter } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:events'</span>;
+</div></code></pre>
+<h3 id="eventemitter">EventEmitter</h3>
+<p>Y para emitir un evento usamos <code>myEmitter.emit(nombreDelEvento,[,args])</code>. Como podemos ver, el método permite pasar tantos argumentos como veamos necesarios.</p>
+<pre class="hljs"><code><div>myEmitter.emit(<span class="hljs-string">'elEvento'</span>, <span class="hljs-string">'arg1'</span>, <span class="hljs-string">'arg2'</span>, <span class="hljs-string">'argFina'</span>);
+</div></code></pre>
+<h3 id="eventlisteners">EventListeners</h3>
+<p>Ahora, para escuchar los eventos emitidos podemos hacer uso de los métodos:</p>
+<ul>
+<li>
+<p><code>myEmitter.on(event,callback)</code>: Ejecuta una función callback <strong>cada vez</strong> que se detecta un evento, el evento que especifiquemos tiene que ser con un string.</p>
+</li>
+<li>
+<p><code>myEmitter.once(event,callback)</code>: Ejecuta una función callback la <strong>primera vez</strong> que se dispara el evento.</p>
+</li>
+<li>
+<p><code>myEmitter.addListener</code>: Hace exactamente lo mismo que <code>myEmitter.on()</code>, son sinonimos.</p>
+</li>
+</ul>
+<h3 id="ejemplo-de-c%C3%B3digo">Ejemplo de Código</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">//Importación y declaracion de Emitter</span>
+<span class="hljs-keyword">const</span> {EventEmitter} = <span class="hljs-built_in">require</span>(<span class="hljs-string">'events'</span>);
+<span class="hljs-keyword">const</span> myEmitter = <span class="hljs-keyword">new</span> EventEmitter();
+
+myEmitter.on(<span class="hljs-string">'saludar'</span>,(arg1,arg2)=&gt;{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Hola!, '</span>,arg1 ,arg2);
+});
+myEmitter.on(<span class="hljs-string">'despedir'</span>,(arg1,arg2)=&gt;{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Chau!, '</span>,arg1 ,arg2);
+})
+
+<span class="hljs-comment">// Emisión de Eventos y Pasando Argumentos para las funcioens</span>
+myEmitter.emit(<span class="hljs-string">'saludar'</span>,<span class="hljs-string">'Camilo'</span>,<span class="hljs-string">'Canclini'</span>);
+myEmitter.emit(<span class="hljs-string">'despedir'</span>,<span class="hljs-string">'Camilo'</span>,<span class="hljs-string">'Canclini'</span>);
+
+<span class="hljs-built_in">console</span>.log(myEmitter.eventNames());<span class="hljs-comment">// Muestra los eventos escuchados en el emitter</span>
+<span class="hljs-built_in">console</span>.log(myEmitter.listeners(<span class="hljs-string">'saludar'</span>));<span class="hljs-comment">// Muestra las funciones Listeners asociadas a este evento</span>
+
+<span class="hljs-comment">// Despues de un tiempo le saca la escucha de un evento y vuelve a ejecutar las emisiones</span>
+setTimeout(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span>{
+
+    <span class="hljs-comment">//Remueve todas las funciones Listener Asociadas al evento saludar</span>
+    myEmitter.removeAllListeners(<span class="hljs-string">'saludar'</span>);
+    
+    myEmitter.emit(<span class="hljs-string">'saludar'</span>,<span class="hljs-string">'Camilo'</span>,<span class="hljs-string">'Canclini'</span>);
+    myEmitter.emit(<span class="hljs-string">'despedir'</span>,<span class="hljs-string">'Camilo'</span>,<span class="hljs-string">'Canclini'</span>);
+    
+},<span class="hljs-number">1000</span>)
+
+</div></code></pre>
+<h3 id="diferencias-de-eventos-entre-nodejs-y-js-ejecutado-en-la-webjsdom">Diferencias de eventos entre NodeJS y JS ejecutado en la web(JSDOM)</h3>
+<p>Tenemos que saber diferenciar las formas de operar de cada uno, porque los eventos, como concepto, tienen propiedades diferentes dependiendo el contexto.</p>
+<p>Por ejemplo, cuando nos referimos al DOM del navegador, existe una jerarquía que relaciona a todos los elementos de la pagina que estamos desarrollando.</p>
+<p>Al momento de dispararse un evento, este se propaga entre los diferentes elementos  relacionados con el <code>target</code>. El <code>target</code> no es ni mas ni menos que el objeto que dispara esta notificación.</p>
+<p>Cada objeto se basa en la interfaz de eventTarget, con la cual cada uno define sus propios eventos, metodos y propiedades.</p>
+<p>Ahora cuando hablamos de NodeJS, esta propagación no existe, porque no existe una jerarquía, entre objetos. Ademas los objetos que definimos que disparan eventos son instancias de la clase <code>EventEmitter</code>.</p>
+<p>En conclusión, son modelos diferentes, que se utilizan para contextos diferentes, ya que, no es lo mismo estar trabajando con los objetos del DOM que con objetos propios creados desde el entorno de NodeJS.</p>
+<p>Igualmente cabe recalcar que Node ofrece en su módulo de <code>events</code> una clase que permite emular, por asi decirlo, a los eventTarget del DOM, la clase se llama: <code>nodeEventTargets</code>.</p>
+<hr>
+<h2 id="core-modules-nodejs">Core Modules NodeJS</h2>
+<p>Ahora vamos a ver los modulos principales que vienen integrados con Node, estos son las bases de lso frameworks y demas librerías que se utilizan hoy en dia. Estos nos van a permitir, acceder a los recursos del sistema directamente desde JS.
+<strong>De cada módulo se mostraran los métodos mas relevantes y ademas habrá en la carpeta 'Core Modules' un ejemplo de uso de cada uno</strong></p>
+<h3 id="os-module">OS Module</h3>
+<p>Este modulo nos permite obtener datos del hardware y software del equipo que esta ejecutando nuestro script:</p>
+<h4 id="documentaci%C3%B3n-oficial-os">Documentación Oficial OS</h4>
+<p>Aquí se encuentra toda la información del módulo: <a href="https://nodejs.org/docs/latest-v17.x/api/os.html"><img src="https://img.shields.io/badge/Documentacion Oficial-green" alt="OSMODULE"></a></p>
+<h4 id="importaci%C3%B3n-os">Importación OS</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> os = <span class="hljs-built_in">require</span>(<span class="hljs-string">'os'</span>);
+</div></code></pre>
+<h4 id="m%C3%A9todos-os">Métodos OS</h4>
+<pre class="hljs"><code><div>
+os.totalmem() <span class="hljs-comment">//Devuelve INT de la memoria total</span>
+os.freemem() <span class="hljs-comment">// Devuelve INT de la memoria libre</span>
+os.getPriority() <span class="hljs-comment">// Devuelve un INT con el valor de PRIORIDAD del proceso actual</span>
+os.homedir() <span class="hljs-comment">//Devuelve un STRING de la ruta del directorio del usuario </span>
+os.tmpdir() <span class="hljs-comment">//Devuelve un STRING de la ruta del directorio temporal </span>
+os.hostname() <span class="hljs-comment">//Devuelve un STRING con el nombre del equipo</span>
+os.platform() <span class="hljs-comment">//Devuelve un STRING con el nombre del sistema operativo</span>
+os.uptime() <span class="hljs-comment">//Devuelve un ENTERO del tiempo que a estado corriendo la maquina desde que se encendió</span>
+os.networkInterfaces() <span class="hljs-comment">//Devuelve un OBJETO con la informaciónd del adaptador de red</span>
+os.userInfo() <span class="hljs-comment">//Devuelve un OBJETO con la información del usuario actual</span>
+</div></code></pre>
+<h3 id="path-module">PATH Module</h3>
+<p>Este módulo permite trabajar con las rutas de directorios y archivos del sistema operativo en el que nos encontremos. Recordemos que NodeJS, es multiplataforma, puede estarce ejecutando tanto en un windows como en un linux, por lo que, las formas y privilegios para acceder a los disntintos recursos del SO cambian, entre uno y otro.</p>
+<h4 id="documentaci%C3%B3n-oficial-path">Documentación Oficial PATH</h4>
+<p>Aquí se encuentra toda la información del módulo: <a href="https://nodejs.org/docs/latest-v17.x/api/path.html"><img src="https://img.shields.io/badge/Documentacion Oficial-green" alt="PATHMODULE"></a></p>
+<h4 id="importaci%C3%B3n-path">Importación PATH</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">'path'</span>);
+</div></code></pre>
+<h4 id="m%C3%A9todos-path">Métodos PATH</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">'path'</span>);
+
+<span class="hljs-comment">//Devuelve un STRING con el separador que utiliza el SO para los PATHS</span>
+<span class="hljs-comment">// WINDOWS --&gt; \</span>
+<span class="hljs-comment">// LINUX --&gt; /</span>
+path.sep;
+
+<span class="hljs-comment">//Retorna un STRING de la última parte de un path</span>
+path.basename(<span class="hljs-string">'/home/camilocanclini/Documents/hola.txt'</span>); 
+<span class="hljs-comment">//Retorna un STRING pero recortando lo que indiquemos en el segundo argumento</span>
+path.basename(<span class="hljs-string">'/home/camilocanclini/Documents/hola.txt'</span>, <span class="hljs-string">'.txt'</span>);
+<span class="hljs-comment">//Devuelve un STRING del path sin la ultima parte</span>
+path.dirname(<span class="hljs-string">'/home/camilocanclini/Documents/hola.txt'</span>);
+
+
+<span class="hljs-comment">//Devuelve un STRING con el separador que usa el OS para separar los paths </span>
+<span class="hljs-comment">// WINDOWS --&gt; ;</span>
+<span class="hljs-comment">// LINUX --&gt; :</span>
+path.delimiter;
+
+<span class="hljs-comment">//Devuelve un STRING  que indica la extensión del path </span>
+path.extname(<span class="hljs-string">'hola.txt'</span>);
+
+<span class="hljs-comment">//Devuelve un STRING, este genera un PATH haciendo uso de los argumentos que pasemos</span>
+path.join(<span class="hljs-string">'/foo'</span>, <span class="hljs-string">'bar'</span>, <span class="hljs-string">'baz/asdf'</span>, <span class="hljs-string">'quux'</span>, <span class="hljs-string">'..'</span>); 
+
+<span class="hljs-comment">//Devuelve un STRING, este genera un PATH NORMALIZADO para el SO en que nos enconetremos</span>
+<span class="hljs-comment">//Que este normalizado quiere decir que es valido, que puede ser reconocido por nuestro SO</span>
+path.normalize(<span class="hljs-string">'/foo/bar//baz///asdf/quux/..'</span>);
+
+<span class="hljs-comment">//Devuelve un OBJETO con las propiedades del PATH que pasemos como argumento</span>
+path.parse(<span class="hljs-string">'/home/user/dir/file.txt'</span>);
+<span class="hljs-keyword">const</span> pathObj = path.parse(<span class="hljs-string">'/home/user/dir/file.txt'</span>);
+
+<span class="hljs-comment">//Hace la operacion opuesta que path.parse</span>
+path.format(pathObj);
+
+<span class="hljs-comment">/*
+Hace lo mismo que path.join pero ademas tienen en cuenta
+si los argumentos pasados son PATHS ABSOLUTOS o RELATIVOS
+
+PATH ABSOLUTO --&gt; /hola/como/estas
+PATH RELATIVO --&gt; hola/como/estas ó ./hola/como/estas
+
+Este metodo analiza de derecha a izquierda
+Si es absoluto se toma  ese path y desde ahi, hacia la derecha se unen los demas paths
+Si NO HAY PATHS ABSOLUTOS se agrega el PATH total y se unifica con los pasados por Argumentos
+*/</span> 
+path.resolve(<span class="hljs-string">'hola/pepe'</span>,<span class="hljs-string">'argentina/moni'</span>);
+path.resolve(<span class="hljs-string">'/hola/pepe'</span>,<span class="hljs-string">'argentina/moni'</span>);
+path.resolve(<span class="hljs-string">'hola/pepe'</span>,<span class="hljs-string">'/argentina/moni'</span>);
+</div></code></pre>
+<h3 id="constantes-del-modulo-filename-y-dirname">Constantes del modulo: <code>__filename</code> y <code>__dirname</code></h3>
+<p>La constantes del modulo son parecidas a los <code>global objects</code>, ya que cada modulo o script puede llamarlas, pero el valor dependera del script que la llame.</p>
+<p>En concreto, las que presentaremos a continuación, son para trabajar con los PATHs del script en cuestion.</p>
+<ul>
+<li><code>__filename</code>: Esta devuelve el PATH ABSOLUTO o RUTA ABSOLUTA del archivo.</li>
+<li><code>__dirname</code>: Esta devuelve el PATH ABSOLUTO o RUTA ABSOLUTA del directorio que contiene al archivo</li>
+</ul>
+<p>Ejemplos:</p>
+<p>Codigo:</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">console</span>.log(<span class="hljs-string">'\n__filename:'</span>, __filename);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'__dirname:'</span>, __dirname,<span class="hljs-string">'\n'</span>);
+</div></code></pre>
+<p>Resultado:</p>
+<p><img src="./readme-imgs/img13.png" alt="dirnameFilename"></p>
+<p>Estas costantes se suelen utilizar a la hora de confeccionar PATHS o para el manejo de archivos.</p>
+<h3 id="fs-module">FS Module</h3>
+<p>Este módulo nos permite interactuar con los archivos del sistema, nos da las herramientas para modificarlos. Para comenzar tenemos que saber que este módulo nos pertmite interactuar con los archivos de 3 formas diferentes, dentro del entorno se las conoce como API (Aplication Program Interface | Interfaz de Programacion de la Aplicación), estas no son como las APIs WEB que comunmente se utilizan hoy en dia. Simplemente pensemos que son las <strong>formas en las cuales podemos interactuar con los archivos</strong></p>
+<p>A continuación vamos a presentar 3 ejemplos en los cuales se importa la misma función con la forma de EMACScript6(<code>import { unlinkSync } from 'node:fs';</code>). En el primero vamos a trabajar de forma sincrona(la mas simple, pero tambien la mas vulnerable), en la segunda, vamos a usar callbacks y en la tercera vamos a usar promesas. De estas 2 últimas ya hemos hablado en profundidad anteriormente.</p>
+<p>API para Sincronía</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> { unlinkSync } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:fs'</span>;
+
+<span class="hljs-keyword">try</span> {
+  unlinkSync(<span class="hljs-string">'/tmp/hello'</span>);
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'successfully deleted /tmp/hello'</span>);
+} <span class="hljs-keyword">catch</span> (err) {
+  <span class="hljs-comment">// handle the error</span>
+}
+</div></code></pre>
+<p>API para Callbacks (Asincronía)</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> { unlink } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:fs'</span>;
+
+unlink(<span class="hljs-string">'/tmp/hello'</span>, (err) =&gt; {
+  <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">throw</span> err;
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'successfully deleted /tmp/hello'</span>);
+});
+</div></code></pre>
+<p>API para Promesas (Asincronía)</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> { unlink } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:fs/promises'</span>;
+
+<span class="hljs-keyword">try</span> {
+  <span class="hljs-keyword">await</span> unlink(<span class="hljs-string">'/tmp/hello'</span>);
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'successfully deleted /tmp/hello'</span>);
+} <span class="hljs-keyword">catch</span> (error) {
+  <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'there was an error:'</span>, error.message);
+}
+</div></code></pre>
+<p>Como podemos apreciar este módulo nos permite elegir si el método se ejecutará de manera asíncrona o síncrona. Como ya vimos, si trabaja de forma síncrona las lineas de código siguiente no se ejecutarán hasta que hayamos terminado la operación con el método indicado.</p>
+<p>Por último algo a tener en cuenta es que cuando definimos la rutas de los archivos con los que interactuamos tenemos que saber que las rutas son relativas con respecto al <strong>Working Directory</strong> y no con respecto al archivo desde el cual estamos ejecutando. Por ejemplo, vease la siguiente estructura:</p>
+<p><img src="readme-imgs/img5.png" alt="estructura"></p>
+<p>y ahora vea el siguiente codigo del archivo llamado <code>fs.js</code></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+<span class="hljs-built_in">console</span>.log(fs.readFileSync(<span class="hljs-string">'data/p.txt'</span>));
+</div></code></pre>
+<p>Si yo ejecuto el script <code>fs.js</code> de la siguiente forma, voy a recibir un error:</p>
+<p><img src="readme-imgs/img6.png" alt="bash1"></p>
+<p>¿Por qué ocurre esto?, porque al momento de yo ejecutar con <code>node ./CoreModules/fs.js</code> mi &quot;Working Directory&quot; es <code>.../Curso-NodeJS1/</code> por lo que cuando el script <code>fs.js</code> ejecuta la linea 2 (<code>console.log(fs.readFileSync('data/p.txt'));</code>) busca de la siguiente manera --&gt; <code>/Curso-NodeJS1/data/p.txt</code> y esa ruta no existe, porque no pasa por la carpeta <code>CoreModules</code>. ¿Como se soluciona?, tenemos 2 formas:</p>
+<ol>
+<li>
+<p>O bien cambiamos la ruta del script quedandonos: <code>console.log(fs.readFileSync('CoreModules/data/p.txt'));</code></p>
+</li>
+<li>
+<p>O cambiamos el <strong>Working Directory</strong>: haciendo <code>cd CoreModules/</code> y despues ejecutamos node fs.js</p>
+</li>
+</ol>
+<p>En el caso del segundo ya se volveria valida la ruta que especificamos en la segunda linea.</p>
+<h4 id="documentaci%C3%B3n-oficial-fs">Documentación Oficial FS</h4>
+<p>Aquí se encuentra toda la información del módulo: <a href="https://nodejs.org/api/fs.html"><img src="https://img.shields.io/badge/Documentacion Oficial-green" alt="OSMODULE"></a></p>
+<h4 id="importaci%C3%B3n-fs">Importación FS</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+<span class="hljs-keyword">const</span> fsPromise = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs/promises'</span>);
+</div></code></pre>
+<h4 id="abrir-y-cerrar-archivos">Abrir y Cerrar Archivos</h4>
+<p>Siguiendo con temas de optimización, al momento de abrir y cerrar archivos tenemos que ser conscientes que, la misma acción de abrir y cerrar, consume recursos. Por lo que cuando veamos a continuación los métodos, vamos a divirdirlos en 2 grupos:</p>
+<ul>
+<li>
+<p>Los métodos del primer grupo son todos aquellos que abren y cierran el archivo al terminar de ejecutarse</p>
+</li>
+<li>
+<p>Y los metodos del segundo grupo, corresponden a los que necesitan que el archivo se encuentre abierto manualmente con el método <code>fs.open()</code>.</p>
+</li>
+</ul>
+<p>Los del segundo grupo serán mas eficientes, ya que nos permiten ejecutar varias operaciones en un archivo sin al necesidad de estar abriendo y cerrando cada vez que ejecutamos una operación.</p>
+<p>En otras palabras, <strong>solo se abre y se cierra una vez</strong>. La unica contra es que, no debemos olvidar cerra el archivo con <code>fs.close()</code></p>
+<h4 id="m%C3%A9todos-fs">Métodos FS</h4>
+<p>Recordemos que las 3 maneras de programar con FS (Synchrounous, Callbacks y Promises) comparten la mayoría de los metodos y lo unico que cambia es la forma de llamar a ese método.</p>
+<p>Para este caso vamos a presentar todos los métodos con la forma de callback:</p>
+<p>Grupo de Metodos 1 (Abren y Cierran el archivo cada vez que se ejecutan)</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+<span class="hljs-keyword">const</span> { exit } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'process'</span>);
+
+<span class="hljs-comment">// +-- " G R U P O 1 " --+</span>
+
+<span class="hljs-comment">// Leer</span>
+fs.readFile(<span class="hljs-string">'./data/elArchivo.txt'</span>, (err,data) =&gt; {
+    <span class="hljs-keyword">if</span> (err) <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Ocurrió un error al leer'</span>);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'1:'</span>,data);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'2:'</span>,data.toString());
+    <span class="hljs-comment">// Leer Archivos y convertirlos antes (UTF-8)</span>
+});
+
+
+<span class="hljs-comment">// Crear y Editar</span>
+
+<span class="hljs-comment">// Se modifica el archivo entero</span>
+fs.writeFile(<span class="hljs-string">'./data/nuevoArchivo.txt'</span>,<span class="hljs-string">'Hola! Soy un archivo nuevo'</span>, (err)=&gt;{
+    <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">throw</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Hola che'</span>);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'3: el archivo fue creado si no existia, y se editó'</span>);
+});
+
+<span class="hljs-comment">//Se agrega información nueva</span>
+fs.appendFile(<span class="hljs-string">'./data/nuevoArchivo.txt'</span>, <span class="hljs-string">'\nHola!'</span>, (err)=&gt;{
+    <span class="hljs-keyword">if</span> (err) <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Hola che'</span>);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'4: el archivo fue creado si no existia, y se agregó info nueva'</span>);
+});
+
+<span class="hljs-comment">// Chequea si el archivo es accesible </span>
+<span class="hljs-comment">// (Si existe, si puede ser leido, escrito o ejecutado</span>
+<span class="hljs-comment">// Se usan constants:</span>
+<span class="hljs-comment">// F_OK: Verifica si el archivo existe</span>
+<span class="hljs-comment">// R_OK: Verifica si el archivo puede leerse</span>
+<span class="hljs-comment">// W_OK: Verifica si el archivo puede escribirse</span>
+<span class="hljs-comment">// X_OK: Verifica si el archivo puede ejecutarse</span>
+fs.access(<span class="hljs-string">'./data/datos.txt'</span>,fs.constants.F_OK, (err) =&gt;{
+<span class="hljs-keyword">if</span> (err) {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Ocurrió un error al verificar el acceso al archivo'</span>)
+}<span class="hljs-keyword">else</span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">' 5: El archivo existe (En este caso [F_OK])'</span>);
+}
+})
+
+<span class="hljs-comment">// Permite copiar archivos</span>
+<span class="hljs-comment">// Este método tambien acepta constantes para cambiar el comportamiento del método</span>
+<span class="hljs-comment">// (Ver las constantes en la documentacion oficial)</span>
+fs.copyFile(<span class="hljs-string">'./data/elArchivo.txt'</span>,<span class="hljs-string">'./data/elArchivoCopiado.txt'</span>, fs.constants.COPYFILE_EXCL,(err) =&gt; {
+    <span class="hljs-keyword">if</span> (err) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Ocurrió un error al copiar el archivo'</span>);
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'6: El archivo se copió'</span>);
+    }
+})
+
+<span class="hljs-comment">//Devuelve información (Metadatos) del archivo</span>
+fs.stat(<span class="hljs-string">'./data/datos.txt'</span>,(err, stats)=&gt;{
+    <span class="hljs-keyword">if</span> (err) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Ocurrio un error al obtener metadatos'</span>);
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'7: metadatos: '</span>, stats);
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'7: Tamaño del Archivo: '</span>, stats.size, <span class="hljs-string">'bytes'</span>);
+    }
+})
+
+<span class="hljs-comment">//Crea un directorio</span>
+fs.mkdir(<span class="hljs-string">'./data/nuevoDirectorio'</span>,(err)=&gt;{
+    <span class="hljs-keyword">if</span> (err) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Ocurrió un error al crear directorio'</span>);
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'8: El directorio se creó correctamente'</span>);
+    }
+})
+
+<span class="hljs-comment">// Abre un directorio</span>
+fs.opendir(<span class="hljs-string">'./data'</span>,(err,dir)=&gt;{
+    <span class="hljs-keyword">if</span> (err) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Ocurrió un error al abrir el directorio'</span>);
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'9: dir: '</span>, dir);
+    }
+})
+
+<span class="hljs-comment">// Borra un archivo o un directorio</span>
+fs.rm(<span class="hljs-string">'./data/nuevoArchivo.txt'</span>,(err)=&gt;{
+    <span class="hljs-keyword">if</span> (err) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Ocurrió un error al borrar el directorio'</span>);
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'10: Se borró el directorio (nuevoArchivo)'</span>);
+    }
+})
+
+<span class="hljs-comment">// Trunca un archivo (Vacia el archivo, borra todo el contenido)</span>
+fs.truncate(<span class="hljs-string">'./data/nuevoDirectorio/archivoTruncado.txt'</span>, (err)=&gt;{
+    <span class="hljs-keyword">if</span> (err) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Ocurrió un error al truncar el archivo'</span>);
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'11: Archivo Truncado exitosamente'</span>);
+    }
+})
+
+setTimeout(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Empezando a observar el archivo'</span>);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Realice algun cambio en el archivo (Tiene 10 seg)'</span>);
+
+
+    <span class="hljs-comment">// Dispara un evento cuando el archivo es alterado </span>
+    <span class="hljs-comment">// Es un loop, se queda escuchando si ocurren cambios en el archivo y ejecuta el callback</span>
+    fs.watch(<span class="hljs-string">'./data/nuevoDirectorio/archivoObservado.txt'</span>, (event, file) =&gt;{
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'12: El archivo: '</span>, file, <span class="hljs-string">'Fué modificado'</span>);
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'12: El evento que se disparó fue: '</span>, event);
+
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Cerrando programa'</span>);
+        process.exit();
+    })
+
+
+    setTimeout(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span>{
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'\n\nNo se realizaron cambios en el archivo'</span>);
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Cerrando programa'</span>);
+        process.exit();
+    },<span class="hljs-number">10000</span>);
+},<span class="hljs-number">4000</span>);
+</div></code></pre>
+<p>Grupo de metodos 2 ( <code>fs.open()</code>, se habren y se cierran 1 sola vez )</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// +-- " G R U P O 2 " --+</span>
+
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+
+<span class="hljs-comment">// Abriendo el Archivo</span>
+fs.open(<span class="hljs-string">'./data/elArchivo.txt'</span>,<span class="hljs-string">'r+'</span>,(err,fd)=&gt;{
+    <span class="hljs-keyword">if</span> (err) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Fallo al abrir archivo: '</span>,err.message)
+    } <span class="hljs-keyword">else</span> {
+
+        <span class="hljs-comment">// Leyendo el archivo abierto previamente</span>
+        fs.read(fd, (err,br,bufferobj)=&gt;{
+            <span class="hljs-keyword">if</span> (err) {
+                <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Fallo al leer archivo: '</span>,err.message)
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`\nSe leyeron <span class="hljs-subst">${br}</span> bytes del buffer\n`</span>);
+                <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`El buffer traducido:\n<span class="hljs-subst">${bufferobj}</span>\n`</span>);
+                <span class="hljs-built_in">console</span>.log(bufferobj.byteLength);
+                
+                <span class="hljs-comment">// Una vez leido se escribe el archivo</span>
+                fs.write(fd, <span class="hljs-string">'Escribiendo...'</span>,(err,bw,buffer)=&gt;{
+                    <span class="hljs-keyword">if</span> (err) {
+                        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Fallo al escribir archivo: '</span>,err.message)
+                    } <span class="hljs-keyword">else</span> {
+                        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`\nSe escribieron <span class="hljs-subst">${bw}</span> bytes del buffer\n`</span>);
+                        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`El buffer traducido:\n<span class="hljs-subst">${buffer}</span>\n`</span>);
+
+                        <span class="hljs-comment">// Una vez que se terminó de escribir se cierra el archivo</span>
+                        fs.close(fd, ()=&gt;{
+                            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'El archivo se cerró'</span>);
+                        });
+
+                    }
+                });
+
+
+            }
+        });
+
+        
+    }
+});
+</div></code></pre>
+<p>Miremos que en el segundo grupo de métodos se esta haciendo uso del fileDescriptor (<code>fd</code>). Ademas miremos que al momento de abrir el archivo con <code>fs.open(path, options[flag, ...], callback)</code>, podemos pasar como argumento una <code>flag</code> o <code>mode</code> de apertura.</p>
+<p>Esto lo que indica es el tipo de operaciones o el alcance de las mismas, que tenemos para realizar las operaciones una vez abierto el archivo, vease la siguiente tabla:</p>
+<p><img src="./readme-imgs/img11.png" alt="tablaDeModeOpen"></p>
+<h3 id="process-module">PROCESS MODULE</h3>
+<p>Este módulo permite obtener información y controlar el proceso actual que genera nuestra aplicación en el sistema operativo.</p>
+<h4 id="que-es-cli-y-command-line-apps">Que es CLI y Command Line Apps</h4>
+<p>El concepto CLI significa Command Line Interface, esta es simplemente la forma mediante la cual el usuario se comunica con el sistema operativo vía la linea de comandos. Dependiendo del Sistema Operativo estas varian, por ejemplo en Windows se utilza powershell y en linux bash, aunque estas pueden cambiar.</p>
+<p>Gracias a CLI es que podemos ejecutar comandos como <code>node app.js</code>, lo que ocurre aqui es que, le estamos diciendo a la consola de comandos que queremos usar el programa <code>node</code> y le pasamos un argumento que es la ruta del script que va a procesar.</p>
+<p>Esta forma simple de trabajar e interactuar con el sistema permite la crear aplicaciones que trabajen haciendo uso de la consola. Aqui aparecen las Command Line Apps, que basicamente son, aplicaciones que reciben instrucciones o argumentos desde la consola y ejecutan alguna tarea en base a esos parametros, o pueden responder con texto via la misma interfaz de comandos.</p>
+<p>NodeJS permite la creación de este tipo de aplicaciones. El siguiente módulo permitira tener un acercamiento con este concepto.</p>
+<blockquote>
+<p>Este módulo permite manejar eventos que ocurren durante la ejecución del proceso, vea la sección de métodos</p>
+</blockquote>
+<h4 id="enviroment-variables">Enviroment Variables</h4>
+<p>Cuando hablamos de consola y en general de sistemas operativos, aparecen las variables de entorno. Para no entrar en muchos detalles diremos que son, variables que almacenan información de configuracion para la sesion en la que nos encontramos. Por ejemplo, en el sistema operativo, estas guardan:</p>
+<ul>
+<li>
+<p>El nombre del usuario actual</p>
+</li>
+<li>
+<p>Las rutas a las carpetas importantes del sistema</p>
+</li>
+<li>
+<p>Datos del sistema operativo</p>
+</li>
+<li>
+<p>Crendeciales de usuario y de programas</p>
+</li>
+</ul>
+<p>Se utilizan a traves del modulo process y otros paquetes, para almacenar y recuperar información para nuestra aplicación. Por ejemplo, podriamos obtener el nombre del usuario desde el sistema y saludarlo con un mensaje personalizado.</p>
+<p>Para el proposito de este curso las utilizaremos para recuperar información de configuracion de nuestra aplicación, esto sera visto mas adelante.</p>
+<h4 id="las-entradas-y-salidas-standard">Las entradas y Salidas (Standard)</h4>
+<p>Otro concepto que aparece cuando hablamos de consola son los flujos de datos estándar, estos no son mas que Streams (Los que vimos antes) proporcionados por el sistema operativo. Se dice que son estándar ya que todos los sistemas lo tienen. Concretamente son, interfaces que nos permiten ingresar información y sacar información de un proceso o aplicación. Si son Streams, tambien aparcen los famosos &quot;Pipes&quot;.</p>
+<p>Un ejemplo que ilustra bastante bien esto son los programas de consola de linux, los cuales permiten conectar procesos, ¿Cómo?, simplemente uniendo la salida de un proceso con la entrada del otro, usando un pipe</p>
+<p><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--PFgGgzBc--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nqmlevb3ux3wlezl669e.png" alt="pipesLinux"></p>
+<p>Para lo que nosotros los podemos usar es para crear Aplicaciones de Consola, o para enviar comandos a nuestra aplicación que se encuentra ejecutandose ahora mismo.</p>
+<h4 id="documentaci%C3%B3n-oficial-process">Documentación Oficial PROCESS</h4>
+<p>Aquí se encuentra toda la información del módulo:</p>
+<p><a href="https://nodejs.org/docs/latest-v17.x/api/process.html"><img src="https://img.shields.io/badge/Documentacion Oficial-green" alt="PATHMODULE"></a></p>
+<h4 id="importaci%C3%B3n-process">Importación PROCESS</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> process = <span class="hljs-built_in">require</span>(<span class="hljs-string">'process'</span>);
+</div></code></pre>
+<h4 id="m%C3%A9todos-process">Métodos PROCESS</h4>
+<pre class="hljs"><code><div><span class="hljs-built_in">console</span>.log(<span class="hljs-string">'\n P R O C E S S \n'</span>);
+
+<span class="hljs-keyword">const</span> { dir } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'console'</span>);
+<span class="hljs-keyword">const</span> process = <span class="hljs-built_in">require</span>(<span class="hljs-string">'process'</span>); <span class="hljs-comment">//No es necesario, ya que es un objeto global</span>
+
+<span class="hljs-comment">//console.log(process);</span>
+
+<span class="hljs-comment">//Devuelve el directorio en el que se encuentra situada la CLI</span>
+<span class="hljs-comment">// Es similar a __dirname, pero la diferencia es que el anterior es relativo al script o archivo desde donde se llama y .cwd() depende de la consola</span>
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`\nWorking Directory:\n <span class="hljs-subst">${process.cwd()}</span>\n`</span>);
+
+<span class="hljs-comment">//Devuelve un Arreglo con los parametros que enviamos al momento de ejecutar nuestra aplicación con:</span>
+<span class="hljs-comment">// node app.js arg1 arg2 ... argn</span>
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'\nargv:'</span>);
+dir(process.argv);
+
+<span class="hljs-comment">// Devuelve las Environment Variables del sistema donde nos encontramos</span>
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'\nenv:'</span>);
+dir(process.env);
+
+
+<span class="hljs-comment">//Algunas Environment Variables Importantes</span>
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'\nenv.LANG:'</span>);
+dir(process.env.LANG);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'\nenv.TEMP:'</span>);
+dir(process.env.TEMP);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'\nenv.Path:'</span>);
+dir(process.env.Path);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'\nenv.USERNAME:'</span>);
+dir(process.env.USERNAME);
+
+<span class="hljs-comment">// Devuelve el Process IDentifier, este es un numero que el sistema operativo le asigna a nuestro proceso de Node</span>
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'\nprocess.pid:'</span>);
+<span class="hljs-built_in">console</span>.log(process.pid);
+
+<span class="hljs-comment">// Entrada de datos por consola</span>
+<span class="hljs-comment">//console.log('\n stdin:');</span>
+<span class="hljs-comment">//console.log(process.stdout.write('holaaaaa\n'));</span>
+
+<span class="hljs-comment">// Event Listener</span>
+
+
+
+<span class="hljs-comment">//  Como dijimos antes, el módulo permite manejar eventos que ocurren durante la ejecución del proceso o programa</span>
+<span class="hljs-comment">// En este caso el metodo process.on es un event listener y el evento 'exit' se queda esperando a que el proceso haya realizado todas las tareas para ejecutar una callback</span>
+
+process.on(<span class="hljs-string">'exit'</span>, (code) =&gt; {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Codigo de Salida: <span class="hljs-subst">${code}</span>`</span>);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Saliendo del Programa, estas es la ultima linea'</span>);
+})
+ 
+<span class="hljs-comment">// Metodos para terminar el proceso</span>
+
+<span class="hljs-comment">// 1. Utilizando un event Listener (Como vimos antes)</span>
+
+<span class="hljs-comment">//2. process.exit(code): este metodo termina el proceso abrutamente, permite pasar por parametro un codigo que sera devuelto al sistema para indicar porqué terminó. Vease la tabla de codigos de salida.</span>
+
+<span class="hljs-comment">/* process.exit(1); */</span>
+
+<span class="hljs-comment">// 3. process.kill(pid,signal): Este método envia una señal al proceso que coincida con el PÏD que pasamos como argumento, las señales indican eventos, por lo que el proceso puede realizar logica en base a la señal que reciba</span>
+
+<span class="hljs-comment">/* process.kill(process.pid,'SIGKILL'); */</span>
+
+<span class="hljs-comment">// La señal se maneja con process.on(event,callback)</span>
+
+<span class="hljs-comment">/* process.on('SIGKILL', ()=&gt;{
+    console.log('Lo recibí che');
+}) */</span>
+
+<span class="hljs-comment">// 4. process.abort(): Funciona como exit pero la diferencia es que este devuelve un core file. El core file es un instancia representada en texto que muestra las variables que se encontraban en memoría hasta el momento de la finalizacion.</span>
+
+<span class="hljs-comment">/* process.abort() */</span>
+
+<span class="hljs-comment">// ESCRIBIR Y LEER EN CONSOLA (P R O C E S S)</span>
+<span class="hljs-comment">// Tenemos que saber que las propeidades que vamos a ver para realizar estas operaciones devuelven objetos streams y es con esos con los que operamos al final</span>
+
+<span class="hljs-comment">// Escribir por Consola</span>
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'\nprocess.stdout:'</span>);
+process.stdout.write(<span class="hljs-string">'Hola Che'</span>);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'\n\n+------------+ \n'</span>);
+
+<span class="hljs-comment">// Leer por consola</span>
+process.stdin.on(<span class="hljs-string">'data'</span>, (data)=&gt;{
+    process.stdout.write(<span class="hljs-string">`process.stdout.write(): <span class="hljs-subst">${data}</span>`</span>);
+
+    <span class="hljs-comment">// Errores por consola</span>
+    process.stderr.write(<span class="hljs-string">'Error: esto es un error por consola :D'</span>)
+})
+</div></code></pre>
+<h3 id="http-module">HTTP MODULE</h3>
+<p>Antes de entrar de explicar el modulo como tal y sus métodos necesitamos enteder y conocer varios conceptos relacionados con redes y protocolos.</p>
+<h4 id="modelo-osi">Modelo OSI</h4>
+<p>Debido a la cantidad de fabricantes que existen en el mercado informatico, tanto de software, como de hardware, es que se necesitó crear algun tipo de regla para la comunicación entre los disntintos componentes.</p>
+<p>Cuando hablamos de redes informaticas, hoy en dia estas se basan en distintos protocolos para comunicar disntintos tipos de componentes y distintos formas de infomación.</p>
+<blockquote>
+<p>&quot;El modelo de interconexión de sistemas abiertos (ISO/IEC 7498-1), conocido como “modelo OSI”, (en inglés, Open Systems Interconnection) <strong>es un modelo de referencia</strong> para los protocolos de la red (no es una arquitectura de red)&quot;</p>
+</blockquote>
+<p>Como su propia definicion indica, es un modelo de referencia, por lo que, los fabricantes no estan obligados a adoptarlo, aunque hoy en dia ya esta siendo utilizado por la mayoria de companias.</p>
+<p>Este agrupa protocolos, formas de organizar, llamar y tratar a la información. He aqui un pequeño esquema:</p>
+<p><img src="https://programacionfacil.org/blog/wp-content/uploads/2021/08/capas_osi.png" alt="OSI"></p>
+<p>El modelo trabaja de la siguiente manera: Se organiza por capaz o niveles, de los cuales el primero es el de mayor complejidad y el primero es mas sencillo o parecido a nuestro lenguaje. Cada nivel tiene su propia forma de tratar y nombrar a la información con la trabaja (Unidad de datos).</p>
+<p>Cada nivel trabaja con sus propios protocolos y dispositivos de red. Por ejemplo en el nivel físico, aparecen los bits, las señales electricas, los cables de ethernet, y cualquier otro medio que se utilicé para el envio de datos binarios.</p>
+<p>Mientras que en el nivel de aplicación, como su nombre lo indica, aparecen los protocolos que usamos comunmente</p>
+<p><img src="https://static.platzi.com/media/user_upload/Captura de Pantalla 2022-01-26 a la(s) 7.18.25 p.m.-c9668c1c-6cea-4114-a78f-a37d97f00bea.jpg" alt="modeloOsi-componentes"></p>
+<p>Con respecto a los paquetes de información, podemos decir que este sistema es similar a los sistemas de envios de cartas de la <em><strong>vida real</strong></em>. En el que cada nivel añade su parte de información que debera ser tratada en el nivel par, esto quiere decir que, si nivel de red del TRANSMISOR añade al paquete, la IP del destinatario, entonces cuando el paquete llegué al RECEPTOR su nivel de red debera realizar las operaciones pertinentes para verificar que esa IP se corresponde con la de la maquina actual.</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/9/90/Modelo_osi.png" alt="paquetes-OSI"></p>
+<p>Mas información:
+<a href="https://es.wikipedia.org/wiki/Modelo_OSI"><img src="https://img.shields.io/badge/Mas Informacion-blue" alt="Modelo Osi"></a></p>
+<h4 id="el-protocolo-tcpip">El Protocolo TCP/IP</h4>
+<blockquote>
+<p>El modelo TCP/IP es usado para comunicaciones en redes y, como todo protocolo, describe un conjunto de guías generales de operación para permitir que un equipo pueda comunicarse en una red. TCP/IP provee conectividad de extremo a extremo especificando cómo los datos deberían ser formateados, direccionados, transmitidos, enrutados y recibidos por el destinatario.</p>
+</blockquote>
+<p>TCP/IP está compuesto por dos protocolos principales: el Protocolo de Control de Transmisión (TCP) y el Protocolo de Internet (IP).</p>
+<ol>
+<li>
+<p>TCP/IP: Es el encargado de controlar la integridad y el orden en el que llegan los datos, fragmenta el mensaje en pequeños paquetes y si algún paquete se pierde en la transmisión, el TCP lo detecta y lo vuelve a enviar.</p>
+</li>
+<li>
+<p>IP: Es el encargado de enviar los paquetes a traves de la red, determina la ruta, y asegura que el paquete llegue al destino.</p>
+</li>
+</ol>
+<p>Otros protocolos que forman parte de TCP/IP son:</p>
+<ul>
+<li>
+<p>DNS(Domain Name System): Que permite traducir los nombre de dominios alojados en los distintos servidores DNS. Los nombres de dominios son direcciones de texto que se corresponden a una direccion IP en especifico. Por ejemplo <em>www.google.com</em> = <em>64.233.191.255</em>, la primera es el nombre de dominio y la segunda la dirección IP.</p>
+</li>
+<li>
+<p>FTP: (File Transfer Protocol): Como su nombre lo indica permite transferir archivos, algo a destacar es que este protocolo no se encuentra cifrado, por lo que no es seguro. En cambio podemos utilizar SFTP (Secure File Transfer Protocol) o FTPS (File Transfer Protocol sobre SSL/TLS).</p>
+</li>
+<li>
+<p>UDP: (User Datagram Protocol): Este protocolo sería el opuesto al TCP, no controla la integridad ni el flujo de los paquetes de datos, al no verificar la integridad de los paquetes que llegan ni el orden, no podemos confiar que los datos lleguen de la forma correcta, pero esto lo compensa con su alta velocidad a la hora de realizar la transmisión de los paquetes.</p>
+</li>
+</ul>
+<p>El modelo TCP/IP tambien se divide por capas o niveles, al igual que el modelo OSI. Existe una relación entre las capas del modelo OSI y el TCP/IP, ya que comparten protocolos.</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/7/79/TCPIP_Model.jpg" alt="OSI/TCPIP">;</p>
+<p>En el caso del TCP/IP, las capas son:</p>
+<ol>
+<li>
+<p>Interfaz de Red o Acceso: Esta capa establece el tipo de conexión entre 2 dispositivos, si la conexión sera por Ethernet, WiFi o PPP.</p>
+</li>
+<li>
+<p>Red: Se encarga de realizar conexion entre redes diferentes y ademas es la que verifica que el paquete llegué a destino. Aqui aparece el protocolo IP.</p>
+</li>
+<li>
+<p>Transporte: Es la que controla el flujo, detección, corrección de errores, segmentación y reensamblado de los paquetes. Aqui aparece TCP y UDP.</p>
+</li>
+<li>
+<p>Aplicación: En esta capa se define la estructura del mensaje a enviar, los servicios a utilizar y la forma de transmisión. En ella se incluyen HTTP (Hypertext Transfer Protocol), SMTP (Simple Mail Transfer Protocol) y FTP (File Transfer Protocol).</p>
+</li>
+</ol>
+<p>Ahora, una vez que conocemos las &quot;reglas&quot; de la web e internet, estamos habilitados para hablar del protocolo que nos va a permitir realizar las operaciones escenciales que forman parte de las paginas web.</p>
+<h4 id="el-protocolo-http">El Protocolo HTTP</h4>
+<p>Páginas Interesantes: <a href="https://developer.mozilla.org/es/docs/Web/HTTP/Overview#%C2%BFqu%C3%A9_se_puede_controlar_con_http">MDN</a>, <a href="https://es.wikipedia.org/wiki/Protocolo_de_transferencia_de_hipertexto#C%C3%B3digos_de_respuesta">WIKIPEDIA</a></p>
+<p>Como indicamos antes, este protocolo forma parte de la capa de aplicación (tanto de OSI como de TCP/IP), y como mencionamos en esta se nos habilita a estructurar la forma de los mensajes que enviamos. Pues bien, este protocolo lo que nos permite es realizar la transmisión de documentos hipermedia o hipertexto.</p>
+<p>Hipermedia o hipertexto es una estructura <strong>no secuencial</strong> que permite crear, agregar, <strong>enlazar</strong> y compartir información de <strong>diversas fuentes</strong> por medio de <strong>enlaces</strong> asociativos y redes sociales. La forma más habitual de hipertexto en informática es la de hipervínculos o referencias cruzadas automáticas que van a otros documentos (lexías).</p>
+<p>Basandonos en la definición anterior podemos darnos cuenta, que nos referimos a archivos HTML y XML. Ahora bien, no necesariamente tienen que ser este tipo de documentos, tambien podemos enviar imagenes, audio, y otros.</p>
+<p>El protocolo HTTP se basa en el <strong>MODELO CLIENTE-SERVIDOR</strong>, este no es mas ni menos que la forma en la cual se comunican los dispositivos. Normalmente cuando lo utilizamos realizamos peticiones (HTTP REQUESTS) a un servidor web, el cual procesa la petición y nos devuelve una respuesta (HTTP RESPONSE). Algo importante a marcar es que en este modelo, <strong>SIEMPRE</strong> la comunicación la inicia el cliente. Mas adelante presentaremos otro método que nos permitira realizar peticiones en ambas direcciones.</p>
+<p><img src="https://miro.medium.com/max/853/1*MoxFEabKGx6NxlKoZ0lXJQ.png" alt="HTTPExplicación"></p>
+<p>Las 2 entidades que se presentan en este modelo son: el cliente, que lo llamaremos Agente de Usuario, y el Servidor Web.</p>
+<ul>
+<li>
+<p>El Agente de Usuario: Es cualquier herramienta o interfaz que le permita la usuario realizar las peticiones al servidor, por lo general este es el <strong>navegador</strong>, aunque bien podria ser, por ejemplo, <strong>Postman</strong>. Si utilizamos un navegador, este se encargará de realizar varias peticiones para traer todos los elementos necesarios para mostrar o utilizar para el recurso al que estamos accediendo (La Pagina Web).</p>
+</li>
+<li>
+<p>El Servidor Web: Como dijimos, es aquel que procesa las peticiones y el que se encarga de enviar los datos al Agente de Usuario.</p>
+</li>
+</ul>
+<h4 id="caracter%C3%ADsticas-de-http">Características de HTTP</h4>
+<ul>
+<li>
+<p>Sencillez: Conceptualmente y Estructuralmente es un protocolo simple de procesar y de entender. Por lo que no tiene muchos requisitos para ser utilizado, ya sea, por distintos agentes o aplicaciones.</p>
+</li>
+<li>
+<p>Extensible: Gracias a su estructura este puede ser facilmente utilizado para distintos propositos y permite <strong>añadir nuevas funcionalidades</strong>.</p>
+</li>
+<li>
+<p>Existen Sesiones pero No Estados: Esto quiere decir que entre las distintas peticiones de un misma sesion, HTTP no guarda información, un ejemplo sencillo es el caso de los carritos de compras en los e-commerce. Pero si permite crear dichas sesiones para dar un cierto contexto a las páginas (Cookies).</p>
+</li>
+<li>
+<p>Conexiones: Ya que es un protocolo de la capa de aplicación, este puede hacer uso de TCP, para controlar el flujo de datos y para la deteccion de errores en los mensajes.</p>
+</li>
+</ul>
+<h4 id="como-trabaja-http">Como trabaja HTTP</h4>
+<p>A continuación vamos a describir el modo en el que opera HTTP.</p>
+<ol>
+<li>
+<p>Usamos TCP para establecer o reutilizar conexiones existentes con el Servidor con el se comunicará</p>
+</li>
+<li>
+<p>Realizar la petición HTTP (Request)</p>
+</li>
+<li>
+<p>Esperar la respuesta del servidor (Response)</p>
+</li>
+<li>
+<p>Se cierra la conexión TCP o se rehusa</p>
+</li>
+</ol>
+<h4 id="estructura-http">Estructura HTTP</h4>
+<pre class="hljs"><code><div>GET / HTTP/1.1 Host: developer.mozilla.org Accept-Language: fr
+</div></code></pre>
+<pre class="hljs"><code><div>HTTP/1.1 200 OK
+Date: Sat, 09 Oct 2010 14:28:02 GMT
+Server: Apache
+Last-Modified: Tue, 01 Dec 2009 20:18:22 GMT
+ETag: "51142bc1-7449-479b075b2891b"
+Accept-Ranges: bytes
+Content-Length: 29769
+Content-Type: text/html
+
+&lt;!DOCTYPE html... (here comes the 29769 bytes of the requested web page)
+</div></code></pre>
+<p><img src="https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview/http_request.png" alt="EstructuraPeticion"></p>
+<p><img src="https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview/http_response.png" alt="EstructuraPeticion2"></p>
+<p>Las Peticiones (Requests) y Respuestas (Response) de HTTP tienen una estructura que se divide en:</p>
+<p><strong>Primera Línea:</strong> Es la que lleva la información del protocolo y la información fundamental para realizar la operación, en el caso de que sea una petición se aclara la version de HTTP, el METODO HTTP y el recurso al que se quiere acceder (Ruta). Y en el caso de las respuestas se muestra la version de HTTP y el CODIGO de la RESPUESTA.</p>
+<p><strong>Encabezados/Cabeceras:</strong> Aqui se guardan los metadatos del mensaje, cada cabecera tiene un nombre y un valor asignado, al ser una estructura tan simple esta puede mutar y pueden aparecer nuevos datos. Algunos de los datos que pueden aparecer son:</p>
+<ul>
+<li>
+<p>Cabeceras que indican las capacidades aceptadas por el que envía el mensaje: Accept (indica el MIME aceptado), Accept-Charset (indica el código de caracteres aceptado), Accept-Encoding (indica el método de compresión aceptado), Accept-Language (indica el idioma aceptado), User-Agent (para describir al cliente), Server (indica el tipo de servidor), Allow (métodos permitidos para el recurso)
+Cabeceras que describen el contenido: Content-Type (indica el MIME del contenido), Content-Length (longitud del mensaje), Content-Range, Content-Encoding, Content-Language, Content-Location.</p>
+</li>
+<li>
+<p>Cabeceras que hacen referencias a URIs: Location (indica donde está el contenido), Referer (Indica el origen de la petición).</p>
+</li>
+<li>
+<p>Cabeceras que permiten ahorrar transmisiones: Date (fecha de creación), If-Modified-Since, If-Unmodified-Since, If-Match, If-None-Match, If-Range, Expires, Last-Modified, Cache-Control, Via, Pragma, Etag, Age, Retry-After.</p>
+</li>
+<li>
+<p>Cabeceras para control de cookies: Set-Cookie, Cookie</p>
+</li>
+<li>
+<p>Cabeceras para autentificación: Authorization, WW-Authenticate</p>
+</li>
+<li>
+<p>Cabeceras para describir la comunicación: Host (indica máquina destino del mensaje), Connection (indica como establecer la conexión)
+Otras: Range (para descargar solo partes del recurso), Max-Forward (límite de cabeceras añadidas en TRACE).</p>
+</li>
+</ul>
+<p><strong>Cuerpo/Body:</strong>  Esto representa la respuesta como tal por parte del servidor, al cliente. Aqui pueden aparecer tanto HTML, XML, JSON, PLAINTEXTS como archivos MULTIMEDIA.</p>
+<p><img src="https://plataforma.josedomingo.org/pledin/cursos/apache24/curso/u01/img/dia1.png" alt="HTTPESTRUCTURA"></p>
+<h4 id="m%C3%A9todos-http">Métodos HTTP</h4>
+<p>Los métodos HTTP indican el tipo de acciones y las caracteristica de la petición HTTP. Debido a las caracterísiticas mencionadas anteriormente, los cantidad de métodos tambien han aumentado a lo largo del tiempo. Pero ahora vamos a presentar los mas importantes:</p>
+<ul>
+<li>
+<p>GET: Pide un recurso en especifico, solo recupera datos.</p>
+</li>
+<li>
+<p>POST: Envia datos para ser procesados por un recurso (un recurso puede ser un archivo o programa corriendo en el servidor), además los datos se incluyen en el cuerpo de la peticion y no en la URL (Como si ocurre con GET).</p>
+</li>
+</ul>
+<p><img src="https://programacion7ulatsaavas.files.wordpress.com/2016/06/web-crawling-scraping-ajax-sites-3-638.jpg" alt="GETvsPOST"></p>
+<ul>
+<li>
+<p>PUT: Tambien envia datos, pero no se hace referencia al recurso que lo procesara en la URL. Además esta orientado a actualizar datos ya existentes, a diferencia de POST, que esta orientado a crear nuevos datos.</p>
+</li>
+<li>
+<p>DELETE: Como su nombre lo indica, borra un recurso especificado por la URL.</p>
+</li>
+<li>
+<p>OPTIONS: Espera los métodos HTTP que soporta la URL que indicamos</p>
+</li>
+<li>
+<p>HEAD: Funciona como un GET, pero omite el cuerpo, solo trae las cabeceras (Sirve para &quot;simular&quot; un GET).</p>
+</li>
+</ul>
+<p>Hay muchos mas métodos pero estos son los mas importantes, si desea verificar o conocer los demas, visite la documentacion oficial:</p>
+<p><a href="rfc-editor.org/rfc/rfc2616#page-54"><img src="https://img.shields.io/badge/Documentacion Oficial-blue" alt="HTTP"></a></p>
+<p><img src="https://tecsify.com/blog/wp-content/uploads/2022/08/MetodosHTTP-1.jpg" alt="METODOSHTTP"></p>
+<p><img src="https://miro.medium.com/max/1018/0*XB5zwH2FMnsOh7tc.png" alt="METODOSHTTP2"></p>
+<h4 id="c%C3%B3digos-de-respuestas-http">Códigos de respuestas HTTP</h4>
+<h4 id="versiones-de-http">Versiones de HTTP</h4>
+<p>Video Interesante: <a href="https://www.youtube.com/watch?v=a-sBfyiXysI">HTTP/1 to HTTP/2 to HTTP/3 | ByteByteGo</a></p>
+<h4 id="documentaci%C3%B3n-oficial-http">Documentación Oficial HTTP</h4>
+<p>Aquí se encuentra toda la información del módulo:</p>
+<p><a href="https://nodejs.org/dist/latest-v18.x/docs/api/http.html"><img src="https://img.shields.io/badge/Documentacion Oficial-green" alt="HTTP"></a></p>
+<h4 id="importaci%C3%B3n-http">Importación HTTP</h4>
+<h4 id="metodos-http">Metodos HTTP</h4>
+
+</body>
+</html>

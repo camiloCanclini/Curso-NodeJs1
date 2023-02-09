@@ -1663,7 +1663,7 @@ Ahora, una vez que conocemos las "reglas" de la web e internet, estamos habilita
 
 #### El Protocolo HTTP
 
-Página Interesante: [MDN](https://developer.mozilla.org/es/docs/Web/HTTP/Overview#%C2%BFqu%C3%A9_se_puede_controlar_con_http)
+Páginas Interesantes: [MDN](https://developer.mozilla.org/es/docs/Web/HTTP/Overview#%C2%BFqu%C3%A9_se_puede_controlar_con_http), [WIKIPEDIA](https://es.wikipedia.org/wiki/Protocolo_de_transferencia_de_hipertexto#C%C3%B3digos_de_respuesta)
 
 Como indicamos antes, este protocolo forma parte de la capa de aplicación (tanto de OSI como de TCP/IP), y como mencionamos en esta se nos habilita a estructurar la forma de los mensajes que enviamos. Pues bien, este protocolo lo que nos permite es realizar la transmisión de documentos hipermedia o hipertexto.
 
@@ -1693,10 +1693,118 @@ Las 2 entidades que se presentan en este modelo son: el cliente, que lo llamarem
 
 #### Como trabaja HTTP
 
-#### Mensajes HTTP
+A continuación vamos a describir el modo en el que opera HTTP.
+
+1. Usamos TCP para establecer o reutilizar conexiones existentes con el Servidor con el se comunicará
+
+2. Realizar la petición HTTP (Request)
+
+3. Esperar la respuesta del servidor (Response)
+
+4. Se cierra la conexión TCP o se rehusa
+
+#### Estructura HTTP
+
+```SHELL
+GET / HTTP/1.1 Host: developer.mozilla.org Accept-Language: fr
+```
+
+```SHELL
+HTTP/1.1 200 OK
+Date: Sat, 09 Oct 2010 14:28:02 GMT
+Server: Apache
+Last-Modified: Tue, 01 Dec 2009 20:18:22 GMT
+ETag: "51142bc1-7449-479b075b2891b"
+Accept-Ranges: bytes
+Content-Length: 29769
+Content-Type: text/html
+
+<!DOCTYPE html... (here comes the 29769 bytes of the requested web page)
+```
+
+![EstructuraPeticion](https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview/http_request.png)
+
+![EstructuraPeticion2](https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview/http_response.png)
+
+Las Peticiones (Requests) y Respuestas (Response) de HTTP tienen una estructura que se divide en:
+
+**Primera Línea:** Es la que lleva la información del protocolo y la información fundamental para realizar la operación, en el caso de que sea una petición se aclara la version de HTTP, el METODO HTTP y el recurso al que se quiere acceder (Ruta). Y en el caso de las respuestas se muestra la version de HTTP y el CODIGO de la RESPUESTA.
+
+**Encabezados/Cabeceras:** Aqui se guardan los metadatos del mensaje, cada cabecera tiene un nombre y un valor asignado, al ser una estructura tan simple esta puede mutar y pueden aparecer nuevos datos. Algunos de los datos que pueden aparecer son:
+
+* Cabeceras que indican las capacidades aceptadas por el que envía el mensaje: Accept (indica el MIME aceptado), Accept-Charset (indica el código de caracteres aceptado), Accept-Encoding (indica el método de compresión aceptado), Accept-Language (indica el idioma aceptado), User-Agent (para describir al cliente), Server (indica el tipo de servidor), Allow (métodos permitidos para el recurso)
+Cabeceras que describen el contenido: Content-Type (indica el MIME del contenido), Content-Length (longitud del mensaje), Content-Range, Content-Encoding, Content-Language, Content-Location.
+* Cabeceras que hacen referencias a URIs: Location (indica donde está el contenido), Referer (Indica el origen de la petición).
+
+* Cabeceras que permiten ahorrar transmisiones: Date (fecha de creación), If-Modified-Since, If-Unmodified-Since, If-Match, If-None-Match, If-Range, Expires, Last-Modified, Cache-Control, Via, Pragma, Etag, Age, Retry-After.
+
+* Cabeceras para control de cookies: Set-Cookie, Cookie
+
+* Cabeceras para autentificación: Authorization, WW-Authenticate
+
+* Cabeceras para describir la comunicación: Host (indica máquina destino del mensaje), Connection (indica como establecer la conexión)
+Otras: Range (para descargar solo partes del recurso), Max-Forward (límite de cabeceras añadidas en TRACE).
+
+**Cuerpo/Body:**  Esto representa la respuesta como tal por parte del servidor, al cliente. Aqui pueden aparecer tanto HTML, XML, JSON, PLAINTEXTS como archivos MULTIMEDIA.
+
+![HTTPESTRUCTURA](https://plataforma.josedomingo.org/pledin/cursos/apache24/curso/u01/img/dia1.png)
+
+#### Métodos HTTP
+
+Los métodos HTTP indican el tipo de acciones y las caracteristica de la petición HTTP. Debido a las caracterísiticas mencionadas anteriormente, los cantidad de métodos tambien han aumentado a lo largo del tiempo. Pero ahora vamos a presentar los mas importantes:
+
+* GET: Pide un recurso en especifico, solo recupera datos.
+
+* POST: Envia datos para ser procesados por un recurso (un recurso puede ser un archivo o programa corriendo en el servidor), además los datos se incluyen en el cuerpo de la peticion y no en la URL (Como si ocurre con GET).
+
+![GETvsPOST](https://programacion7ulatsaavas.files.wordpress.com/2016/06/web-crawling-scraping-ajax-sites-3-638.jpg)
+
+* PUT: Tambien envia datos, pero no se hace referencia al recurso que lo procesara en la URL. Además esta orientado a actualizar datos ya existentes, a diferencia de POST, que esta orientado a crear nuevos datos.
+
+* DELETE: Como su nombre lo indica, borra un recurso especificado por la URL.
+
+* OPTIONS: Espera los métodos HTTP que soporta la URL que indicamos
+
+* HEAD: Funciona como un GET, pero omite el cuerpo, solo trae las cabeceras (Sirve para "simular" un GET).
+
+Hay muchos mas métodos pero estos son los mas importantes, si desea verificar o conocer los demas, visite la documentacion oficial:
+
+[![HTTP](https://img.shields.io/badge/Documentacion%20Oficial-blue)](rfc-editor.org/rfc/rfc2616#page-54)
+
+![METODOSHTTP](https://tecsify.com/blog/wp-content/uploads/2022/08/MetodosHTTP-1.jpg)
+
+![METODOSHTTP2](https://miro.medium.com/max/1018/0*XB5zwH2FMnsOh7tc.png)
+
+#### Códigos de respuestas HTTP
+
+Los codigos de respuestas funcionan "Pre-Respuesta" para el cliente. Estos indican el estado de la petición que se realizó, como desarrolladores nos permite conocer que fué lo que ocurrió con la petición, y en caso de haber algun error o advertencia, saber desde donde se disparó.
+
+![CodigosHTTP](https://plataforma.josedomingo.org/pledin/cursos/apache24/curso/u01/img/dia2.png)
+
+* Códigos con formato 1xx: Respuestas informativas. Indica que la petición ha sido recibida y se está procesando.
+* Códigos con formato 2xx: Respuestas correctas. Indica que la petición ha sido procesada correctamente.
+* Códigos con formato 3xx: Respuestas de redirección. Indica que el cliente necesita realizar más acciones para finalizar la petición.
+* Códigos con formato 4xx: Errores causados por el cliente. Indica que ha habido un error en el procesado de la petición a causa de que el cliente ha hecho algo mal.
+* Códigos con formato 5xx: Errores causados por el servidor. Indica que ha habido un error en el procesado de la petición a causa de un fallo en el servidor.
+
+* 300: Significa que la petición enviada tiene multiples respuestas, y el usuario debe elegir una.
+
+* 301: Significa que la URL a la que estamos accediendo a cambiado PERMANENTEMENTE, por lo que nuestro agente deberia "desagendar" esta ruta y enviar una nueva solicitud a la nueva ruta devuelta por el servidor (la cual viene en el encabezado con el codigo 301)
+
+* 302: Significa que la URL a la que estamos accediendo a cambiado TEMPORALMENTE, por lo que, en este caso, nuestro agente NO "desagenda" la ruta original pero vuelve enviar una nueva solicitud con la nueva ruta devuelta por el servidor (la cual viene en el encabezado con el codigo 302). Por ejemplo, se utiliza para cuando la pagina principal esta en mantenimiento y necesitamos redirigir a los clientes a una pagina secundaria.
+
+* 304:  Es un código de respuesta utilizado para indicar que un recurso solicitado no ha sido modificado desde la última vez que se solicitó. Cuando un cliente envía una solicitud a un servidor, a menudo incluye un encabezado "If-Modified-Since" o "If-None-Match" que especifica la fecha y la hora de la última vez que se solicitó el recurso o la identificación de la versión del recurso. Si el recurso no ha cambiado desde la última vez que se solicitó, el servidor devuelve una respuesta con un código de estado HTTP 304. La respuesta HTTP 304 no incluye el cuerpo de la respuesta, ya que el cliente ya tiene una copia actualizada del recurso en su caché.
+
+* 401: El usuario no esta logeado o no tiene permisos para acceder al recurso, o sea, faltan credenciales. Se puede solucionar logueandose.
+
+* 403: El usuario peude estar logueado, pero el servidor rechaza enviarle una respuesta.
+
+* 404: De los mas comunes, indica que el recurso al que queremos acceder no existe, puede deberse a un error de tipeo de la URL que enviamos como petición o el recurso puede haber sido borrado del servidor.
 
 #### Versiones de HTTP
- Video Interesante: ![HTTP/1 to HTTP/2 to HTTP/3 | ByteByteGo](https://www.youtube.com/watch?v=a-sBfyiXysI)
+
+ Video Interesante: [HTTP/1 to HTTP/2 to HTTP/3 | ByteByteGo](https://www.youtube.com/watch?v=a-sBfyiXysI)
+ 
 #### Documentación Oficial HTTP
 
 Aquí se encuentra toda la información del módulo:
