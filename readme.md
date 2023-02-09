@@ -1803,7 +1803,126 @@ Los codigos de respuestas funcionan "Pre-Respuesta" para el cliente. Estos indic
 
 #### Versiones de HTTP
 
- Video Interesante: [HTTP/1 to HTTP/2 to HTTP/3 | ByteByteGo](https://www.youtube.com/watch?v=a-sBfyiXysI)
+Debido a que HTTP es un protocolo que apareció en los inicios de la web, este se a ido actualizando para cumplir con las demandas del mercado, gracias a su naturaleza es que se la podido añadir nuevas funcionalidades.
+
+Vamos a divirdir esta seccion en 2, por un lado hablaremos de HTTPS y encriptación, y por el otro, hablaremos del protocolo como tal (HTTP1,HTTP2 y HTTP3)
+
+#### HTTPS
+
+Seguramente este nombre te resulte familiar, y es que estas siglas son las que comunmente aparecen en las páginas que visitamos dia a dia, y cuando no estan, el navegador advierte que la página es insegura. 
+
+Pero por qué ocurre esto?
+
+Pensemos en el siguiente ejemplo:
+
+* El protocolo HTTP nos permite enviar y recibir información de un servidor.
+  
+* Y ademas sabemos que el paquete tiene que a travesar varios nodos de internet para llegar al destino.
+  
+Ahora, imaginemos que estamos comunicandonos con el servidor de un banco o un e-commerce, ¿ Qué pasaria si nosotros enviamos una petición con las credenciales de nuestra tarjeta de credito al servidor sin ningun tipo de encriptación previa?. 
+Pues bien, ya que el paquete viaja por internet, y en internet no todos son buenas personas, podria ocurrir que el paquete sea interceptado por un atacante y este descubra esa información confidencial.
+
+![Hacker](https://cio.com.mx/wp-content/uploads/2021/12/man-in-the-middle-ataque.jpg)
+
+Para solucionar esto, es que aparece la **encriptación de paquetes**.
+
+#### SSL y TLS
+
+Si hablamos de encriptación, podemos hablar largo y tendido, pero para este curso vamos a centrarnos en lo básico. Cuando queremos que nuestra comunicación sea segura y queremos hacer uso de las funcionalidades de HTTP, podemos utilizar HTTPS (HiperText Transfer Protocol Secure). Este no es más que el protoclo HTTP sumado a algun protocolo de encriptación, en este caso, SSL/TLS.
+
+![HTTPS](https://cdn-media-1.freecodecamp.org/images/0*wUTFJrRSM2vh1H7v.jpg)
+
+Ahora, ¿Qué es **SSL** y **TLS**?. Los 2 son protocolos que se utilizan para la encriptación de datos que seran enviados por la web, el cómo lo hacen y el proceso lo explicaremos a continuación, pero primero te diremos la diferencia. La diferecia entre SSL (Secure Sockets Layer) y TLS (Transport Layer Security) es que el segundo es la versión actualizada del primero, ya que el SSL tenía vulnerabilidades en su diseño es que se decidió reinventar y mejorar en TLS, ofreciendo este, mejoras en sus algoritmos de encriptación y autenticidad, entre otras cosas.
+Lo que tiene que quedar claro son 2 cosas:
+
+1. SSL/TLS: Se podria decir que son **casi** el mismo protocolo.
+2. Hoy en dia se usa TLS, ya que ofrece una más seguridad.
+
+#### Encriptación con Claves Simétricas y Asimétricas
+
+El proceso de encriptación que vamos a presentar, es uno de las conocidos, pero no es el único. Las claves no son mas que llaves que desbloquean datos cifrados, como si esto ultimo fuera un candado. Ahora bien tenemos 2 formas de operar, Claves Simétricas o Asimétricas.
+
+**Claves SIMÉTRICAS**
+Las 2 entidades que establecen comunicación (Cliente y Servidor), tienen la misma llave. Se ponen de acuerdo y establecen una llave en comun y cifran los datos basandoce en esa clave. ¿El problema?, Si un atacante se encuentra escuchando en el momento que establecemos la clave o si la descifra, la comunicación se vuelve vulnerable.
+![ClavesSimétricas](https://jesusfernandeztoledo.com/wp-content/uploads/2020/11/word-image.png).
+
+**Claves ASIMÉTRICAS**
+Para solucionar la vulnerabilidad anterior y mejorar la seguridad, cuando hablamos de ASIMETRÍA nos estamos refiriendo a que usaremos 2 claves y 2 candados para realizar la encripatción. Imaginemos que, ahora, el cliente tiene 2 claves
+
+* **Clave Publica**: Todos pueden verla y todos la conocen (Incluido un Atacante) pero solo sirve para CIFRAR el dato.
+
+* **Clave Privada**: Solo puede verla y conocerla la persona que la genera (en este caso, el cliente), y además esta es la ÚNICA que puede DESCIFRAR los datos CIFRADOS por la **clave pública**.
+
+**Estas 2 claves se generan juntas y se encuentran relacionadas una con la otra**
+
+Ahora, por otro lado, el servidor tambien tiene una clave publica y privada, que funcionan exactamente igual que las del cliente. Con el agregado de que este poseé un certificado de autenticación, el cual es un archivo que entregado por una autoridad de confianza que certica que el servidor es seguro. Este certificado contiene la llave pública del servidor
+
+¿Cómo Funciona?
+
+1. **Handshake Inicial**: El cliente y el servidor intercambian información sobre los protocolos de seguridad que soportan y el tipo de cifrado que se utilizará. El servidor envía su certificado con la clave pública para establecer la confianza.
+
+2. **Verificación del Certificado**: El cliente verifica la validez del certificado del servidor utilizando una autoridad de certificación (CA) que se encuentra en su lista de confianza. La verificación incluye el nombre del servidor, la fecha de validez y la autoridad de certificación que lo emitió.
+
+3. **Intercambio de Claves**: Una vez que se ha establecido la confianza, el cliente utiliza la **clave pública del servidor** para cifrar la información, y le envia la clave su propia clave pública (La del cliente).  A partir de este momento, **si el servidor es el autentico**, podra decifrar el mensaje, ya que los datos que le han llegado estan cifrados con **su clave pública**, y como **solo él** conoce porque tiene su clave privada.
+
+4. **Cifrado de Datos**: Ahora solo resta que el servidor envié los datos que el cliente solicité, **cifrándolos con la clave púlica del cliente**, por ende, **si el cliente es el autentico**, podra ser descifra la información su **propia clave privada**.
+
+![Simetria](https://sadnocturno.files.wordpress.com/2016/02/cifrado-de-clave-publica2.jpg)
+
+**Video Interesante:** [Encriptación (Cifrado) Simétrica y Asimétrica - Explicado Fácilmente | PROFE SANG](https://www.youtube.com/watch?v=wDpqrasDmxM)
+
+#### HTTP 1.0, 2.0, 3.0
+
+* HTTP/0.9: La primera versión de HTTP, lanzada en 1991. Es muy simple y sólo permite la solicitud y recepción de archivos HTML.
+
+* HTTP/1.0: Lanzada en 1996, esta versión agregó cabeceras y un formato más completo para las solicitudes y respuestas HTTP.
+
+* HTTP/1.1: Lanzada en 1999, esta versión introdujo muchas mejoras importantes, como:
+  
+  1. **Conexiones persistentes**: permite que los clientes mantengan una conexión abierta con el servidor para realizar múltiples solicitudes sin tener que establecer una conexión para cada una. Esto reduce significativamente la sobrecarga en la red y mejora la eficiencia.
+
+   2. **Caché de respuestas:** permite que los clientes almacenen copias locales de respuestas que han sido previamente descargadas para evitar tener que descargar la misma información varias veces.
+
+   3. **Mejora de la gestión de errores:** HTTP/1.1 introdujo una serie de nuevos códigos de estado HTTP para ayudar a los clientes y servidores a manejar errores de manera más efectiva.
+
+   4. **Condiciones de solicitudes y respuestas:** permite que los clientes y servidores interactúen más eficientemente al solicitar y recibir información, utilizando cabeceras adicionales y códigos de estado HTTP.
+   
+   5. **Enrrutamiento (Pipelining)**: Este característica quiere decir que el cliente puede realizar una petición incluso si la petición anterior no ha sido contestada aun.
+
+* HTTP/2: Lanzado en 2015, HTTP/2 es una versión totalmente nueva y más eficiente de HTTP. Introduce conceptos como el multiplexado de solicitudes, la compresión de cabeceras y la mejora de la carga de trabajo del servidor.
+  1. **Multiplexado de solicitudes:** Permite a los clientes enviar múltiples solicitudes en una sola conexión sin tener que esperar a que se reciban las respuestas antes de enviar la siguiente solicitud. Ademas tampoco importa el orden en el que se responden las solicitudes.
+
+  2. **Compresión de cabeceras:** Reduce la cantidad de datos transmitidos en las cabeceras HTTP, lo que mejora la eficiencia de la red.
+
+  3. **Server push:** Permite que el servidor envíe información adicional al cliente que será almacenada como cache antes de que se haya solicitado, lo que mejora la velocidad y la eficiencia de la aplicación.
+
+  4. **Mejora de la gestión de errores:** HTTP/2 introduce una serie de mejoras en la gestión de errores para ayudar a los clientes y servidores a manejar errores de manera más efectiva.
+
+  
+![VersionesHTTP](https://www.researchgate.net/publication/312560536/figure/fig1/AS:718584909148161@1548335401105/Comparison-of-HTTP-versions.jpg)
+
+* HTTP/3: Por otro lado tenemos la última version de este protocolo, existente hasta el dia de la fecha. Esta nueva versión fue desarrollada por Google, con el fin de mejorar la eficiencia de trasmisión de datos. Gracias a los estudios realizados por la compañia es que apareció el protocolo **QUIC**, el cual a dia de hoy, ya es considerado un estandar de la industria y ha comenzado a utilizarce en disntintos servicios de Google.
+
+    **¿Qué es QUIC?**
+
+    Básicamente es un protocolo que se basa en UDP, de ahí su nombre, **Quick UDP Internet Connections**. Si recordamos, UDP es un protocolo utilizado para la transmisión de datos, que en contraposición a TCP, este no verifica la integridad de los datos que recibe, por lo que se vuelve suceptible a errores de trasmisión, pero nos recompensa con una alta velocidad.
+
+    Ahora, QUIC, si bien esta basado en UDP, esta integrado con con funcionalidades que lo vuelven aun mas rapido y mas seguro. Algunas de sus caracteristicas son:
+
+    1. **Cifrado por defecto:** QUIC proporciona una seguridad mejorada, ya que todas las comunicaciones se cifran de forma predeterminada.
+
+    2. **Multiplexado de solicitudes:** QUIC permite que los clientes realicen múltiples solicitudes simultáneamente a través de una única conexión, lo que mejora la eficiencia y reduce la sobrecarga en la red.
+
+    3. **Mejor recuperación de errores:** QUIC incluye mejoras en la recuperación de errores y la gestión de congestión en comparación con TCP.
+
+    4. **Mejor rendimiento:** QUIC es más rápido y eficiente que TCP y UDP, ya que utiliza un enfoque de multiplexación de solicitudes y un mecanismo de reenvío de paquetes más avanzado.
+
+    ![QUIC](https://www.adslzone.net/app/uploads/2019/09/HTTP3.gif)
+    ![QUIC2](https://res.cloudinary.com/practicaldev/image/fetch/s--Yb7iodKh--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/i/11eysceayfj7egt0uxmf.jpg)
+    Video de HTTP/3 Interesante: [INTERNET MÁS RÁPIDO: Todo lo que tienes que saber sobre HTTP/3 | Xataka Basics](https://www.youtube.com/watch?v=jWe_Zf9bxnk&t=1s)
+
+**Página Interesante:** [DEV-MOZILLA | Evolución del Protocolo](https://developer.mozilla.org/es/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP)
+**Video Interesante:** [HTTP/1 to HTTP/2 to HTTP/3 | ByteByteGo](https://www.youtube.com/watch?v=a-sBfyiXysI)
  
 #### Documentación Oficial HTTP
 
