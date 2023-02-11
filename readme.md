@@ -1804,7 +1804,34 @@ Los codigos de respuestas funcionan "Pre-Respuesta" para el cliente. Estos indic
 #### Versiones de HTTP
 
  Video Interesante: [HTTP/1 to HTTP/2 to HTTP/3 | ByteByteGo](https://www.youtube.com/watch?v=a-sBfyiXysI)
- 
+
+#### Sockets
+
+Antes de pasar a ver el módulo como tal, vamos a presentar un último tema que es redundante cuando hablamos de redes infromaticas, y que además, es utilizado por diferentes aplicaciones web. Los **sockets**, o en español enchufes, son mecanismos o *interfaces* de red que permiten a 2 **procesos** o programas disntitos comunicarse, aun si estos se encuentran en disntintas computadoras.
+
+![sockets](https://vteforte.tripod.com/Image10.gif)
+Anteriormente, cuando hablamos del módelo cliente-servidor, dijimos que una de las desventajas de este, es que para que el servidor pueda enviar datos al usuario, este último tiene que solicitárcelos a traves de una petición. Pues bien, una de las principales características de los sockets es que, una vez establecida la conexión entre los procesos, la comunicación se vuelve bidireccional, por lo que, el servidor puede enviar datos, sin tener que esperar a que el usuario la pida.
+
+![sockets2](https://slideplayer.es/slide/1064854/3/images/10/El+Nivel+de+Transporte+en+Internet.jpg)
+
+Con respecto al funcionamiento este es bastante sencillo, para que funcione los, programas, aplicaciones y procesos deben estar alojados en un puerto de nuestra pc. Los puertos vienen de la mano de las direcciones IP.
+
+> ### SOCKET = IP + PORT
+
+Un ejemplo muy sencillo, en donde se utilizan sockets, es en las aplicaciones de mensajeria como WhatsApp, en la cual, nosotros no necesitamos, obligatoriamente, realizar una petición cada vez que nos envian un mensaje, ya que, al utilizar sockets, el servidor nos NOTIFICA cuando hay información y desde ahi, nuestra APLICACION CLIENTE (o el agente) descarga la información.
+
+Por ultimo, los sockets pueden ser de 2 tipos:
+
+* Sockets Streams (TCP): Son sockets que utilizan el TCP para el envio, recepcion y control de paquetes.
+
+* Sockets Datagrams (UDP): Son sockets que utilizan el protocolo UDP, para el envio y recepcion de paquetes.
+
+[Pagina Para Verificar y Conocer Puertos | WIKIPEDIA](https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers)
+
+**Dato importante:** Cada protocolo que hemos visto hasta ahora, son programas que corren en nuestras computadoras, y por ende, cada uno tiene un puerto especifico, de ahi que cuando utilizamos puertos tenemos que verificar si estos no estan ocupados por otras aplicaciones. Un ejemplo sencillo es el caso del protocolo HTTP, que recide en el puerto 80. Si cerracemos este puerto desde consola, por ejemplo, nos quedariamos sin forma de navegar por la web, por lo menos hasta que lo reabramos.
+
+![Puertos](https://i0.wp.com/nksistemas.com/wp-content/uploads/2012/06/puertos.png?ssl=1)
+
 #### Documentación Oficial HTTP
 
 Aquí se encuentra toda la información del módulo:
@@ -1813,4 +1840,48 @@ Aquí se encuentra toda la información del módulo:
 
 #### Importación HTTP
 
+```js
+const http = require('http');
+```
+
+#### Características del módulo HTTP
+
+* Al igual que con el módulo FS, con el módulo HTTP trabajamos los mensajes, peticiones, y respuestas HTTP con Streams y Buffers.
+
+* El mensaje de la petición cuando llega a nuestro servidor llega en forma de objeto, conceptos como el header o cabecera de la peticion puede ser representado de la siguiente manera:
+
+    ```js
+    { 
+    'content-length': '123',
+    'content-type': 'text/plain',
+    'connection': 'keep-alive',
+    'host': 'example.com',
+    'accept': '*/*' 
+    }
+    ```
+
+* Hay mas versiones de este módulo como `http/2` y `https`, pero para fines de este curso tan solo nos centraremos en http, entre los 3 comparten muchos métodos y clases, y como por sus nombres ya podemos intuir que caracteristicas presentan.
+
+* Este módulo trae distintas clases que representan a los conceptos del protocolo http, podemos dividirlos en dos grupos, las clases para servidores y clientes.
+
+  **Clases de Cliente:**
+
+  * **http.Agent:** Representa un conjunto de conexiones HTTP que se pueden reutilizar para realizar solicitudes HTTP. Puedes usar un agente para mejorar la eficiencia de tus solicitudes HTTP, evitando la creación de nuevas conexiones TCP para cada solicitud y reutilizando las conexiones existentes en su lugar.
+
+  * **http.ClientRequest:** Representa una solicitud HTTP enviada desde un cliente. Puedes utilizar esta clase para enviar solicitudes HTTP a un servidor y manejar la respuesta que recibes.
+
+  * **http.IncomingMessage:** Representa una respuesta HTTP recibida por un cliente. Puedes usar esta clase para acceder a los detalles de la respuesta, como el encabezado y los datos de la respuesta.
+  
+  **Clases de Servidor:**
+
+  * **http.Server:** Representa un servidor HTTP. Puedes usar esta clase para crear un servidor HTTP que acepte solicitudes de clientes y envíe respuestas.
+
+  * **http.ServerResponse:** Representa una respuesta HTTP que se enviará desde un servidor. Puedes usar esta clase para construir y enviar una respuesta HTTP desde un servidor.
+
+  * **http.createServer():** Una función que permite crear un servidor HTTP. Esta función crea una instancia de http.Server y asigna un controlador de eventos que se invocará cuando el servidor reciba una solicitud.
+
 #### Metodos HTTP
+
+```js
+
+```
