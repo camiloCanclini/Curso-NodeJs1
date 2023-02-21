@@ -1979,28 +1979,150 @@ const http = require('http');
     }
     ```
 
-* Hay mas versiones de este módulo como `http/2` y `https`, pero para fines de este curso tan solo nos centraremos en http, entre los 3 comparten muchos métodos y clases, y como por sus nombres ya podemos intuir que caracteristicas presentan.
+* Hay mas versiones de este módulo como `http/2` y `https`, pero para fines de este curso tan solo nos centraremos en http, entre los 3 comparten muchos métodos y clases, y como por sus nombres ya podemos intuir que caracteristicas os diferencian.
 
-* Este módulo trae distintas clases que representan a los conceptos del protocolo http, podemos dividirlos en dos grupos, las clases para servidores y clientes.
+* El módulo principal trae distintas clases que representan que actuan como interfaz para realizar las operaciones del protocolo http.
 
-  **Clases de Cliente:**
+Las clases que nos ofrece el módulo son las siguientes:
 
-  * **http.Agent:** Representa un conjunto de conexiones HTTP que se pueden reutilizar para realizar solicitudes HTTP. Puedes usar un agente para mejorar la eficiencia de tus solicitudes HTTP, evitando la creación de nuevas conexiones TCP para cada solicitud y reutilizando las conexiones existentes en su lugar.
+* **http.Agent:** Representa un conjunto de conexiones HTTP que se pueden reutilizar para realizar solicitudes HTTP. Puedes usar un agente para mejorar la eficiencia de tus solicitudes HTTP, evitando la creación de nuevas conexiones TCP para cada solicitud y reutilizando las conexiones existentes en su lugar.
 
-  * **http.ClientRequest:** Representa una solicitud HTTP enviada desde un cliente. Puedes utilizar esta clase para enviar solicitudes HTTP a un servidor y manejar la respuesta que recibes.
+* **http.ClientRequest:** Representa una solicitud HTTP enviada desde un cliente. Puedes utilizar esta clase para enviar solicitudes HTTP a un servidor y manejar la respuesta que recibes.
 
-  * **http.IncomingMessage:** Representa una respuesta HTTP recibida por un cliente. Puedes usar esta clase para acceder a los detalles de la respuesta, como el encabezado y los datos de la respuesta.
-  
-  **Clases de Servidor:**
+* **http.IncomingMessage:** Representa una respuesta HTTP. Puedes usar esta clase para acceder a los detalles de la respuesta, como el encabezado y los datos de la respuesta.
 
-  * **http.Server:** Representa un servidor HTTP. Puedes usar esta clase para crear un servidor HTTP que acepte solicitudes de clientes y envíe respuestas.
+* **http.OutgoingMessage:**: Representa la una petición HTTP, al igual que con la clase anterior, esta nos permite configurar los 'headers' y body de la petición.
 
-  * **http.ServerResponse:** Representa una respuesta HTTP que se enviará desde un servidor. Puedes usar esta clase para construir y enviar una respuesta HTTP desde un servidor.
+* **http.Server:** Representa un servidor HTTP. Puedes usar esta clase para crear un servidor HTTP que acepte solicitudes de clientes y envíe respuestas. Podriamos decir que esta es la clase principal del módulo http de NodeJs, porque es la que permite que nuestra aplicación se comporte y actue como un servidor web.
 
-  * **http.createServer():** Una función que permite crear un servidor HTTP. Esta función crea una instancia de http.Server y asigna un controlador de eventos que se invocará cuando el servidor reciba una solicitud.
+* **http.ServerResponse:** Representa una respuesta HTTP que se enviada desde el servidor.
 
-#### Metodos HTTP
+Si ha estudiado el concepto de programación orientada a objetos, debe saber que una clase puede heredar propiedades y métodos de otras clases, Pues bien, las clases que presentamos anteriormente se "basan" o heredan las propiedades y metodos de los `streams`
+
+Es por esta razon que, no profundizaremos, tanto, en cada objeto del módulo, ya que, como dijimos, ***los objetos del módulo http, estan basados en los Streams.***
+
+Vease el siguiente diagrama para entender las dependencias de cada clase (quién se basa en quién)
+
+![httpModuleClasses](./readme-imgs/img15.jpg)
+
+Como podemos observar, exiten 2 métodos principales (los verdes) los cuales crean a los objetos principales del modulo, el servidor y el agente. El primero representa la entedidad de un servidor y el segundo representa la entidad de un cliente.
+
+Ademas cada entidad posee otros objetos que utiliza para operar (`request`, `http.serverResponse`, `http.ClientRequest`), los cuales se basan, ya si, en las clases de los Streams.
+
+Algo a destacar, la clase `http.OutGoingMessage`, tiene 2 posibles contextos:
+
+1. Si lo utiliza el servidor, este lo utilizará para responder a los clientes, por eso, se traduce como: "mensaje de salida".
+
+2. Si lo utiliza el agente, como este representa a un cliente, entonces esta clase funciona como receptora de la respuesta que espera el agente, una vez que ya hizo la petición a algun servidor web. (Este puede ser una API, por poner un ejemplo).
+
+#### Metodos HTTP MODULE
 
 ```js
-a
+const http = require('http');
+
+const server = http.createServer((req, res) =>{
+    // console.log(res); // res = http.ServerResponse
+    // console.log(req); // req = IncomingMessage
+
+    console.log('La dirección del cliente es: ',req.socket.localAddress);
+    console.log('El tipo de conexion del cliente es: ',req.socket.remoteFamily);
+    console.log('El puerto del cliente es: ',req.socket.remotePort);
+
+    console.log('\n--- PAQUETE HTTP ---');
+    console.log('\n- METODO -\n');
+    console.log( req.method );
+    console.log('\n- URL -\n');
+    console.log( req.url );
+    console.log('\n- CABECERA -\n');
+    console.log( req.headers );
+    console.log('\n- BODY -\n');
+    req.on('data',(datos) => {
+        const datosConvertidos = datos.toString('utf-8');
+        console.log(datosConvertidos)
+    });
+    
+    res.writeHead(200, 'Todo en orden',) // setea el header de la respuesta con un codigo http y un mensaje
+    res.write('Este es el mensaje del servidor: ')
+    res.end(`Hola Cliente, Hola Mundo!`)
+})
+
+server.listen(3000,'localhost',() => console.log('servidor escuchando en: puerto 3000')); // Establece la direccion del servidor, tanto el port como el dominio.
+
+
+console.log('El servidor se cerrará en 10 segundos...');
+setTimeout(()=>{
+    server.close();
+},10000)
+
+server.on('close', () =>{
+    console.log('El servidor se cerró!');
+})
 ```
+
+Vamos a explicar la forma mas comun en la que se trabaja con el modulo http. Esta metodología se basa en crear un servidor y administrarlo mediante los objetos `request` y `response`, los cuales nos permiten recibir las peticiones, y enviar las respuestas, respectivamente.
+
+``http.createServer([options][, requestListener])``: Este método es uno de los más importantes, permite crear una instancia de la clase `http.Server`. Este método acepta, de manera **opcional** un objeto `[options]`. No vamos a entrar en muchos detalles ya que, las opciones que nos ofrecen son muy puntuales (Mirar Documentación del método).
+
+Por otro lado tambien acepta un ``[requestListener]``. Este no es mas que una función callback que se ejecutará cada vez que una petición llegue a nuestro servidor. Esta función nos permite extraer 2 parametros, `req` y `res`, estos representan la petición del cliente (request) y la respuesta que le devolvemos (response) respectivamente.
+
+* `res` es una instancia del objeto `ServerResponse`.
+
+* `req` es una instancia del objeto `IncomingMessage`.
+
+`req` y `res` son objetos del tipo `streams`, por lo que soportan los eventos y métodos de los streams, como: `data`, `req.on()`, `res.write()`.
+
+Gracias a esta herencia entre objetos es que estamos en condiciones de saltarnos varios conceptos y métodos, simplemente porque seria repetir lo dicho anteriormente. Pero solo si vimos el apartado de `Streams`, en caso contrario, regrese a los capitulo anteriores.
+
+Algo que tiene que quedar muy claro es lo siguiente, si bien req y res funcionan como streams, **No podemos olvidar que son objetos independientes, que actuan como API o interfaz para facilitar el manejo del protocolo http**.
+
+Ahora, exiten mas métodos dentro de este módulo que vale la pena remarcar, como por ejemplo la utilización de sockets y los agentes.
+
+#### Sockets y HTTP Module
+
+Los `sockets` son un concepto que tambien vimos en capitulos anteriores. En resumen un socket es una forma de comunicar 2 procesos, mediante la utilizacion de puertos. Una vez que se **ESTABLECE LA COMUNICACION** los procesos pueden realizar tanto, **ENVIO COMO RECEPCIÓN DE PAQUETES**.
+
+Cuando en el **Módulo HTTP** aparece el termino `Socket`, este hará referencia al canal que se establecio previamente entre el servidor y el cliente, y que por ende, nos habilita a nosotros, como servidor, enviar y recibir informacion del cliente. Todo esto, haciendo uso de un solo objeto.
+
+Un último parentesis antes de presentar el codigo, **los Sockets son considerados de bajo nivel**, a diferencia de `req` y `res` que son considerados de **Alto nivel**. Esto se debe a que, los sockets no estan ligados estrictamente al protocolo HTTP, lo que quiere decir que carece de metodos o funciones que necesitamos a la hora de comunicarnos via el protocolo http. **Esto no quiere decir que no puede utilizarlo**. Vease el siguiente código, para comprender mejor.
+
+```js
+const http = require('http');
+
+const server = http.createServer().listen(3000,'localhost')
+
+// Evento que se dispara cuando hay una nueva conexion
+// y devuelve una funcion callback con un objeto socket como argumento.
+server.on('connection', (socket)=>{
+    console.log('Nueva Conexion!');
+    
+    socket.on('data',(datosCliente)=>{
+
+        console.log('Datos Recibidos: ',datosCliente.toString());
+
+        socket.write(
+        'HTTP/1.1 200 OK\r\n' +
+        'Content-Type: text/plain\r\n' +
+        'Content-Length: 12\r\n' +
+        '\r\n'+
+        'Hola, mundo!');
+    })
+
+});
+```
+
+Si bien este código es muy sencillo, ya nos permite apreciar las diferencias entre usar `sockets` y `req`/`res`. En este ejemplo podemos ver que, **el `Socket` es un objeto que hereda las caracteristicas de un Duplex Stream**, por lo que, podremos leer y escribir (la característica principal del socket, que es la comunicación bidireccional).
+
+Como podemos ver, en este caso, tenemos que especificar el mensaje entero, "a puro pulmon". Si utilizamos `res`, por ejemplo, podemos especificar los headers de al respuesta con el método `response.setHeader(name, value)`.
+
+Las diferencias son muchas, pero no ahondaremos mucho mas, porque, como dijimos antes, estariamos redundando mucho en temas anteriores.
+
+Para cerrar, el módulo http es difícil de entender al principio, ya que posee muchas clases las cuales se relacionan directamente con conceptos como Streams y Sockets, que tambien requieren un cierto grado de estudio. Por esa razon es recomndable conocer y entender muy bien estos conceptos fundamentales, si queremos entender a profundidad el módulo.
+
+## Aditional Packages
+
+Ya hemos terminado con los temas principales de NodeJs, hasta este momento hemos explicado, trabajado y comprendido, los conceptos mas basicos y fundamentales con los que nos encontramos a la hora de trabajar en el entorno de Node.
+
+Ahora vamos a ver contenidos que, si bien no son estrictamente necesarios para desarrollar nuestras tareas como programadores de Node, si es muy buena idea conocerlos y, aunque sea, dejarlos por sentados en este curso.
+
+### Json Web Tokens (JWT)
+
