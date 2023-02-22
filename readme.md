@@ -2124,5 +2124,42 @@ Ya hemos terminado con los temas principales de NodeJs, hasta este momento hemos
 
 Ahora vamos a ver contenidos que, si bien no son estrictamente necesarios para desarrollar nuestras tareas como programadores de Node, si es muy buena idea conocerlos y, aunque sea, dejarlos por sentados en este curso.
 
-### Json Web Tokens (JWT)
+### JSON Web Tokens (JWT)
 
+Volviendon con las cuestiones de seguridad, vamos a ver un concepto llamado Json Web Tokens. Desglocemos:
+
+* JSON: Como vimos antes, es una estructura de datos simple, que permite genera una formato de archivo que, hoy en dia, es ampliamente utilizado en distintas tecnologias de la web.
+
+* WEB: Significa que se utiliza en internet.
+
+* Tokens: Podemos definir este nuevo concepto como: **Una verificación que habilida la sesion de un cliente.** Esta verificación puede tener distintos formatos criptograficos.
+
+Juntando todo podemos decir que, los JWT son: Un método de seguridad que tiene como finalidad, realizar el envio de credenciales, mediante el uso de JSON, para poder autenticar a los usuarios.
+
+### Documentación Oficial JWT
+
+[![JWTMODULE](https://img.shields.io/badge/Documentacion%20Oficial-red)](npmjs.com/package/jsonwebtoken)
+
+[![JWTPage](https://img.shields.io/badge/Pagina%20Oficial-violet)](https://jwt.io/introduction)
+
+### Instalación JWT (NPM)
+
+```bash
+npm install jsonwebtoken
+```
+
+Un JWT consta de tres partes codificadas en base64 separadas por puntos ( . ). La primera parte es el encabezado (header), la segunda es la carga útil (payload) y la tercera es la firma (signature).
+
+* Header: contiene información sobre cómo se debe verificar el token y cómo se ha codificado. El tipo de token es JWT y el algoritmo de firma utilizado para codificar el token se especifica en el encabezado.
+
+* Payload: contiene la información del usuario y los datos que se quieren transmitir. Esta información no está cifrada y puede ser leída por cualquier persona que tenga acceso al token. La carga útil contiene información como el ID del usuario, el tiempo de expiración y otros datos relevantes.
+
+* Signature: es el resultado de la codificación del encabezado y la carga útil con una clave secreta conocida solo por el servidor. La firma se utiliza para verificar la autenticidad del token y garantizar que no ha sido modificado.
+
+Una pagina que es muy interesante y útil para ver la composicion de los JWT es [jwt.io](https://jwt.io/)
+
+Video Interesante: [JWT en 10 minutos - ¿Qué es JWT? ¿Para que sirve? ¿Cuando usarlo? ¿Cómo se usa?](https://www.youtube.com/watch?v=tWQobKFQLG0)
+
+![JWTExplication](https://research.securitum.com/wp-content/uploads/sites/2/2019/10/jwt_ng1_en.png)
+
+### Formas 
