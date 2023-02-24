@@ -2134,9 +2134,11 @@ Volviendon con las cuestiones de seguridad, vamos a ver un concepto llamado Json
 
 * Tokens: Podemos definir este nuevo concepto como: **Una verificación que habilida la sesion de un cliente.** Esta verificación puede tener distintos formatos criptograficos.
 
-Juntando todo podemos decir que, los JWT son: Un método de seguridad que tiene como finalidad, realizar el envio de credenciales, mediante el uso de JSON, para poder autenticar a los usuarios.
+Juntando todo podemos decir que, los JWT son: Un método de seguridad que tiene como finalidad, enviar credenciales (Claims) y verificar firmas, mediante el uso de JSON. Hagamos un enfasis en 'VERIFICAR FIRMAS'. 
 
-### Documentación Oficial JWT
+Este estandar de la seguridad web nos da las herramientas para asegurarnos de que el mensaje que recibimos o enviamos es que de quien dice ser. Este se basa en la utilización de firmas criptográficas.
+
+#### Documentación Oficial JWT
 
 [![JWTMODULE](https://img.shields.io/badge/Documentacion%20Oficial-red)](npmjs.com/package/jsonwebtoken)
 
@@ -2162,4 +2164,102 @@ Video Interesante: [JWT en 10 minutos - ¿Qué es JWT? ¿Para que sirve? ¿Cuand
 
 ![JWTExplication](https://research.securitum.com/wp-content/uploads/sites/2/2019/10/jwt_ng1_en.png)
 
-### Formas 
+#### Características de JWT
+
+Algunas caractreristicas importantes a remarcar son:
+
+1. Si alguna cualquier parte del mensaje cambia, todo el token lo hara.
+2. Podemos elegir disntintos tipos de cifrados
+3. Permite enviar datos del usuario mediante el mismo token
+4. Es un estandar, y ampliamente utilizado
+5. Podemos trabajar con RSA, llaves publicas y privadas.
+   
+#### JWT con Criptografia Simétrica y Asimétrica
+
+Como dijimos hace un momento, los JWT permiten la encriptación simétrica y asimétrica. Este concepto fue visto con anterioridad (Cuando vimos el protocolo http), pero vamos a refrescar la memoria con el siguiente esquema.
+
+![simetriaVsAsimetria](http://1.bp.blogspot.com/-eNnqLiBYjKk/VW82mQReLhI/AAAAAAAAAjk/wdKMt5n80M4/s1600/cifrado%25281%2529.png)
+
+#### Código de ejemplo
+
+Para el siguiente ejemplo, tomaremos como 'Working Directory' (Directorio Raiz o de Referencia) a la carpeta 'AditionalModules', ya que deberemos instalar cierta paqueteria con npm.
+
+![arbolDelDirectorio](./readme-imgs/img16.PNG)
+
+Este sera un ejemplo interesante, debido a que, nos permitira poner en practica varias cosas que hemos visto en el curso.
+
+1. Vamos a descargar la paqueteria necesaria para el ejemplo:
+   1. JWT - jsonwebtoken
+   2. DOTENV - dotenv
+   ```bash
+   cd AditionalModules/
+   npm i jsonwebtoken dotenv
+   ```
+2. Creamos un archivo con nombre '.env', este archivo almacenará variables para la configuración del servidor (Enviroment Variables).
+3. Creamos y Accedemos al archivo ``jwt.js``
+4. Pegamos el siguiente código:
+   ```js
+   /*Importamos Paquetes*/
+    import jwt from "jsonwebtoken";
+    import http from "http";
+    import dotenv from "dotenv";
+
+    dotenv.config() // Configuracion de dotEnv
+    // Paquete para cargar Enviroment Variables desde un archivo '.env'
+
+    /* SERVIDOR */
+    http.createServer((req, res)=>{
+        console.clear() // Se limpia la consola para que sea mas comodo
+        const secretKeySym = process.env.SYM_KEY // Desde .env me traigo la variable para Simetrica
+
+        if (req.url === '/get/jwt') {
+
+            /*
+            Armamos el Token que se enviara al cliente
+            (Como no hay Base de Datos, nos inventamos el JSON a enviar)
+            */
+            const token = jwt.sign({
+                info: {id:1, nombre:"Fulano", ocupacion:"Programador"},
+                message: 'Aquí esta su Token'}
+                ,secretKeySym)
+            
+            return res.end(token) // Se envia el toquen al cliente
+        }
+        if (req.url === '/verify/jwt') {
+            console.log(req.headers.authorization); // Mostramos el token
+
+            // Fijate que, el token, viene en la cabecera de "Authorization" del http request
+            const clientToken = req.headers.authorization;
+            
+            // Comprobamos que el TOKEN y su SIGNATURE sean validos
+            try {
+                jwt.verify(clientToken,secretKeySym);
+                res.writeHead(200, 'Todo Correcto');
+                return res.end('Cliente Autorizado 😃');
+            } catch (error) {
+                // Si la comprobación falla le avisamos al cliente (codigo 401 desautorizado)
+                console.log('No se pudó verificar el token');
+                res.writeHead(401,'Usted no esta autorizado');
+                return res.end('El cliente no esta autorizado 😭')
+            }
+        }
+        res.write('Request: ')
+        res.end(req.url)
+        
+    }).listen(3000)
+   ```
+Este código lo que hace es crear un servidor web, el cual espera las siguientes rutas, `http://localhost/get/jwt` y `http://localhost/verify/jwt`, donde la primera ruta nos respondera con un Json Web Token y la segunda espera que le enviemos ese token utilizando la cabecera `Authorization: `
+
+Para comprobar el funcionamiento de este ejemplo, se recomienda utilizar, POSTMAN o THUNDERCLIENT (Si estamos en VsCode). Si no conoce estas herramientas, las simplificaremos diciendo que son, una herramienta para el desarrollo web que nos permite realizar y simular distintos tipos de peticiones HTTP, por ejemplo, podemos configurar una tanda de peticiones y cada una con un método http diferente (GET, POST, PUT, DELETE), a diferentes rutas, y con diferentes Headers. Esto último es lo que nos importa particularmente para este ejemplo.
+
+![ejemploJWT1](./readme-imgs/img17.JPG)
+
+Al realizar la petición anterior a la ruta donde se aloja el servidor, y al recurso que especificamos anteriormente, podemos ver que el mismo nos responde con el token que mencionamos antes (Aqui no es necesario setear la cabecera de `Authorization`)
+
+![ejemploJWT2](./readme-imgs/img18.JPG)
+
+Ahora al momento de que el servidor nos verifique, **necestimos enviar en alguna cabecera, en este caso usaremos 'Authorization:', el token que obtuvimos con la ruta anterior**. Si todo a ido bien recibiremos un mensaje de afirmacion.
+
+![ejemploJWT3](./readme-imgs/img19.JPG)
+
+Por el contrario, si alteramos el token, **En cualquier digito, ya sea, el header, el payload o la signature**, recibiremos un mensaje de error con un codigo 401, que como vimos, significa UNAUTHORIZED
