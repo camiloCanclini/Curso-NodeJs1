@@ -2263,3 +2263,128 @@ Ahora al momento de que el servidor nos verifique, **necestimos enviar en alguna
 ![ejemploJWT3](./readme-imgs/img19.JPG)
 
 Por el contrario, si alteramos el token, **En cualquier digito, ya sea, el header, el payload o la signature**, recibiremos un mensaje de error con un codigo 401, que como vimos, significa UNAUTHORIZED
+
+### Nodemon
+
+Nodemon es un paquete que permite resetear automaticamente nuestra aplicación cada vez que ocurre un cambio, asi como tambien monitorizarlos. Es una herramienta muy simple, pero muy útil durante el desarrollo.
+
+Otras características que ofrece son: 
+
+* Detecta la extensión de archivo predeterminada para monitorear.
+* Soporte predeterminado para el nodo pero fácil de ejecutar cualquier ejecutable, como python, ruby, make, etc.
+* Ignorar archivos o directorios específicos.
+* Ver directorios específicos.
+* Funciona con aplicaciones de servidor o utilidades de ejecución única y REPL.
+* Podemos utilizarlo en el codigo a traves de ``require()``.
+* Código abierto y disponible en github.
+
+#### Documentación
+
+[![nodemon](https://img.shields.io/badge/Documentacion%20Oficial-red)](npmjs.com/package/nodemon)
+
+#### Instalación Nodemon
+
+```bash
+npm install -g nodemon
+```
+
+Algo a remarcar es que, por lo general, este módulo se instala de manera global, directamente en nuestro PATH. Esto es asi porque, al momento de utilizarlo, debemos usar la palabra ``nodemon``(Igual que cuando ejecutamos ``node index.js``) para ejecutarlo.
+
+Si lo instalacemos de manera "local", como dependencia, necesitariamos hacer uso de ``npx nodemon``, o usar un npm script como ``npm start``.
+
+#### Utilización de Nodemon
+
+Para iniciar un script con nodemon tenemos que usar la siguiente forma:
+
+```bash
+nodemon [options] [script.js] [args]
+```
+
+Como podemos ver, aunque iniciemos nuestra aplicación con nodemon, de igual forma podemos pasar argumentos a traves de la consola.
+
+![NodemonRestart](https://miro.medium.com/max/1400/1*K1G_qSPeO7OGstwDiD0_1A.gif)
+
+Una de las caracteristicas principales de esta herramienta, es la de reiniciar la ejecución de la aplicación si esta sufre algun cambio. Aunque, si por alguna razon necesitaramos reiniciar el proceso, podemos hacer manualmente escribiendo ```rs```.
+
+Para concluir, debemos aclarar que, si bien esta herramienta es bastante simple de usar, ofrece diversas opciones de configuración, porque como vimos podemos configurar su comportamiento, para ignorar archivos, e incluso podemos utilizarla en otros lenguajes de programación.
+
+### Template Engines
+
+Ahora vamos a ver una herramienta muy importante dentro del desarrollo frontend. Los motores de plantillas son procesadores de codigo que nos permiten, modularizar o automatizar las plantillas HTML.
+
+A la hora de crear sitios web, cuando trabajamos en el frontend, lo que buscamos es crear un diseño o estructura que nos permita representar información que proviene del backend. Estos datos por lo general vienen con un formato o patron similar, por lo que, al momento de construir las plantillas HTML, estas tienden a seguir un patron similar entre sus disntintos componentes.
+
+![TemplateEngine](https://miro.medium.com/max/437/1*XNuVdKSup2Gk9LjDNlsCYw.png)
+
+![TemplateEngine2](https://i.stack.imgur.com/ulTPc.png)
+
+Como dijimos, los Template Engines lo que permiten es **automatizar y modularizar este proceso**. Ya no vamos a requerir escribir siempre el mismo fragmento de código alterando solo un pedazo donde ira los datos del backend. Lo que haremos sera mezclar la logica, estructuras condicionales, y repetitivas de un lenguaje de programación como JS con la forma de estructurar la información que tiene HTML.
+
+En este caso, veremos el motor de plantillas **EJS**. Pero tenemos que saber que **No es el único**.
+
+### EJS
+
+> ¿Para qué sirve la "E"? "¿Incorporado?" Podría ser. ¿Qué tal "Eficaz", "Elegante" o simplemente "Fácil"? EJS es un lenguaje de plantillas simple que le permite generar marcado HTML con JavaScript simple. Ninguna religiosidad sobre cómo organizar las cosas. Sin reinvención de la iteración y el flujo de control. Es simplemente JavaScript.
+### Documentación Oficial EJS
+
+[![nodemon](https://img.shields.io/badge/Documentacion%20Oficial-red)](https://ejs.co/#features)
+
+### Características EJS
+
+* Compilación y renderizado rápidos
+* Etiquetas de plantilla simples: <% %>
+* Delimitadores personalizados (por ejemplo, use [? ?] en lugar de <% %>)
+* La subplantilla incluye
+* Se envía con CLI
+* Tanto el servidor JS como el navegador son compatibles.
+* Almacenamiento en caché estático de JavaScript intermedio
+* Caché estático de plantillas
+* Cumple con el sistema de vista Express
+
+### Instalación EJS
+
+```bash
+npm install ejs
+```
+
+### Funcionamiento de EJS
+
+Para entender cualquier motor de plantillas debemos conocer el concepto de renderizado. La accion de RENDERIZAR algo tiene que ver con el hecho de establecer una relacion entre la logica y la estructura del documento. Por ejemplo:
+
+Deseamos repetir un patron o componente una determinada cantidad de veces. Para eso debemos primero delimitar que se considera componente, que logica se va a aplicar y que datos van a ser COMPILADOS.
+
+En el caso de EJS la sintaxis es la siguiente:
+
+```js
+<% if (user) { %>
+  <h2><%= user.name %></h2>
+<% } %>
+```
+
+Como podemos ver en el ejemplo, cuando escribimos sentencias o expresiones del lenguaje (Javascript) tenemos que abrir un bloque con ``<% %>``. Dentro de este bloque ira la logica de javascript. Como este motor acepta sintaxis de javascript simple, podemos utilizar `if`, `else`,`while`,`do while`, `for`, variables, objetos, entre otras cosas. Todo lo que se encuentre fuera de la logica sera lo que consideraremos como componentes estaticos.
+
+Lo que hace el ejemplo anterior es, **Mostrar la etiqueta ``h2``, solo si, existe un objeto usuario instanciado**.
+
+Como este ejemplo hay muchos, todo depende de la complejidad que le queramos dar a la plantilla.
+
+### Utilización EJS 
+
+Al momento de escribir sintaxis de EJS tenemos que ser conscientes de que hay diferentes tipos de tags. Los tags son :``<% %>``, y como dijimos antes, estos separan el JS del HTML. A su vez sabemos que existe un "compilador" para este tipo de plantillas, el cual interpreta la sintaxis y devuelve una nueva plantilla renderiza como salida.
+
+Ahora bien, tenemos que saber que existen distintos tipos de TAGS que cambian el comportamiento a la hora de renderizar la plantilla. Los tags de EJS son:
+
+* ``<% y %>``>: Son los tags de apertura y cierre "Comunes" de código JavaScript en EJS. Todo lo que se escribe dentro de estos tags será interpretado como código JavaScript. Este tag se utiliza principalmente para estructuras de control, como condicionales, ciclos, funciones, entre otros.
+
+* ``<%= %>``: Se utiliza para imprimir en la salida el resultado de una expresión JavaScript. Por ejemplo, si tenemos una variable nombre con el valor "Juan", podemos mostrarlo en la plantilla EJS de la siguiente manera: <%= nombre %>.
+
+* ``<%- %>``: Este tag es similar al tag <%= %>, pero en este caso, la salida será interpretada como HTML en lugar de texto plano. Si tenemos una variable: ``descripcion = "<strong>Importante</strong>"``, podemos mostrarla en la plantilla EJS de la siguiente manera: <%- descripcion %>.
+
+* ``<%# %>``: Este tag se utiliza para hacer comentarios en la plantilla EJS. Todo lo que se escriba dentro de estos tags no será interpretado como código JavaScript ni se mostrará en la salida.
+
+* ``<% include nombreDeLaPlantilla %>``: Este tag se utiliza para incluir una plantilla EJS dentro de otra. Al utilizar este tag, la plantilla incluida será renderizada y su resultado se incluirá en la posición del tag. Por ejemplo, si tenemos una plantilla llamada ``cabecera.ejs`` que define la cabecera de la página, podemos incluirla en una plantilla llamada ``pagina.ejs`` de la siguiente manera: <% include cabecera %>.
+
+* ``<% -%>``: Este tag se utiliza para eliminar el espacio en blanco y los saltos de línea entre el tag y el código JavaScript. Esto puede ser útil para evitar que se generen espacios innecesarios en la salida.
+
+* ``<% _%>``: Este tag se utiliza para eliminar el espacio en blanco y los saltos de línea entre el código JavaScript y el tag que le sigue. Esto puede ser útil para evitar que se generen espacios innecesarios en la salida.
+
+* ``<%# _%``>: Este tag se utiliza para hacer comentarios sin dejar espacios en blanco innecesarios.

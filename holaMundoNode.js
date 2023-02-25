@@ -2,6 +2,7 @@ const http = require('http');
 
 console.log('\n__filename:', __filename);
 console.log('__dirname:', __dirname,'\n');
+console.log('hola');
 /* const hostname = '127.0.0.1';
 const port = 3000;
 console.log(new Error);
