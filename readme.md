@@ -2388,3 +2388,127 @@ Ahora bien, tenemos que saber que existen distintos tipos de TAGS que cambian el
 * ``<% _%>``: Este tag se utiliza para eliminar el espacio en blanco y los saltos de línea entre el código JavaScript y el tag que le sigue. Esto puede ser útil para evitar que se generen espacios innecesarios en la salida.
 
 * ``<%# _%``>: Este tag se utiliza para hacer comentarios sin dejar espacios en blanco innecesarios.
+
+```js
+let template = ejs.compile(str, options); // Carga la plantilla .EJS, en forma de string
+template(data); // Le "Envia" los datos con los que se renderizan la plantilla final
+// => Rendered HTML string
+
+ejs.render(str, data, options); // Hace lo anterior pero en un solo paso
+// => Rendered HTML string
+
+// Carga un archivo .EJS como entrada y lo renderiza con los datos especificados
+ejs.renderFile(filename, data, options, function(err, str){
+    //Tenemos una callback que verifica si hay errores
+
+    // str => Rendered HTML string
+});
+```
+
+**Aclaración Importante: "Rendered HTML string" quiere decir que el metodo devuelve un STRING de la plantilla de salida (ya renderizada)**
+
+Antes de pasar con ejemplo final, debemos conocer unos de los métodos mas importantes de EJS y de los motores de renderizado, el ``include()``.
+
+**``Include()``**: Este nos permite reciclar fragmentos de codigo o componentes entero de un plantilla. Podemos pensarlo como un "copiar y pegar". Por ejemplo, podemos reutilizar un unico header en varias plantillas, porque si lo pensamos, en el caso de los headers y footers, estos no varian entre plantillas, asi como tampoco las barras de navegación. En el caso de que no varien, estos se consideran **elementos staticos**.
+
+El ``include(path[,data])`` permite enviar datos desde una plantilla a otra tambien, en el ejemplo siguiente, veremos como se "recicla" el ``<head>``, pero dependiendo desde donde se lo incluya, varia el ``<title>``.
+
+Algo **Importante a tener en cuenta** es que, el ``path`` que nosotros le indicamos al  ``include(path)`` **ES RELATIVO AL ARCHIVO DESDE DONDE SE LLAMA EL INCLUDE**. Para comprender mejor vea el ejemplo siguiente.
+
+#### Ejemplo de EJS
+
+**Estructura del Directorio**
+
+![estructuraEJS](./readme-imgs/img20.JPG)
+
+**head.ejs, este componente se repite en todas las plantillas**
+```html
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= titulo %></title>
+</head>
+```
+
+**Plantilla index.ejs**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<%# Fijate que el path que pasamos, sale de la carpeta del archivo index.ejs... %>
+<%- include('../public/head.ejs', {titulo: 'Principal'}) %>
+<style>
+    body{
+        background-color: #111;
+        color: #FFF;
+        font-family: monospace;
+        font-size: .8em;
+    }
+    h1{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    div{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #333;
+        width: 80%;
+        height: 60vh;
+        margin: auto;
+    }
+</style>
+<body>
+    <h1><%= frase %></h1>
+    <div><%= contenido %></div>
+</body>
+</html>
+```
+**Plantilla 404.ejs**
+```html
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../public/head.ejs', {titulo: '404'}) %>
+<style>
+    body{
+        background-color: #111;
+        color: #FFF;
+        font-family: monospace;
+        font-size: .8em;
+    }
+    h1{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+<body>
+    <h1><%= frase %></h1>
+</body>
+</html>
+```
+**Archivo ejs.js, es el servidor que renderiza las 2 plantillas anteriores**
+
+```js
+import http from 'http'
+import ejs from "ejs";
+
+http.createServer((req, res)=>{
+    res.setHeader('Content-Type', 'text/html'); // Indicamos al cliente que tipo de archivo vamos a enviarle
+    if (req.url === '/') {
+        const plantillaRenderizada = ejs.renderFile('./views/index.ejs',{frase:"LA PAGINA", contenido:" Contenido de la página"})
+        return plantillaRenderizada.then((template)=>{
+            return res.end(template);
+        })
+    }
+
+   const render = ejs.renderFile('./views/404.ejs',{frase:"Error 404: El Recurso Solicitado No Existe 😥"})
+    return render.then(template => {
+            return res.end(template)
+    })
+
+}).listen(3000)
+```
+
