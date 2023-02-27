@@ -2706,5 +2706,40 @@ Para finalizar con PM2, explicaremos como usar una de las funciones mas importan
 
 Antes de mostrar el comando cabe aclarar algo importante: Este comando no funcionará en Windows, o por lo menos no de "forma facil". Debido a que PM2 esta pensado para ser utilizado en servidores basados en Unix, o sea, Linux, es que Windows no tiene soporte para esta caracteristica por defecto. Aunque podemos instalar un programa aparte que complementa a PM2 y que si permite utilizar esta función. El respositorio del programa es: [PM2-Installer Github](https://github.com/jessety/pm2-installer).
 
+Muy bien, una vez aclarado eso, veamos el comando.
 
+```bash
+pm2 startup
+```
 
+Este comando lo que nos permite es guardar una configuración de arranque de pm2 en nuestro sistema operativo. Concretamente este lo guarda en el PATH del sistema.
+
+Cuando ingresamos el comando debería aparecernos algo como esto:
+
+![pm2Startup](./readme-imgs/img23.png)
+
+Lo que nos pedirá es que ingresemos el siguiente comando en nuestra terminal, una vez hechó eso pasaremos al siguiente sección:
+
+![pm2Startup2](./readme-imgs/img24.png):
+
+En esta sección pm2 nos mostrara una guía de comandos que podemos usar para seguir configurandolo.
+
+Ahora deberemos inciar los procesos que queremos que se ejecuten con el sistema operativo una vez que este sea reiniciado. En este caso, tenemos 2 procesos corriendo:
+
+![pm2Startup3](./readme-imgs/img25.png)
+
+Una vez que hallamos terminado procedemos a ingresar el siguiente comando:
+
+```bash
+pm2 save
+```
+
+![pm2Startup4](./readme-imgs/img26.png)
+
+Si por alguna razon quisieramos sacar esta configuración de arranque, podemos hacerlo ingresando el siguiente comando:
+
+```bash
+pm2 unstartup
+```
+
+## Testing en Nodejs
