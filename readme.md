@@ -2512,3 +2512,199 @@ http.createServer((req, res)=>{
 }).listen(3000)
 ```
 
+### PM2 Package
+
+PM2 es uno de los paquetes mas importantes en el momento del despliegue de la aplicación en la web. Su funcion es la de administrar los procesos de nuestra aplicación, de hay su nombre **Process Manager**. Este nos permitirá:
+
+* Reiniciar la aplicación cuando esta crasheé de manera **Automática**
+* Monitorizar la aplicación
+* Controlar y dividir la carga entre procesos
+* Administrar la memoria
+* Iniciar la aplicion cuando el servidor se reinicie
+* Mantener la aplicación corriendo en segundo plano
+
+![pm2](https://pm2.io/images/home.gif)
+
+#### Documentación Oficial
+
+[![PATHMODULE](https://img.shields.io/badge/Documentacion%20Oficial-violet)](https://pm2.keymetrics.io/docs/usage/quick-start/)
+#### Instalacion PM2
+
+```bash
+npm install pm2 -g
+```
+
+Al igual que con nodemon, PM2 requiere que lo instalemos de manera global en el pc, esto debido a que requiere privilegios del sistema para manejar los procesos, asi como tambien requiere estar instalado en nuestro PATH para poder ejecutar sus comandos
+
+#### Métodos PM2
+
+**Estructura del directorio**
+![]()
+
+**Iniciar, detener, resetear y reiniciar procesos**
+
+```bash
+pm2 start <app_name|json_conf>
+pm2 stop <app_name|namespace|id|'all'|json_conf>
+pm2 restart <app_name|namespace|id|'all'|json_conf>
+pm2 delete <app_name|namespace|id|'all'|json_conf>
+```
+
+Como podemos ver, aparece un fragmento ``<app_name|namespace|id|'all'|json_conf>``, esto siginifica que podemos elegir cualquiera de las 4 opciones contenidas en el ``< >``. Cada una de las opciones significa:
+
+* app_name: Representa el nombre o ruta del archivo.
+* namespace: Representa "un grupo de procesos que se encuentra bajo el mismo espacio de nombres"
+* id: Representa el id que le asigna PM2 al proceso que inciamos
+* all: Representa todos los procesos que administra pm2
+* json_config: Representa el nombre o ruta del archivo de configuracion
+
+**Listar los procesos Admnistrados por PM2**
+Ahora, imaginemos que inciamos 2 procesos :
+
+```bash
+pm2 list
+```
+
+Este comando nos permite mostrar una tabla por terminal que detalla el **ESTADO** de los procesos que administra PM2.
+
+![pm2Example](./readme-imgs/img22.JPG)
+
+**Mostrar monitor de PM2**
+ 
+```bash
+pm2 monit
+```
+
+El monitor es una vista que abarca toda la terminal y que nos permite ver de forma **Muy Detalla** los procesos que adminsitra PM2
+
+![pm2Example2](./readme-imgs/im21.JPG)
+
+**Mostrar monitor WEB de PM2**
+
+```bash
+pm2 plus
+```
+
+Para esto vamos a requerir registrarnos en la página oficial
+
+**Argumentos**
+
+Como vimos hace un momento, el comando `pm2 list`, nos muestra una tabla con varias columnas que nos dan información acerca del proceso. Si nos fijamos hay una columna llamada "Watching".
+
+Watching hace alución a que si, PM2 se encuentra "Mirando" si el proceso es alterado, en otras palabras, verifica si el código fuente a cambiado. Si detecta que el código ha cambiado, entonces reinicia el proceso y lo muestra con sus nuevos cambios
+
+Para activarlo debemos pasar como argumento ``--watch`` al momento de iniciarlo: 
+
+```bash
+pm2 start proceso1.js --watch
+```
+
+**Otros argumentos que podemos pasar al proceso:**
+
+```bash
+# Specify an app name
+--name <app_name>
+
+# Watch and Restart app when files change
+--watch
+
+# Set memory threshold for app reload
+--max-memory-restart <200MB>
+
+# Specify log file
+--log <log_path>
+
+# Pass extra arguments to the script
+-- arg1 arg2 arg3
+
+# Delay between automatic restarts
+--restart-delay <delay in ms>
+
+# Prefix logs with time
+--time
+
+# Do not auto restart app
+--no-autorestart
+
+# Specify cron for forced restart
+--cron <cron_pattern>
+
+# Attach to application log
+--no-daemon
+```
+
+#### Config File (ecosystem.config.js)
+
+Tenemos que saber que este permite crear un archivo de configuración llamado: `ecosystem.config.js`.
+
+Este archivo se crea con el siguiente comando:
+
+```bash
+pm2 init simple
+```
+
+La función que cumple este archivo es la de pre-setear todas las configuraciones que tendran los procesos que administrara PM2. Nos permite definir en un archivo externo:
+
+* El/los procesos que se iniciarán
+* Que argumentos tendrá
+* Que nombre tendrá
+* El interprete que se usara
+* Las varibles de entorno
+* El entorno, ya sea, de desarrollo o de producción
+* Cantidad de instancias que se crearán de los procesos que especifiquemos
+
+
+Una vez creado deberiamos ver algo como esto:
+
+```js
+module.exports = {
+  apps : [{
+    name   : "app1",
+    script : "./app.js"
+  }]
+}
+
+```
+Tambien podemos crear un `ecosystem.config.js` mas "complejo" con:
+
+```bash
+pm2 ecosystem
+```
+
+```js
+module.exports = {
+  apps : [{
+    name: "app",
+    script: "./app.js",
+    env: {
+      NODE_ENV: "development",
+    },
+    env_production: {
+      NODE_ENV: "production",
+    }
+  }, {
+     name: 'worker',
+     script: 'worker.js'
+  }]
+}
+```
+
+Para iniciar con el archivo de "ecosystem" tan solo debemos ejecutar
+
+```bash
+pm2 start ecosystem.config.js
+```
+
+En este objeto podemos darle muchos argumentos o parametros para el inicio de las distintas aplicaciones que ejecutemos, no vamos a ahondar mucho mas, porque son muchas las configuraciones que podemos darle.
+
+Documentación de Ecosystem File: [PM2 ECOSYSTEM FILE](https://pm2.keymetrics.io/docs/usage/application-declaration/).
+Aquí podra encontrar de forma muy detallada todo sobre los ecosystem files de PM2.
+
+#### El comando ``startup``
+
+Para finalizar con PM2, explicaremos como usar una de las funciones mas importantes que proveé el módulo. Como dijimos antes, PM2 permite iniciar procesos de manera **Automática** cada vez que se reinicie el servidor donde esta alojada nuestra aplicación. Esto es sumamente útil porque nos permite desligarnos de administrar nosotros el servidor.
+
+Antes de mostrar el comando cabe aclarar algo importante: Este comando no funcionará en Windows, o por lo menos no de "forma facil". Debido a que PM2 esta pensado para ser utilizado en servidores basados en Unix, o sea, Linux, es que Windows no tiene soporte para esta caracteristica por defecto. Aunque podemos instalar un programa aparte que complementa a PM2 y que si permite utilizar esta función. El respositorio del programa es: [PM2-Installer Github](https://github.com/jessety/pm2-installer).
+
+
+
