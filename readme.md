@@ -1486,6 +1486,7 @@ Otro concepto que aparece cuando hablamos de consola son los flujos de datos est
 Un ejemplo que ilustra bastante bien esto son los programas de consola de linux, los cuales permiten conectar procesos, ¿Cómo?, simplemente uniendo la salida de un proceso con la entrada del otro, usando un pipe
 
 ![pipesLinux](https://res.cloudinary.com/practicaldev/image/fetch/s--PFgGgzBc--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nqmlevb3ux3wlezl669e.png)
+
 Para lo que nosotros los podemos usar es para crear Aplicaciones de Consola, o para enviar comandos a nuestra aplicación que se encuentra ejecutandose ahora mismo.
 
 #### Documentación Oficial PROCESS
@@ -2134,7 +2135,7 @@ Volviendon con las cuestiones de seguridad, vamos a ver un concepto llamado Json
 
 * Tokens: Podemos definir este nuevo concepto como: **Una verificación que habilida la sesion de un cliente.** Esta verificación puede tener distintos formatos criptograficos.
 
-Juntando todo podemos decir que, los JWT son: Un método de seguridad que tiene como finalidad, enviar credenciales (Claims) y verificar firmas, mediante el uso de JSON. Hagamos un enfasis en 'VERIFICAR FIRMAS'. 
+Juntando todo podemos decir que, los JWT son: Un método de seguridad que tiene como finalidad, enviar credenciales (Claims) y verificar firmas, mediante el uso de JSON. Hagamos un enfasis en 'VERIFICAR FIRMAS'.
 
 Este estandar de la seguridad web nos da las herramientas para asegurarnos de que el mensaje que recibimos o enviamos es que de quien dice ser. Este se basa en la utilización de firmas criptográficas.
 
@@ -2173,7 +2174,7 @@ Algunas caractreristicas importantes a remarcar son:
 3. Permite enviar datos del usuario mediante el mismo token
 4. Es un estandar, y ampliamente utilizado
 5. Podemos trabajar con RSA, llaves publicas y privadas.
-   
+
 #### JWT con Criptografia Simétrica y Asimétrica
 
 Como dijimos hace un momento, los JWT permiten la encriptación simétrica y asimétrica. Este concepto fue visto con anterioridad (Cuando vimos el protocolo http), pero vamos a refrescar la memoria con el siguiente esquema.
@@ -2191,13 +2192,16 @@ Este sera un ejemplo interesante, debido a que, nos permitira poner en practica 
 1. Vamos a descargar la paqueteria necesaria para el ejemplo:
    1. JWT - jsonwebtoken
    2. DOTENV - dotenv
+
    ```bash
    cd AditionalModules/
    npm i jsonwebtoken dotenv
    ```
+
 2. Creamos un archivo con nombre '.env', este archivo almacenará variables para la configuración del servidor (Enviroment Variables).
 3. Creamos y Accedemos al archivo ``jwt.js``
 4. Pegamos el siguiente código:
+
    ```js
    /*Importamos Paquetes*/
     import jwt from "jsonwebtoken";
@@ -2248,7 +2252,8 @@ Este sera un ejemplo interesante, debido a que, nos permitira poner en practica 
         
     }).listen(3000)
    ```
-Este código lo que hace es crear un servidor web, el cual espera las siguientes rutas, `http://localhost/get/jwt` y `http://localhost/verify/jwt`, donde la primera ruta nos respondera con un Json Web Token y la segunda espera que le enviemos ese token utilizando la cabecera `Authorization: `
+
+Este código lo que hace es crear un servidor web, el cual espera las siguientes rutas, `http://localhost/get/jwt` y `http://localhost/verify/jwt`, donde la primera ruta nos respondera con un Json Web Token y la segunda espera que le enviemos ese token utilizando la cabecera `Authorization:`
 
 Para comprobar el funcionamiento de este ejemplo, se recomienda utilizar, POSTMAN o THUNDERCLIENT (Si estamos en VsCode). Si no conoce estas herramientas, las simplificaremos diciendo que son, una herramienta para el desarrollo web que nos permite realizar y simular distintos tipos de peticiones HTTP, por ejemplo, podemos configurar una tanda de peticiones y cada una con un método http diferente (GET, POST, PUT, DELETE), a diferentes rutas, y con diferentes Headers. Esto último es lo que nos importa particularmente para este ejemplo.
 
@@ -2268,7 +2273,7 @@ Por el contrario, si alteramos el token, **En cualquier digito, ya sea, el heade
 
 Nodemon es un paquete que permite resetear automaticamente nuestra aplicación cada vez que ocurre un cambio, asi como tambien monitorizarlos. Es una herramienta muy simple, pero muy útil durante el desarrollo.
 
-Otras características que ofrece son: 
+Otras características que ofrece son:
 
 * Detecta la extensión de archivo predeterminada para monitorear.
 * Soporte predeterminado para el nodo pero fácil de ejecutar cualquier ejecutable, como python, ruby, make, etc.
@@ -2325,6 +2330,7 @@ En este caso, veremos el motor de plantillas **EJS**. Pero tenemos que saber que
 ### EJS
 
 > ¿Para qué sirve la "E"? "¿Incorporado?" Podría ser. ¿Qué tal "Eficaz", "Elegante" o simplemente "Fácil"? EJS es un lenguaje de plantillas simple que le permite generar marcado HTML con JavaScript simple. Ninguna religiosidad sobre cómo organizar las cosas. Sin reinvención de la iteración y el flujo de control. Es simplemente JavaScript.
+
 ### Documentación Oficial EJS
 
 [![nodemon](https://img.shields.io/badge/Documentacion%20Oficial-red)](https://ejs.co/#features)
@@ -2367,7 +2373,7 @@ Lo que hace el ejemplo anterior es, **Mostrar la etiqueta ``h2``, solo si, exist
 
 Como este ejemplo hay muchos, todo depende de la complejidad que le queramos dar a la plantilla.
 
-### Utilización EJS 
+### Utilización EJS
 
 Al momento de escribir sintaxis de EJS tenemos que ser conscientes de que hay diferentes tipos de tags. Los tags son :``<% %>``, y como dijimos antes, estos separan el JS del HTML. A su vez sabemos que existe un "compilador" para este tipo de plantillas, el cual interpreta la sintaxis y devuelve una nueva plantilla renderiza como salida.
 
@@ -2422,6 +2428,7 @@ Algo **Importante a tener en cuenta** es que, el ``path`` que nosotros le indica
 ![estructuraEJS](./readme-imgs/img20.JPG)
 
 **head.ejs, este componente se repite en todas las plantillas**
+
 ```html
 <head>
     <meta charset="UTF-8">
@@ -2466,7 +2473,9 @@ Algo **Importante a tener en cuenta** es que, el ``path`` que nosotros le indica
 </body>
 </html>
 ```
+
 **Plantilla 404.ejs**
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -2489,6 +2498,7 @@ Algo **Importante a tener en cuenta** es que, el ``path`` que nosotros le indica
 </body>
 </html>
 ```
+
 **Archivo ejs.js, es el servidor que renderiza las 2 plantillas anteriores**
 
 ```js
@@ -2528,6 +2538,7 @@ PM2 es uno de los paquetes mas importantes en el momento del despliegue de la ap
 #### Documentación Oficial
 
 [![PATHMODULE](https://img.shields.io/badge/Documentacion%20Oficial-violet)](https://pm2.keymetrics.io/docs/usage/quick-start/)
+
 #### Instalacion PM2
 
 ```bash
@@ -2570,7 +2581,7 @@ Este comando nos permite mostrar una tabla por terminal que detalla el **ESTADO*
 ![pm2Example](./readme-imgs/img22.JPG)
 
 **Mostrar monitor de PM2**
- 
+
 ```bash
 pm2 monit
 ```
@@ -2593,7 +2604,7 @@ Como vimos hace un momento, el comando `pm2 list`, nos muestra una tabla con var
 
 Watching hace alución a que si, PM2 se encuentra "Mirando" si el proceso es alterado, en otras palabras, verifica si el código fuente a cambiado. Si detecta que el código ha cambiado, entonces reinicia el proceso y lo muestra con sus nuevos cambios
 
-Para activarlo debemos pasar como argumento ``--watch`` al momento de iniciarlo: 
+Para activarlo debemos pasar como argumento ``--watch`` al momento de iniciarlo:
 
 ```bash
 pm2 start proceso1.js --watch
@@ -2653,7 +2664,6 @@ La función que cumple este archivo es la de pre-setear todas las configuracione
 * El entorno, ya sea, de desarrollo o de producción
 * Cantidad de instancias que se crearán de los procesos que especifiquemos
 
-
 Una vez creado deberiamos ver algo como esto:
 
 ```js
@@ -2665,6 +2675,7 @@ module.exports = {
 }
 
 ```
+
 Tambien podemos crear un `ecosystem.config.js` mas "complejo" con:
 
 ```bash
@@ -2743,3 +2754,190 @@ pm2 unstartup
 ```
 
 ## Testing en Nodejs
+
+El testing es el proceso probar y analizar los resultados que produce nuestra aplicación, es una practica que aplica en todos los lenguajes de programación.
+
+Este nos permite conocer:
+
+* El comportamiento del software que desarrollamos
+* Los resultados que generan las distintas partes del sistema
+* Probar el rendimiento de la aplicación
+* Detectar y ayuda para solucionarlos errores
+
+En resumen, nos permite asegurarnos que la aplicación funcione como esperamos.
+
+Antes de seguir debemos aclarar que, el testing es una rama de la programación, que cumple determinadas funciones en el desarrollo de un proyecto, asi como lo hace un UX/UI Designer o un Backend Developer. Es un tipo de trabajo que requiere un estudio profundo, y nos algo concreto que podemos aprender como un tecnología, recordemos engloba tanto métodos como formas de trabajo. Sin embargo, para fines de este curso, es interesante dar un primer acercamiento a este mundo del testing.
+
+### Piramide del Testing (Niveles de Testing)
+
+Cuando uno comienza a estudiar testing, una de las primeras conceptos que aparece es la piramide del testing. Esta representa un diagrama de piramide, o a veces un cono, la cual permite distribuir los distintos tipos de pruebas de manera que exista un equilibrio con respecto a la estrategia que usaremos para testear el sistema.
+
+Un estrategia abarca cuestiones como, el costo de realizar cierto tipo de prueba, la complejidad de la misma, el esfuerzo que requiere, el retorno de inversión que genera, entre otras cosas. En otras palabras, la piramide es una herramienta conceptual que funciona como guia o referencia para realizar el proceso de testing.
+
+![piramideTesting1](https://www.campusmvp.es/recursos/image.axd?picture=/2020/2T/piramide.png)
+
+![piramideTesting2](https://martinfowler.com/bliki/images/testPyramid/test-pyramid.png)
+
+Como podemos ver en el esquema, la piramide se divide por capas las cuales a medida que nos acercamos a la punta de la piramide se vuelven mas sencillas, tecnicamente hablando, y mas costosas, con respecto al tiempo. Además, cuanto más cerca nos encontramos de la punta, la cantidad de pruebas que realizamos es menor.
+
+1. Pruebas Unitarias: Estas son las más sencillas de realizar, nos ofrecen un feedback casi inmediato, y ademas son las bases de todo el sistema. Aquí testeremos los componentes propios de nuestro software o sistema informático de manera aislada y uno por uno.
+
+    ![pruebaUnitaria](./readme-imgs/img27.png)
+
+2. Pruebas de Servicios: Estas son un poco más complejas porque integran ya no solo los componentes de nuestro sistema, sino además, componentes de terceros. En este nivel se probara la relación o comunicación que existe entre los componentes de nuestro sistema con bases de datos y/o API's externas.
+
+    ![pruebaServicio](./readme-imgs/img28.png)
+
+3. Pruebas de UI o End to End (E2E): Estas son las mas complejas y costosas de realizar, porqué es recomendable que tengamos realizadas las pruebas de los anteriores niveles, Si bien en este nivel la cantidad de pruebas es menor, la complejidad es más alta. En este nivel se comprueba el sistema entero, por eso se le conoce como "End to End", de principio a fin probamos todas las funcionalidades que utilizará el usuario final, asi como tambien, si el sistema cumple con los requerimientos del cliente.
+
+    ![pruebaUI](./readme-imgs/img29.png)
+
+En algunas piramides aparece una nube o nivel conocido como **pruebas exploratorias**. Ese nivel se refiere a todas aquellas pruebas manuales en las cuales nosotros exploramos la aplicación entera en busqueda de errores o caracteristicas inesperadas.
+
+![piramide](https://cl.abstracta.us/wp-content/uploads/2019/12/piramide-automatizacion-pruebas-funcionales-mike-cohn-1024x559.png)
+
+### Herramientas de Testing
+
+Cuando hablamos de herramientas, nos estamos refiriendo a aquellos software que emulan o procesan el código de nuestra aplicación basandose en disntintos parametros y en disntintos entornos. Para entender mucho mejor podemos clasificar a los disntitos software basandonos en la piramide:
+
+![testingTools](https://scontent.faep9-1.fna.fbcdn.net/v/t1.6435-9/174450239_3687374431371213_7281839233968067926_n.png?_nc_cat=104&ccb=1-7&_nc_sid=730e14&_nc_eui2=AeGmQkkJFS3SCLMfbwAEVTl9gxNgMyJMgWmDE2AzIkyBaWCuhMux2td1aqLbW6nAQinv-_9bKAY8jdxsR7SCybWE&_nc_ohc=ytybDD4zvxkAX9hg3gH&_nc_ht=scontent.faep9-1.fna&oh=00_AfCkScdBXk9YQJu5CeXMFu_rWBzHh-6bv2wA_nqfzJVwqA&oe=6426CCA5)
+
+En este caso podemos ver que cada software se especiliza en una cosa diferente, aunque algunos de estos pueden realizar diversas funciones para los distintos niveles. Para fines de este curso, vamos a estudiar estudiar mocha.
+Como curiosidad podemos ver que aparece Postman, y es que si, Postman es una herramienta de desarrollo que nos permite probar las rutas http de nuestro servidor, por esa razon, se encontraría en las pruebas de servicio.
+
+Las herramientas de testing podemos clasificarlas en 2 grupos:
+
+* Frameworks de testing: Un framework de testing es una herramienta que te permite definir, escribir y ejecutar pruebas para tu aplicación. En Node.js, algunos de los frameworks más populares son Mocha, Jest y Jasmine.
+
+* Herramientas de aserción: Las herramientas de aserción se utilizan en testing para comparar los resultados esperados con los resultados obtenidos. Por ejemplo, una herramienta de aserción puede verificar si un valor es verdadero (true) o falso (false), o si una variable tiene el valor esperado.
+
+### Mocha
+
+#### Documentación Oficial Mocha
+
+[![MOCHA](https://img.shields.io/badge/Documentacion%20Oficial-red)](https://mochajs.org/)
+
+#### Instalación Mocha
+
+```bash
+npm init
+
+npm install --save-dev mocha
+
+npm test
+```
+
+Una vez que iniciamos npm e instalamos mocha el `package.json` debería parecerse a algo como esto:
+
+```json
+{
+  "devDependencies": {
+    "mocha": "^10.2.0"
+  },
+  "name": "testing",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    /* Dependencias*/
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
+```
+
+Prestemos especial atención en el apartado `script`, en el cual figura la palabra "test" asociada a mocha, debemos asegurarnos que esto aparezca asi, por que de esta manera es como correremos mocha.
+
+#### Métodos Mocha
+
+**`describe():`**  Se utiliza para agrupar pruebas relacionadas en un bloque. Además permite anidar múltiples llamadas para crear una estructura jerárquica de pruebas. Su sintaxis es la siguiente:
+
+```js
+describe('nombre del bloque', function() {
+  // pruebas relacionadas (it's)
+});
+```
+
+**`it():`** Se utiliza para escribir pruebas individuales dentro de un bloque describe. El primer argumento de it es una descripción de la prueba, **que debe ser clara y concisa**. La función que sigue contiene las **aserciones** que se deben comprobar para que la prueba pase. Su sintaxis es la siguiente:
+
+```js
+it('descripción de la prueba', function() {
+  // aserciones
+});
+```
+
+Ahora bien, el siguiente código presenta un caso de testing en el cual se testeará si la función provista devuelve el resultado esperado:
+
+```js
+const { suma } = require('./funciones');
+const assert = require('assert');
+
+describe('Función de Suma', function() {
+    describe('Cuando se le pasan dos números', function() {
+      it('debería devolver la suma de los dos números', ()=>{
+        assert.equal(suma(2, 3), 5);
+      });
+    });
+  
+    describe('cuando se le pasan argumentos no numéricos', function() {
+      it('Debería devolver NaN', function() {
+        assert.throws(function() {
+          suma(2, '3');
+        });
+      });
+    });
+  }); 
+```
+
+En este caso podemos ver como se testea la misma función pero en 2 "escenarios" distintos, si la función se modificará, podriamos probarla rapidamente tan solo, volviendo a ejecutar el test con el comando `npm test`, luego de haber configurado el `package.json`.
+
+Como podemos ver en el código anterior, se utiliza el modulo `assert`, para comprender este módulo debemos de conocer que son las Assertions y los Matchers.
+
+Cuando hacemos testing existen paquetes que nos brindan funciones o métodos que nos simplifica enormemente la lógica. Estos se dividen en 2 grupos
+
+* **Assertions:** Son funciones que se utilizan para comprobar si un valor o resultado es **igual** a lo que se espera. Un ejemplo podria ser:_
+
+    ```js
+    assert.equal(suma(2, 3), 5);
+    ```
+
+    Algunas otras bibliotecas populares de aserciones en JavaScript son Chai, Jest y Jasmine.
+
+* **Matchers**: Son funciones que se utilizan para comprobar si un valor o resultado **cumple con una condición** específica. A diferencia de las aserciones, que se utilizan para comprobar si un valor es igual a otro, los matchers se utilizan para comprobar si un valor coincide con un patrón o condición específica. Un ejemplo podría ser:
+
+    ```js
+    assert.match('Hola Mundo!', /^Hola/);
+    // OK
+    ```
+
+    En el ejemplo anterior el segundo argumento de la funcion `.match()` es una expresión regular. Las expresiones regulares son patrones que nos permiten buscar coincidencias dentro una cadena de caracteres. En este caso, la expresión busca la palabra "Hola" dentro del string "Hola Mundo!", si existe coincidencia devuelve que la prueba fué existosa.
+
+#### Métodos de Assert
+
+Para finalizar con el capitulo de testing vamos a presentar algunos de los métodos mas importante del módulo Assert. Cabe aclarar que, en la practica, por lo general se utilizan módulos de terceros como Jest o Chai.
+
+**Documentación oficial:** [AssertModule](https://nodejs.org/dist/latest-v18.x/docs/api/assert.html#assertmatchstring-regexp-message)
+
+* `assert(value, message):` Lanza un error si value es falso.
+* `assert.deepEqual(actual, expected, message):` Verifica que actual y expected son valores idénticos, en profundidad.
+* `assert.deepStrictEqual(actual, expected, message):` Similar a `assert.deepEqual()`, pero no convierte los tipos de los valores al compararlos.
+* `assert.equal(actual, expected, message):` Verifica que actual y expected son iguales (==).
+* `assert.fail(message)`: Lanza un error con el mensaje proporcionado.
+* `assert.ifError(value)`: Lanza un error si value no es falso.
+* `assert.notDeepEqual(actual, expected, message)`: Verifica que actual y expected no son valores idénticos, en profundidad.
+* `assert.notDeepStrictEqual(actual, expected, message)`: Similar a assert.notDeepEqual(), pero no convierte los tipos de los valores al compararlos.
+* `assert.notEqual(actual, expected, message)`: Verifica que actual y expected no son iguales (!=).
+* `assert.notStrictEqual(actual, expected, message)`: Verifica que actual y expected no son estrictamente iguales (!==).
+* `assert.ok(value, message)`: Lanza un error si value es falso.
+* `assert.rejects(asyncFn, error, message)`: Verifica que una promesa asyncFn es rechazada con un error específico o una instancia de error específico.
+* `assert.resolve(value, message)`: Verifica que una promesa es resuelta (no rechazada) con un valor verdadero.
+* `assert.strictEqual(actual, expected, message)`: Verifica que actual y expected son estrictamente iguales (===).
+* `assert.throws(fn, error, message)`: Verifica que fn arroja un error específico o una instancia de error específico.
+
+## Logging en Nodejs
