@@ -1,0 +1,8 @@
+{"level":"error","message":"Something went wrong","service":"my-app"}
+{"0":" ","1":"W","10":"o","11":"g","2":"i","3":"n","4":"s","5":"t","6":"o","7":"n","8":" ","9":"l","level":"error","message":"Something went wrong"}
+{"0":" ","1":"W","10":"o","11":"g","2":"i","3":"n","4":"s","5":"t","6":"o","7":"n","8":" ","9":"l","level":"error","message":"Something went wrong"}
+{"level":"error","mensaje":" Winston log","message":"Something went wrong"}
+{"level":"error","message":"Something went wrong","wensaje":" Winston log"}
+undefined
+undefined
+undefined

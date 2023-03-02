@@ -1856,13 +1856,996 @@ Otras: Range (para descargar solo partes del recurso), Max-Forward (límite de c
 <p><img src="https://tecsify.com/blog/wp-content/uploads/2022/08/MetodosHTTP-1.jpg" alt="METODOSHTTP"></p>
 <p><img src="https://miro.medium.com/max/1018/0*XB5zwH2FMnsOh7tc.png" alt="METODOSHTTP2"></p>
 <h4 id="c%C3%B3digos-de-respuestas-http">Códigos de respuestas HTTP</h4>
+<p>Los codigos de respuestas funcionan &quot;Pre-Respuesta&quot; para el cliente. Estos indican el estado de la petición que se realizó, como desarrolladores nos permite conocer que fué lo que ocurrió con la petición, y en caso de haber algun error o advertencia, saber desde donde se disparó.</p>
+<p><img src="https://plataforma.josedomingo.org/pledin/cursos/apache24/curso/u01/img/dia2.png" alt="CodigosHTTP"></p>
+<ul>
+<li>
+<p>Códigos con formato 1xx: Respuestas informativas. Indica que la petición ha sido recibida y se está procesando.</p>
+</li>
+<li>
+<p>Códigos con formato 2xx: Respuestas correctas. Indica que la petición ha sido procesada correctamente.</p>
+</li>
+<li>
+<p>Códigos con formato 3xx: Respuestas de redirección. Indica que el cliente necesita realizar más acciones para finalizar la petición.</p>
+</li>
+<li>
+<p>Códigos con formato 4xx: Errores causados por el cliente. Indica que ha habido un error en el procesado de la petición a causa de que el cliente ha hecho algo mal.</p>
+</li>
+<li>
+<p>Códigos con formato 5xx: Errores causados por el servidor. Indica que ha habido un error en el procesado de la petición a causa de un fallo en el servidor.</p>
+</li>
+<li>
+<p>300: Significa que la petición enviada tiene multiples respuestas, y el usuario debe elegir una.</p>
+</li>
+<li>
+<p>301: Significa que la URL a la que estamos accediendo a cambiado PERMANENTEMENTE, por lo que nuestro agente deberia &quot;desagendar&quot; esta ruta y enviar una nueva solicitud a la nueva ruta devuelta por el servidor (la cual viene en el encabezado con el codigo 301)</p>
+</li>
+<li>
+<p>302: Significa que la URL a la que estamos accediendo a cambiado TEMPORALMENTE, por lo que, en este caso, nuestro agente NO &quot;desagenda&quot; la ruta original pero vuelve enviar una nueva solicitud con la nueva ruta devuelta por el servidor (la cual viene en el encabezado con el codigo 302). Por ejemplo, se utiliza para cuando la pagina principal esta en mantenimiento y necesitamos redirigir a los clientes a una pagina secundaria.</p>
+</li>
+<li>
+<p>304:  Es un código de respuesta utilizado para indicar que un recurso solicitado no ha sido modificado desde la última vez que se solicitó. Cuando un cliente envía una solicitud a un servidor, a menudo incluye un encabezado &quot;If-Modified-Since&quot; o &quot;If-None-Match&quot; que especifica la fecha y la hora de la última vez que se solicitó el recurso o la identificación de la versión del recurso. Si el recurso no ha cambiado desde la última vez que se solicitó, el servidor devuelve una respuesta con un código de estado HTTP 304. La respuesta HTTP 304 no incluye el cuerpo de la respuesta, ya que el cliente ya tiene una copia actualizada del recurso en su caché.</p>
+</li>
+<li>
+<p>401: El usuario no esta logeado o no tiene permisos para acceder al recurso, o sea, faltan credenciales. Se puede solucionar logueandose.</p>
+</li>
+<li>
+<p>403: El usuario peude estar logueado, pero el servidor rechaza enviarle una respuesta.</p>
+</li>
+<li>
+<p>404: De los mas comunes, indica que el recurso al que queremos acceder no existe, puede deberse a un error de tipeo de la URL que enviamos como petición o el recurso puede haber sido borrado del servidor.</p>
+</li>
+</ul>
 <h4 id="versiones-de-http">Versiones de HTTP</h4>
 <p>Video Interesante: <a href="https://www.youtube.com/watch?v=a-sBfyiXysI">HTTP/1 to HTTP/2 to HTTP/3 | ByteByteGo</a></p>
+<p>Debido a que HTTP es un protocolo que apareció en los inicios de la web, este se a ido actualizando para cumplir con las demandas del mercado, gracias a su naturaleza es que se la podido añadir nuevas funcionalidades.</p>
+<p>Vamos a divirdir esta seccion en 2, por un lado hablaremos de HTTPS y encriptación, y por el otro, hablaremos del protocolo como tal (HTTP1,HTTP2 y HTTP3)</p>
+<h4 id="https">HTTPS</h4>
+<p>Seguramente este nombre te resulte familiar, y es que estas siglas son las que comunmente aparecen en las páginas que visitamos dia a dia, y cuando no estan, el navegador advierte que la página es insegura.</p>
+<p>Pero por qué ocurre esto?</p>
+<p>Pensemos en el siguiente ejemplo:</p>
+<ul>
+<li>
+<p>El protocolo HTTP nos permite enviar y recibir información de un servidor.</p>
+</li>
+<li>
+<p>Y ademas sabemos que el paquete tiene que a travesar varios nodos de internet para llegar al destino.</p>
+</li>
+</ul>
+<p>Ahora, imaginemos que estamos comunicandonos con el servidor de un banco o un e-commerce, ¿ Qué pasaria si nosotros enviamos una petición con las credenciales de nuestra tarjeta de credito al servidor sin ningun tipo de encriptación previa?.
+Pues bien, ya que el paquete viaja por internet, y en internet no todos son buenas personas, podria ocurrir que el paquete sea interceptado por un atacante y este descubra esa información confidencial.</p>
+<p><img src="https://cio.com.mx/wp-content/uploads/2021/12/man-in-the-middle-ataque.jpg" alt="Hacker"></p>
+<p>Para solucionar esto, es que aparece la <strong>encriptación de paquetes</strong>.</p>
+<h4 id="ssl-y-tls">SSL y TLS</h4>
+<p>Si hablamos de encriptación, podemos hablar largo y tendido, pero para este curso vamos a centrarnos en lo básico. Cuando queremos que nuestra comunicación sea segura y queremos hacer uso de las funcionalidades de HTTP, podemos utilizar HTTPS (HiperText Transfer Protocol Secure). Este no es más que el protoclo HTTP sumado a algun protocolo de encriptación, en este caso, SSL/TLS.</p>
+<p><img src="https://cdn-media-1.freecodecamp.org/images/0*wUTFJrRSM2vh1H7v.jpg" alt="HTTPS"></p>
+<p>Ahora, ¿Qué es <strong>SSL</strong> y <strong>TLS</strong>?. Los 2 son protocolos que se utilizan para la encriptación de datos que seran enviados por la web, el cómo lo hacen y el proceso lo explicaremos a continuación, pero primero te diremos la diferencia. La diferecia entre SSL (Secure Sockets Layer) y TLS (Transport Layer Security) es que el segundo es la versión actualizada del primero, ya que el SSL tenía vulnerabilidades en su diseño es que se decidió reinventar y mejorar en TLS, ofreciendo este, mejoras en sus algoritmos de encriptación y autenticidad, entre otras cosas.
+Lo que tiene que quedar claro son 2 cosas:</p>
+<ol>
+<li>SSL/TLS: Se podria decir que son <strong>casi</strong> el mismo protocolo.</li>
+<li>Hoy en dia se usa TLS, ya que ofrece una más seguridad.</li>
+</ol>
+<h4 id="encriptaci%C3%B3n-con-claves-sim%C3%A9tricas-y-asim%C3%A9tricas">Encriptación con Claves Simétricas y Asimétricas</h4>
+<p>El proceso de encriptación que vamos a presentar, es uno de las conocidos, pero no es el único. Las claves no son mas que llaves que desbloquean datos cifrados, como si esto ultimo fuera un candado. Ahora bien tenemos 2 formas de operar, Claves Simétricas o Asimétricas.</p>
+<p><strong>Claves SIMÉTRICAS</strong>
+Las 2 entidades que establecen comunicación (Cliente y Servidor), tienen la misma llave. Se ponen de acuerdo y establecen una llave en comun y cifran los datos basandoce en esa clave. ¿El problema?, Si un atacante se encuentra escuchando en el momento que establecemos la clave o si la descifra, la comunicación se vuelve vulnerable.
+<img src="https://jesusfernandeztoledo.com/wp-content/uploads/2020/11/word-image.png" alt="ClavesSimétricas">.</p>
+<p><strong>Claves ASIMÉTRICAS</strong>
+Para solucionar la vulnerabilidad anterior y mejorar la seguridad, cuando hablamos de ASIMETRÍA nos estamos refiriendo a que usaremos 2 claves y 2 candados para realizar la encripatción. Imaginemos que, ahora, el cliente tiene 2 claves</p>
+<ul>
+<li>
+<p><strong>Clave Publica</strong>: Todos pueden verla y todos la conocen (Incluido un Atacante) pero solo sirve para CIFRAR el dato.</p>
+</li>
+<li>
+<p><strong>Clave Privada</strong>: Solo puede verla y conocerla la persona que la genera (en este caso, el cliente), y además esta es la ÚNICA que puede DESCIFRAR los datos CIFRADOS por la <strong>clave pública</strong>.</p>
+</li>
+</ul>
+<p><strong>Estas 2 claves se generan juntas y se encuentran relacionadas una con la otra</strong></p>
+<p>Ahora, por otro lado, el servidor tambien tiene una clave publica y privada, que funcionan exactamente igual que las del cliente. Con el agregado de que este poseé un certificado de autenticación, el cual es un archivo que entregado por una autoridad de confianza que certica que el servidor es seguro. Este certificado contiene la llave pública del servidor</p>
+<p>¿Cómo Funciona?</p>
+<ol>
+<li>
+<p><strong>Handshake Inicial</strong>: El cliente y el servidor intercambian información sobre los protocolos de seguridad que soportan y el tipo de cifrado que se utilizará. El servidor envía su certificado con la clave pública para establecer la confianza.</p>
+</li>
+<li>
+<p><strong>Verificación del Certificado</strong>: El cliente verifica la validez del certificado del servidor utilizando una autoridad de certificación (CA) que se encuentra en su lista de confianza. La verificación incluye el nombre del servidor, la fecha de validez y la autoridad de certificación que lo emitió.</p>
+</li>
+<li>
+<p><strong>Intercambio de Claves</strong>: Una vez que se ha establecido la confianza, el cliente utiliza la <strong>clave pública del servidor</strong> para cifrar la información, y le envia la clave su propia clave pública (La del cliente).  A partir de este momento, <strong>si el servidor es el autentico</strong>, podra decifrar el mensaje, ya que los datos que le han llegado estan cifrados con <strong>su clave pública</strong>, y como <strong>solo él</strong> conoce porque tiene su clave privada.</p>
+</li>
+<li>
+<p><strong>Cifrado de Datos</strong>: Ahora solo resta que el servidor envié los datos que el cliente solicité, <strong>cifrándolos con la clave púlica del cliente</strong>, por ende, <strong>si el cliente es el autentico</strong>, podra ser descifra la información su <strong>propia clave privada</strong>.</p>
+</li>
+</ol>
+<p><img src="https://sadnocturno.files.wordpress.com/2016/02/cifrado-de-clave-publica2.jpg" alt="Simetria"></p>
+<p><strong>Video Interesante:</strong> <a href="https://www.youtube.com/watch?v=wDpqrasDmxM">Encriptación (Cifrado) Simétrica y Asimétrica - Explicado Fácilmente | PROFE SANG</a></p>
+<h4 id="http-10-20-30">HTTP 1.0, 2.0, 3.0</h4>
+<ul>
+<li>
+<p>HTTP/0.9: La primera versión de HTTP, lanzada en 1991. Es muy simple y sólo permite la solicitud y recepción de archivos HTML.</p>
+</li>
+<li>
+<p>HTTP/1.0: Lanzada en 1996, esta versión agregó cabeceras y un formato más completo para las solicitudes y respuestas HTTP.</p>
+</li>
+<li>
+<p>HTTP/1.1: Lanzada en 1999, esta versión introdujo muchas mejoras importantes, como:</p>
+<ol>
+<li>
+<p><strong>Conexiones persistentes</strong>: permite que los clientes mantengan una conexión abierta con el servidor para realizar múltiples solicitudes sin tener que establecer una conexión para cada una. Esto reduce significativamente la sobrecarga en la red y mejora la eficiencia.</p>
+</li>
+<li>
+<p><strong>Caché de respuestas:</strong> permite que los clientes almacenen copias locales de respuestas que han sido previamente descargadas para evitar tener que descargar la misma información varias veces.</p>
+</li>
+<li>
+<p><strong>Mejora de la gestión de errores:</strong> HTTP/1.1 introdujo una serie de nuevos códigos de estado HTTP para ayudar a los clientes y servidores a manejar errores de manera más efectiva.</p>
+</li>
+<li>
+<p><strong>Condiciones de solicitudes y respuestas:</strong> permite que los clientes y servidores interactúen más eficientemente al solicitar y recibir información, utilizando cabeceras adicionales y códigos de estado HTTP.</p>
+</li>
+<li>
+<p><strong>Enrrutamiento (Pipelining)</strong>: Este característica quiere decir que el cliente puede realizar una petición incluso si la petición anterior no ha sido contestada aun.</p>
+</li>
+</ol>
+</li>
+<li>
+<p>HTTP/2: Lanzado en 2015, HTTP/2 es una versión totalmente nueva y más eficiente de HTTP. Introduce conceptos como el multiplexado de solicitudes, la compresión de cabeceras y la mejora de la carga de trabajo del servidor.</p>
+<ol>
+<li>
+<p><strong>Multiplexado de solicitudes:</strong> Permite a los clientes enviar múltiples solicitudes en una sola conexión sin tener que esperar a que se reciban las respuestas antes de enviar la siguiente solicitud. Ademas tampoco importa el orden en el que se responden las solicitudes.</p>
+</li>
+<li>
+<p><strong>Compresión de cabeceras:</strong> Reduce la cantidad de datos transmitidos en las cabeceras HTTP, lo que mejora la eficiencia de la red.</p>
+</li>
+<li>
+<p><strong>Server push:</strong> Permite que el servidor envíe información adicional al cliente que será almacenada como cache antes de que se haya solicitado, lo que mejora la velocidad y la eficiencia de la aplicación.</p>
+</li>
+<li>
+<p><strong>Mejora de la gestión de errores:</strong> HTTP/2 introduce una serie de mejoras en la gestión de errores para ayudar a los clientes y servidores a manejar errores de manera más efectiva.</p>
+</li>
+</ol>
+</li>
+</ul>
+<p><img src="https://www.researchgate.net/publication/312560536/figure/fig1/AS:718584909148161@1548335401105/Comparison-of-HTTP-versions.jpg" alt="VersionesHTTP"></p>
+<ul>
+<li>
+<p>HTTP/3: Por otro lado tenemos la última version de este protocolo, existente hasta el dia de la fecha. Esta nueva versión fue desarrollada por Google, con el fin de mejorar la eficiencia de trasmisión de datos. Gracias a los estudios realizados por la compañia es que apareció el protocolo <strong>QUIC</strong>, el cual a dia de hoy, ya es considerado un estandar de la industria y ha comenzado a utilizarce en disntintos servicios de Google.</p>
+<p><strong>¿Qué es QUIC?</strong></p>
+<p>Básicamente es un protocolo que se basa en UDP, de ahí su nombre, <strong>Quick UDP Internet Connections</strong>. Si recordamos, UDP es un protocolo utilizado para la transmisión de datos, que en contraposición a TCP, este no verifica la integridad de los datos que recibe, por lo que se vuelve suceptible a errores de trasmisión, pero nos recompensa con una alta velocidad.</p>
+<p>Ahora, QUIC, si bien esta basado en UDP, esta integrado con con funcionalidades que lo vuelven aun mas rapido y mas seguro. Algunas de sus caracteristicas son:</p>
+<ol>
+<li>
+<p><strong>Cifrado por defecto:</strong> QUIC proporciona una seguridad mejorada, ya que todas las comunicaciones se cifran de forma predeterminada.</p>
+</li>
+<li>
+<p><strong>Multiplexado de solicitudes:</strong> QUIC permite que los clientes realicen múltiples solicitudes simultáneamente a través de una única conexión, lo que mejora la eficiencia y reduce la sobrecarga en la red.</p>
+</li>
+<li>
+<p><strong>Mejor recuperación de errores:</strong> QUIC incluye mejoras en la recuperación de errores y la gestión de congestión en comparación con TCP.</p>
+</li>
+<li>
+<p><strong>Mejor rendimiento:</strong> QUIC es más rápido y eficiente que TCP y UDP, ya que utiliza un enfoque de multiplexación de solicitudes y un mecanismo de reenvío de paquetes más avanzado.</p>
+</li>
+</ol>
+<p><img src="https://www.adslzone.net/app/uploads/2019/09/HTTP3.gif" alt="QUIC">
+<img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Yb7iodKh--/c_limit,f_auto,fl_progressive,q_auto,w_880/https://dev-to-uploads.s3.amazonaws.com/i/11eysceayfj7egt0uxmf.jpg" alt="QUIC2">
+Video de HTTP/3 Interesante: <a href="https://www.youtube.com/watch?v=jWe_Zf9bxnk&amp;t=1s">INTERNET MÁS RÁPIDO: Todo lo que tienes que saber sobre HTTP/3 | Xataka Basics</a></p>
+</li>
+</ul>
+<p><strong>Página Interesante:</strong> <a href="https://developer.mozilla.org/es/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP">DEV-MOZILLA | Evolución del Protocolo</a>
+<strong>Video Interesante:</strong> <a href="https://www.youtube.com/watch?v=a-sBfyiXysI">HTTP/1 to HTTP/2 to HTTP/3 | ByteByteGo</a></p>
+<h4 id="sockets">Sockets</h4>
+<p>Antes de pasar a ver el módulo como tal, vamos a presentar un último tema que es redundante cuando hablamos de redes infromaticas, y que además, es utilizado por diferentes aplicaciones web. Los <strong>sockets</strong>, o en español enchufes, son mecanismos o <em>interfaces</em> de red que permiten a 2 <strong>procesos</strong> o programas disntitos comunicarse, aun si estos se encuentran en disntintas computadoras.</p>
+<p><img src="https://vteforte.tripod.com/Image10.gif" alt="sockets">
+Anteriormente, cuando hablamos del módelo cliente-servidor, dijimos que una de las desventajas de este, es que para que el servidor pueda enviar datos al usuario, este último tiene que solicitárcelos a traves de una petición. Pues bien, una de las principales características de los sockets es que, una vez establecida la conexión entre los procesos, la comunicación se vuelve bidireccional, por lo que, el servidor puede enviar datos, sin tener que esperar a que el usuario la pida.</p>
+<p><img src="https://slideplayer.es/slide/1064854/3/images/10/El+Nivel+de+Transporte+en+Internet.jpg" alt="sockets2"></p>
+<p>Con respecto al funcionamiento este es bastante sencillo, para que funcione los, programas, aplicaciones y procesos deben estar alojados en un puerto de nuestra pc. Los puertos vienen de la mano de las direcciones IP.</p>
+<blockquote>
+<h3 id="socket--ip--port">SOCKET = IP + PORT</h3>
+</blockquote>
+<p>Un ejemplo muy sencillo, en donde se utilizan sockets, es en las aplicaciones de mensajeria como WhatsApp, en la cual, nosotros no necesitamos, obligatoriamente, realizar una petición cada vez que nos envian un mensaje, ya que, al utilizar sockets, el servidor nos NOTIFICA cuando hay información y desde ahi, nuestra APLICACION CLIENTE (o el agente) descarga la información.</p>
+<p>Por ultimo, los sockets pueden ser de 2 tipos:</p>
+<ul>
+<li>
+<p>Sockets Streams (TCP): Son sockets que utilizan el TCP para el envio, recepcion y control de paquetes.</p>
+</li>
+<li>
+<p>Sockets Datagrams (UDP): Son sockets que utilizan el protocolo UDP, para el envio y recepcion de paquetes.</p>
+</li>
+</ul>
+<p><a href="https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers">Pagina Para Verificar y Conocer Puertos | WIKIPEDIA</a></p>
+<p><strong>Dato importante:</strong> Cada protocolo que hemos visto hasta ahora, son programas que corren en nuestras computadoras, y por ende, cada uno tiene un puerto especifico, de ahi que cuando utilizamos puertos tenemos que verificar si estos no estan ocupados por otras aplicaciones. Un ejemplo sencillo es el caso del protocolo HTTP, que recide en el puerto 80. Si cerracemos este puerto desde consola, por ejemplo, nos quedariamos sin forma de navegar por la web, por lo menos hasta que lo reabramos.</p>
+<p><img src="https://i0.wp.com/nksistemas.com/wp-content/uploads/2012/06/puertos.png?ssl=1" alt="Puertos"></p>
 <h4 id="documentaci%C3%B3n-oficial-http">Documentación Oficial HTTP</h4>
 <p>Aquí se encuentra toda la información del módulo:</p>
 <p><a href="https://nodejs.org/dist/latest-v18.x/docs/api/http.html"><img src="https://img.shields.io/badge/Documentacion Oficial-green" alt="HTTP"></a></p>
 <h4 id="importaci%C3%B3n-http">Importación HTTP</h4>
-<h4 id="metodos-http">Metodos HTTP</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>);
+</div></code></pre>
+<h4 id="caracter%C3%ADsticas-del-m%C3%B3dulo-http">Características del módulo HTTP</h4>
+<ul>
+<li>
+<p>Al igual que con el módulo FS, con el módulo HTTP trabajamos los mensajes, peticiones, y respuestas HTTP con Streams y Buffers.</p>
+</li>
+<li>
+<p>El mensaje de la petición cuando llega a nuestro servidor llega en forma de objeto, conceptos como el header o cabecera de la peticion puede ser representado de la siguiente manera:</p>
+<pre class="hljs"><code><div>{ 
+<span class="hljs-string">'content-length'</span>: <span class="hljs-string">'123'</span>,
+<span class="hljs-string">'content-type'</span>: <span class="hljs-string">'text/plain'</span>,
+<span class="hljs-string">'connection'</span>: <span class="hljs-string">'keep-alive'</span>,
+<span class="hljs-string">'host'</span>: <span class="hljs-string">'example.com'</span>,
+<span class="hljs-string">'accept'</span>: <span class="hljs-string">'*/*'</span> 
+}
+</div></code></pre>
+</li>
+<li>
+<p>Hay mas versiones de este módulo como <code>http/2</code> y <code>https</code>, pero para fines de este curso tan solo nos centraremos en http, entre los 3 comparten muchos métodos y clases, y como por sus nombres ya podemos intuir que caracteristicas os diferencian.</p>
+</li>
+<li>
+<p>El módulo principal trae distintas clases que representan que actuan como interfaz para realizar las operaciones del protocolo http.</p>
+</li>
+</ul>
+<p>Las clases que nos ofrece el módulo son las siguientes:</p>
+<ul>
+<li>
+<p><strong>http.Agent:</strong> Representa un conjunto de conexiones HTTP que se pueden reutilizar para realizar solicitudes HTTP. Puedes usar un agente para mejorar la eficiencia de tus solicitudes HTTP, evitando la creación de nuevas conexiones TCP para cada solicitud y reutilizando las conexiones existentes en su lugar.</p>
+</li>
+<li>
+<p><strong>http.ClientRequest:</strong> Representa una solicitud HTTP enviada desde un cliente. Puedes utilizar esta clase para enviar solicitudes HTTP a un servidor y manejar la respuesta que recibes.</p>
+</li>
+<li>
+<p><strong>http.IncomingMessage:</strong> Representa una respuesta HTTP. Puedes usar esta clase para acceder a los detalles de la respuesta, como el encabezado y los datos de la respuesta.</p>
+</li>
+<li>
+<p><strong>http.OutgoingMessage:</strong>: Representa la una petición HTTP, al igual que con la clase anterior, esta nos permite configurar los 'headers' y body de la petición.</p>
+</li>
+<li>
+<p><strong>http.Server:</strong> Representa un servidor HTTP. Puedes usar esta clase para crear un servidor HTTP que acepte solicitudes de clientes y envíe respuestas. Podriamos decir que esta es la clase principal del módulo http de NodeJs, porque es la que permite que nuestra aplicación se comporte y actue como un servidor web.</p>
+</li>
+<li>
+<p><strong>http.ServerResponse:</strong> Representa una respuesta HTTP que se enviada desde el servidor.</p>
+</li>
+</ul>
+<p>Si ha estudiado el concepto de programación orientada a objetos, debe saber que una clase puede heredar propiedades y métodos de otras clases, Pues bien, las clases que presentamos anteriormente se &quot;basan&quot; o heredan las propiedades y metodos de los <code>streams</code></p>
+<p>Es por esta razon que, no profundizaremos, tanto, en cada objeto del módulo, ya que, como dijimos, <em><strong>los objetos del módulo http, estan basados en los Streams.</strong></em></p>
+<p>Vease el siguiente diagrama para entender las dependencias de cada clase (quién se basa en quién)</p>
+<p><img src="./readme-imgs/img15.jpg" alt="httpModuleClasses"></p>
+<p>Como podemos observar, exiten 2 métodos principales (los verdes) los cuales crean a los objetos principales del modulo, el servidor y el agente. El primero representa la entedidad de un servidor y el segundo representa la entidad de un cliente.</p>
+<p>Ademas cada entidad posee otros objetos que utiliza para operar (<code>request</code>, <code>http.serverResponse</code>, <code>http.ClientRequest</code>), los cuales se basan, ya si, en las clases de los Streams.</p>
+<p>Algo a destacar, la clase <code>http.OutGoingMessage</code>, tiene 2 posibles contextos:</p>
+<ol>
+<li>
+<p>Si lo utiliza el servidor, este lo utilizará para responder a los clientes, por eso, se traduce como: &quot;mensaje de salida&quot;.</p>
+</li>
+<li>
+<p>Si lo utiliza el agente, como este representa a un cliente, entonces esta clase funciona como receptora de la respuesta que espera el agente, una vez que ya hizo la petición a algun servidor web. (Este puede ser una API, por poner un ejemplo).</p>
+</li>
+</ol>
+<h4 id="metodos-http-module">Metodos HTTP MODULE</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>);
+
+<span class="hljs-keyword">const</span> server = http.createServer(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span>{
+    <span class="hljs-comment">// console.log(res); // res = http.ServerResponse</span>
+    <span class="hljs-comment">// console.log(req); // req = IncomingMessage</span>
+
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'La dirección del cliente es: '</span>,req.socket.localAddress);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'El tipo de conexion del cliente es: '</span>,req.socket.remoteFamily);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'El puerto del cliente es: '</span>,req.socket.remotePort);
+
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'\n--- PAQUETE HTTP ---'</span>);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'\n- METODO -\n'</span>);
+    <span class="hljs-built_in">console</span>.log( req.method );
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'\n- URL -\n'</span>);
+    <span class="hljs-built_in">console</span>.log( req.url );
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'\n- CABECERA -\n'</span>);
+    <span class="hljs-built_in">console</span>.log( req.headers );
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'\n- BODY -\n'</span>);
+    req.on(<span class="hljs-string">'data'</span>,(datos) =&gt; {
+        <span class="hljs-keyword">const</span> datosConvertidos = datos.toString(<span class="hljs-string">'utf-8'</span>);
+        <span class="hljs-built_in">console</span>.log(datosConvertidos)
+    });
+    
+    res.writeHead(<span class="hljs-number">200</span>, <span class="hljs-string">'Todo en orden'</span>,) <span class="hljs-comment">// setea el header de la respuesta con un codigo http y un mensaje</span>
+    res.write(<span class="hljs-string">'Este es el mensaje del servidor: '</span>)
+    res.end(<span class="hljs-string">`Hola Cliente, Hola Mundo!`</span>)
+})
+
+server.listen(<span class="hljs-number">3000</span>,<span class="hljs-string">'localhost'</span>,() =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'servidor escuchando en: puerto 3000'</span>)); <span class="hljs-comment">// Establece la direccion del servidor, tanto el port como el dominio.</span>
+
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'El servidor se cerrará en 10 segundos...'</span>);
+setTimeout(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span>{
+    server.close();
+},<span class="hljs-number">10000</span>)
+
+server.on(<span class="hljs-string">'close'</span>, () =&gt;{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'El servidor se cerró!'</span>);
+})
+</div></code></pre>
+<p>Vamos a explicar la forma mas comun en la que se trabaja con el modulo http. Esta metodología se basa en crear un servidor y administrarlo mediante los objetos <code>request</code> y <code>response</code>, los cuales nos permiten recibir las peticiones, y enviar las respuestas, respectivamente.</p>
+<p><code>http.createServer([options][, requestListener])</code>: Este método es uno de los más importantes, permite crear una instancia de la clase <code>http.Server</code>. Este método acepta, de manera <strong>opcional</strong> un objeto <code>[options]</code>. No vamos a entrar en muchos detalles ya que, las opciones que nos ofrecen son muy puntuales (Mirar Documentación del método).</p>
+<p>Por otro lado tambien acepta un <code>[requestListener]</code>. Este no es mas que una función callback que se ejecutará cada vez que una petición llegue a nuestro servidor. Esta función nos permite extraer 2 parametros, <code>req</code> y <code>res</code>, estos representan la petición del cliente (request) y la respuesta que le devolvemos (response) respectivamente.</p>
+<ul>
+<li>
+<p><code>res</code> es una instancia del objeto <code>ServerResponse</code>.</p>
+</li>
+<li>
+<p><code>req</code> es una instancia del objeto <code>IncomingMessage</code>.</p>
+</li>
+</ul>
+<p><code>req</code> y <code>res</code> son objetos del tipo <code>streams</code>, por lo que soportan los eventos y métodos de los streams, como: <code>data</code>, <code>req.on()</code>, <code>res.write()</code>.</p>
+<p>Gracias a esta herencia entre objetos es que estamos en condiciones de saltarnos varios conceptos y métodos, simplemente porque seria repetir lo dicho anteriormente. Pero solo si vimos el apartado de <code>Streams</code>, en caso contrario, regrese a los capitulo anteriores.</p>
+<p>Algo que tiene que quedar muy claro es lo siguiente, si bien req y res funcionan como streams, <strong>No podemos olvidar que son objetos independientes, que actuan como API o interfaz para facilitar el manejo del protocolo http</strong>.</p>
+<p>Ahora, exiten mas métodos dentro de este módulo que vale la pena remarcar, como por ejemplo la utilización de sockets y los agentes.</p>
+<h4 id="sockets-y-http-module">Sockets y HTTP Module</h4>
+<p>Los <code>sockets</code> son un concepto que tambien vimos en capitulos anteriores. En resumen un socket es una forma de comunicar 2 procesos, mediante la utilizacion de puertos. Una vez que se <strong>ESTABLECE LA COMUNICACION</strong> los procesos pueden realizar tanto, <strong>ENVIO COMO RECEPCIÓN DE PAQUETES</strong>.</p>
+<p>Cuando en el <strong>Módulo HTTP</strong> aparece el termino <code>Socket</code>, este hará referencia al canal que se establecio previamente entre el servidor y el cliente, y que por ende, nos habilita a nosotros, como servidor, enviar y recibir informacion del cliente. Todo esto, haciendo uso de un solo objeto.</p>
+<p>Un último parentesis antes de presentar el codigo, <strong>los Sockets son considerados de bajo nivel</strong>, a diferencia de <code>req</code> y <code>res</code> que son considerados de <strong>Alto nivel</strong>. Esto se debe a que, los sockets no estan ligados estrictamente al protocolo HTTP, lo que quiere decir que carece de metodos o funciones que necesitamos a la hora de comunicarnos via el protocolo http. <strong>Esto no quiere decir que no puede utilizarlo</strong>. Vease el siguiente código, para comprender mejor.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>);
+
+<span class="hljs-keyword">const</span> server = http.createServer().listen(<span class="hljs-number">3000</span>,<span class="hljs-string">'localhost'</span>)
+
+<span class="hljs-comment">// Evento que se dispara cuando hay una nueva conexion</span>
+<span class="hljs-comment">// y devuelve una funcion callback con un objeto socket como argumento.</span>
+server.on(<span class="hljs-string">'connection'</span>, (socket)=&gt;{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Nueva Conexion!'</span>);
+    
+    socket.on(<span class="hljs-string">'data'</span>,(datosCliente)=&gt;{
+
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Datos Recibidos: '</span>,datosCliente.toString());
+
+        socket.write(
+        <span class="hljs-string">'HTTP/1.1 200 OK\r\n'</span> +
+        <span class="hljs-string">'Content-Type: text/plain\r\n'</span> +
+        <span class="hljs-string">'Content-Length: 12\r\n'</span> +
+        <span class="hljs-string">'\r\n'</span>+
+        <span class="hljs-string">'Hola, mundo!'</span>);
+    })
+
+});
+</div></code></pre>
+<p>Si bien este código es muy sencillo, ya nos permite apreciar las diferencias entre usar <code>sockets</code> y <code>req</code>/<code>res</code>. En este ejemplo podemos ver que, <strong>el <code>Socket</code> es un objeto que hereda las caracteristicas de un Duplex Stream</strong>, por lo que, podremos leer y escribir (la característica principal del socket, que es la comunicación bidireccional).</p>
+<p>Como podemos ver, en este caso, tenemos que especificar el mensaje entero, &quot;a puro pulmon&quot;. Si utilizamos <code>res</code>, por ejemplo, podemos especificar los headers de al respuesta con el método <code>response.setHeader(name, value)</code>.</p>
+<p>Las diferencias son muchas, pero no ahondaremos mucho mas, porque, como dijimos antes, estariamos redundando mucho en temas anteriores.</p>
+<p>Para cerrar, el módulo http es difícil de entender al principio, ya que posee muchas clases las cuales se relacionan directamente con conceptos como Streams y Sockets, que tambien requieren un cierto grado de estudio. Por esa razon es recomndable conocer y entender muy bien estos conceptos fundamentales, si queremos entender a profundidad el módulo.</p>
+<h2 id="aditional-packages">Aditional Packages</h2>
+<p>Ya hemos terminado con los temas principales de NodeJs, hasta este momento hemos explicado, trabajado y comprendido, los conceptos mas basicos y fundamentales con los que nos encontramos a la hora de trabajar en el entorno de Node.</p>
+<p>Ahora vamos a ver contenidos que, si bien no son estrictamente necesarios para desarrollar nuestras tareas como programadores de Node, si es muy buena idea conocerlos y, aunque sea, dejarlos por sentados en este curso.</p>
+<h3 id="json-web-tokens-jwt">JSON Web Tokens (JWT)</h3>
+<p>Volviendon con las cuestiones de seguridad, vamos a ver un concepto llamado Json Web Tokens. Desglocemos:</p>
+<ul>
+<li>
+<p>JSON: Como vimos antes, es una estructura de datos simple, que permite genera una formato de archivo que, hoy en dia, es ampliamente utilizado en distintas tecnologias de la web.</p>
+</li>
+<li>
+<p>WEB: Significa que se utiliza en internet.</p>
+</li>
+<li>
+<p>Tokens: Podemos definir este nuevo concepto como: <strong>Una verificación que habilida la sesion de un cliente.</strong> Esta verificación puede tener distintos formatos criptograficos.</p>
+</li>
+</ul>
+<p>Juntando todo podemos decir que, los JWT son: Un método de seguridad que tiene como finalidad, enviar credenciales (Claims) y verificar firmas, mediante el uso de JSON. Hagamos un enfasis en 'VERIFICAR FIRMAS'.</p>
+<p>Este estandar de la seguridad web nos da las herramientas para asegurarnos de que el mensaje que recibimos o enviamos es que de quien dice ser. Este se basa en la utilización de firmas criptográficas.</p>
+<h4 id="documentaci%C3%B3n-oficial-jwt">Documentación Oficial JWT</h4>
+<p><a href="npmjs.com/package/jsonwebtoken"><img src="https://img.shields.io/badge/Documentacion Oficial-red" alt="JWTMODULE"></a></p>
+<p><a href="https://jwt.io/introduction"><img src="https://img.shields.io/badge/Pagina Oficial-violet" alt="JWTPage"></a></p>
+<h3 id="instalaci%C3%B3n-jwt-npm">Instalación JWT (NPM)</h3>
+<pre class="hljs"><code><div>npm install jsonwebtoken
+</div></code></pre>
+<p>Un JWT consta de tres partes codificadas en base64 separadas por puntos ( . ). La primera parte es el encabezado (header), la segunda es la carga útil (payload) y la tercera es la firma (signature).</p>
+<ul>
+<li>
+<p>Header: contiene información sobre cómo se debe verificar el token y cómo se ha codificado. El tipo de token es JWT y el algoritmo de firma utilizado para codificar el token se especifica en el encabezado.</p>
+</li>
+<li>
+<p>Payload: contiene la información del usuario y los datos que se quieren transmitir. Esta información no está cifrada y puede ser leída por cualquier persona que tenga acceso al token. La carga útil contiene información como el ID del usuario, el tiempo de expiración y otros datos relevantes.</p>
+</li>
+<li>
+<p>Signature: es el resultado de la codificación del encabezado y la carga útil con una clave secreta conocida solo por el servidor. La firma se utiliza para verificar la autenticidad del token y garantizar que no ha sido modificado.</p>
+</li>
+</ul>
+<p>Una pagina que es muy interesante y útil para ver la composicion de los JWT es <a href="https://jwt.io/">jwt.io</a></p>
+<p>Video Interesante: <a href="https://www.youtube.com/watch?v=tWQobKFQLG0">JWT en 10 minutos - ¿Qué es JWT? ¿Para que sirve? ¿Cuando usarlo? ¿Cómo se usa?</a></p>
+<p><img src="https://research.securitum.com/wp-content/uploads/sites/2/2019/10/jwt_ng1_en.png" alt="JWTExplication"></p>
+<h4 id="caracter%C3%ADsticas-de-jwt">Características de JWT</h4>
+<p>Algunas caractreristicas importantes a remarcar son:</p>
+<ol>
+<li>Si alguna cualquier parte del mensaje cambia, todo el token lo hara.</li>
+<li>Podemos elegir disntintos tipos de cifrados</li>
+<li>Permite enviar datos del usuario mediante el mismo token</li>
+<li>Es un estandar, y ampliamente utilizado</li>
+<li>Podemos trabajar con RSA, llaves publicas y privadas.</li>
+</ol>
+<h4 id="jwt-con-criptografia-sim%C3%A9trica-y-asim%C3%A9trica">JWT con Criptografia Simétrica y Asimétrica</h4>
+<p>Como dijimos hace un momento, los JWT permiten la encriptación simétrica y asimétrica. Este concepto fue visto con anterioridad (Cuando vimos el protocolo http), pero vamos a refrescar la memoria con el siguiente esquema.</p>
+<p><img src="http://1.bp.blogspot.com/-eNnqLiBYjKk/VW82mQReLhI/AAAAAAAAAjk/wdKMt5n80M4/s1600/cifrado%281%29.png" alt="simetriaVsAsimetria"></p>
+<h4 id="c%C3%B3digo-de-ejemplo">Código de ejemplo</h4>
+<p>Para el siguiente ejemplo, tomaremos como 'Working Directory' (Directorio Raiz o de Referencia) a la carpeta 'AditionalModules', ya que deberemos instalar cierta paqueteria con npm.</p>
+<p><img src="./readme-imgs/img16.PNG" alt="arbolDelDirectorio"></p>
+<p>Este sera un ejemplo interesante, debido a que, nos permitira poner en practica varias cosas que hemos visto en el curso.</p>
+<ol>
+<li>
+<p>Vamos a descargar la paqueteria necesaria para el ejemplo:</p>
+<ol>
+<li>JWT - jsonwebtoken</li>
+<li>DOTENV - dotenv</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-built_in">cd</span> AditionalModules/
+npm i jsonwebtoken dotenv
+</div></code></pre>
+</li>
+<li>
+<p>Creamos un archivo con nombre '.env', este archivo almacenará variables para la configuración del servidor (Enviroment Variables).</p>
+</li>
+<li>
+<p>Creamos y Accedemos al archivo <code>jwt.js</code></p>
+</li>
+<li>
+<p>Pegamos el siguiente código:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">/*Importamos Paquetes*/</span>
+ <span class="hljs-keyword">import</span> jwt <span class="hljs-keyword">from</span> <span class="hljs-string">"jsonwebtoken"</span>;
+ <span class="hljs-keyword">import</span> http <span class="hljs-keyword">from</span> <span class="hljs-string">"http"</span>;
+ <span class="hljs-keyword">import</span> dotenv <span class="hljs-keyword">from</span> <span class="hljs-string">"dotenv"</span>;
+
+ dotenv.config() <span class="hljs-comment">// Configuracion de dotEnv</span>
+ <span class="hljs-comment">// Paquete para cargar Enviroment Variables desde un archivo '.env'</span>
+
+ <span class="hljs-comment">/* SERVIDOR */</span>
+ http.createServer(<span class="hljs-function">(<span class="hljs-params">req, res</span>)=&gt;</span>{
+     <span class="hljs-built_in">console</span>.clear() <span class="hljs-comment">// Se limpia la consola para que sea mas comodo</span>
+     <span class="hljs-keyword">const</span> secretKeySym = process.env.SYM_KEY <span class="hljs-comment">// Desde .env me traigo la variable para Simetrica</span>
+
+     <span class="hljs-keyword">if</span> (req.url === <span class="hljs-string">'/get/jwt'</span>) {
+
+         <span class="hljs-comment">/*
+         Armamos el Token que se enviara al cliente
+         (Como no hay Base de Datos, nos inventamos el JSON a enviar)
+         */</span>
+         <span class="hljs-keyword">const</span> token = jwt.sign({
+             <span class="hljs-attr">info</span>: {<span class="hljs-attr">id</span>:<span class="hljs-number">1</span>, <span class="hljs-attr">nombre</span>:<span class="hljs-string">"Fulano"</span>, <span class="hljs-attr">ocupacion</span>:<span class="hljs-string">"Programador"</span>},
+             <span class="hljs-attr">message</span>: <span class="hljs-string">'Aquí esta su Token'</span>}
+             ,secretKeySym)
+         
+         <span class="hljs-keyword">return</span> res.end(token) <span class="hljs-comment">// Se envia el toquen al cliente</span>
+     }
+     <span class="hljs-keyword">if</span> (req.url === <span class="hljs-string">'/verify/jwt'</span>) {
+         <span class="hljs-built_in">console</span>.log(req.headers.authorization); <span class="hljs-comment">// Mostramos el token</span>
+
+         <span class="hljs-comment">// Fijate que, el token, viene en la cabecera de "Authorization" del http request</span>
+         <span class="hljs-keyword">const</span> clientToken = req.headers.authorization;
+         
+         <span class="hljs-comment">// Comprobamos que el TOKEN y su SIGNATURE sean validos</span>
+         <span class="hljs-keyword">try</span> {
+             jwt.verify(clientToken,secretKeySym);
+             res.writeHead(<span class="hljs-number">200</span>, <span class="hljs-string">'Todo Correcto'</span>);
+             <span class="hljs-keyword">return</span> res.end(<span class="hljs-string">'Cliente Autorizado 😃'</span>);
+         } <span class="hljs-keyword">catch</span> (error) {
+             <span class="hljs-comment">// Si la comprobación falla le avisamos al cliente (codigo 401 desautorizado)</span>
+             <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'No se pudó verificar el token'</span>);
+             res.writeHead(<span class="hljs-number">401</span>,<span class="hljs-string">'Usted no esta autorizado'</span>);
+             <span class="hljs-keyword">return</span> res.end(<span class="hljs-string">'El cliente no esta autorizado 😭'</span>)
+         }
+     }
+     res.write(<span class="hljs-string">'Request: '</span>)
+     res.end(req.url)
+     
+ }).listen(<span class="hljs-number">3000</span>)
+</div></code></pre>
+</li>
+</ol>
+<p>Este código lo que hace es crear un servidor web, el cual espera las siguientes rutas, <code>http://localhost/get/jwt</code> y <code>http://localhost/verify/jwt</code>, donde la primera ruta nos respondera con un Json Web Token y la segunda espera que le enviemos ese token utilizando la cabecera <code>Authorization:</code></p>
+<p>Para comprobar el funcionamiento de este ejemplo, se recomienda utilizar, POSTMAN o THUNDERCLIENT (Si estamos en VsCode). Si no conoce estas herramientas, las simplificaremos diciendo que son, una herramienta para el desarrollo web que nos permite realizar y simular distintos tipos de peticiones HTTP, por ejemplo, podemos configurar una tanda de peticiones y cada una con un método http diferente (GET, POST, PUT, DELETE), a diferentes rutas, y con diferentes Headers. Esto último es lo que nos importa particularmente para este ejemplo.</p>
+<p><img src="./readme-imgs/img17.JPG" alt="ejemploJWT1"></p>
+<p>Al realizar la petición anterior a la ruta donde se aloja el servidor, y al recurso que especificamos anteriormente, podemos ver que el mismo nos responde con el token que mencionamos antes (Aqui no es necesario setear la cabecera de <code>Authorization</code>)</p>
+<p><img src="./readme-imgs/img18.JPG" alt="ejemploJWT2"></p>
+<p>Ahora al momento de que el servidor nos verifique, <strong>necestimos enviar en alguna cabecera, en este caso usaremos 'Authorization:', el token que obtuvimos con la ruta anterior</strong>. Si todo a ido bien recibiremos un mensaje de afirmacion.</p>
+<p><img src="./readme-imgs/img19.JPG" alt="ejemploJWT3"></p>
+<p>Por el contrario, si alteramos el token, <strong>En cualquier digito, ya sea, el header, el payload o la signature</strong>, recibiremos un mensaje de error con un codigo 401, que como vimos, significa UNAUTHORIZED</p>
+<h3 id="nodemon">Nodemon</h3>
+<p>Nodemon es un paquete que permite resetear automaticamente nuestra aplicación cada vez que ocurre un cambio, asi como tambien monitorizarlos. Es una herramienta muy simple, pero muy útil durante el desarrollo.</p>
+<p>Otras características que ofrece son:</p>
+<ul>
+<li>Detecta la extensión de archivo predeterminada para monitorear.</li>
+<li>Soporte predeterminado para el nodo pero fácil de ejecutar cualquier ejecutable, como python, ruby, make, etc.</li>
+<li>Ignorar archivos o directorios específicos.</li>
+<li>Ver directorios específicos.</li>
+<li>Funciona con aplicaciones de servidor o utilidades de ejecución única y REPL.</li>
+<li>Podemos utilizarlo en el codigo a traves de <code>require()</code>.</li>
+<li>Código abierto y disponible en github.</li>
+</ul>
+<h4 id="documentaci%C3%B3n">Documentación</h4>
+<p><a href="npmjs.com/package/nodemon"><img src="https://img.shields.io/badge/Documentacion Oficial-red" alt="nodemon"></a></p>
+<h4 id="instalaci%C3%B3n-nodemon">Instalación Nodemon</h4>
+<pre class="hljs"><code><div>npm install -g nodemon
+</div></code></pre>
+<p>Algo a remarcar es que, por lo general, este módulo se instala de manera global, directamente en nuestro PATH. Esto es asi porque, al momento de utilizarlo, debemos usar la palabra <code>nodemon</code>(Igual que cuando ejecutamos <code>node index.js</code>) para ejecutarlo.</p>
+<p>Si lo instalacemos de manera &quot;local&quot;, como dependencia, necesitariamos hacer uso de <code>npx nodemon</code>, o usar un npm script como <code>npm start</code>.</p>
+<h4 id="utilizaci%C3%B3n-de-nodemon">Utilización de Nodemon</h4>
+<p>Para iniciar un script con nodemon tenemos que usar la siguiente forma:</p>
+<pre class="hljs"><code><div>nodemon [options] [script.js] [args]
+</div></code></pre>
+<p>Como podemos ver, aunque iniciemos nuestra aplicación con nodemon, de igual forma podemos pasar argumentos a traves de la consola.</p>
+<p><img src="https://miro.medium.com/max/1400/1*K1G_qSPeO7OGstwDiD0_1A.gif" alt="NodemonRestart"></p>
+<p>Una de las caracteristicas principales de esta herramienta, es la de reiniciar la ejecución de la aplicación si esta sufre algun cambio. Aunque, si por alguna razon necesitaramos reiniciar el proceso, podemos hacer manualmente escribiendo <code>rs</code>.</p>
+<p>Para concluir, debemos aclarar que, si bien esta herramienta es bastante simple de usar, ofrece diversas opciones de configuración, porque como vimos podemos configurar su comportamiento, para ignorar archivos, e incluso podemos utilizarla en otros lenguajes de programación.</p>
+<h3 id="template-engines">Template Engines</h3>
+<p>Ahora vamos a ver una herramienta muy importante dentro del desarrollo frontend. Los motores de plantillas son procesadores de codigo que nos permiten, modularizar o automatizar las plantillas HTML.</p>
+<p>A la hora de crear sitios web, cuando trabajamos en el frontend, lo que buscamos es crear un diseño o estructura que nos permita representar información que proviene del backend. Estos datos por lo general vienen con un formato o patron similar, por lo que, al momento de construir las plantillas HTML, estas tienden a seguir un patron similar entre sus disntintos componentes.</p>
+<p><img src="https://miro.medium.com/max/437/1*XNuVdKSup2Gk9LjDNlsCYw.png" alt="TemplateEngine"></p>
+<p><img src="https://i.stack.imgur.com/ulTPc.png" alt="TemplateEngine2"></p>
+<p>Como dijimos, los Template Engines lo que permiten es <strong>automatizar y modularizar este proceso</strong>. Ya no vamos a requerir escribir siempre el mismo fragmento de código alterando solo un pedazo donde ira los datos del backend. Lo que haremos sera mezclar la logica, estructuras condicionales, y repetitivas de un lenguaje de programación como JS con la forma de estructurar la información que tiene HTML.</p>
+<p>En este caso, veremos el motor de plantillas <strong>EJS</strong>. Pero tenemos que saber que <strong>No es el único</strong>.</p>
+<h3 id="ejs">EJS</h3>
+<blockquote>
+<p>¿Para qué sirve la &quot;E&quot;? &quot;¿Incorporado?&quot; Podría ser. ¿Qué tal &quot;Eficaz&quot;, &quot;Elegante&quot; o simplemente &quot;Fácil&quot;? EJS es un lenguaje de plantillas simple que le permite generar marcado HTML con JavaScript simple. Ninguna religiosidad sobre cómo organizar las cosas. Sin reinvención de la iteración y el flujo de control. Es simplemente JavaScript.</p>
+</blockquote>
+<h3 id="documentaci%C3%B3n-oficial-ejs">Documentación Oficial EJS</h3>
+<p><a href="https://ejs.co/#features"><img src="https://img.shields.io/badge/Documentacion Oficial-red" alt="nodemon"></a></p>
+<h3 id="caracter%C3%ADsticas-ejs">Características EJS</h3>
+<ul>
+<li>Compilación y renderizado rápidos</li>
+<li>Etiquetas de plantilla simples: &lt;% %&gt;</li>
+<li>Delimitadores personalizados (por ejemplo, use [? ?] en lugar de &lt;% %&gt;)</li>
+<li>La subplantilla incluye</li>
+<li>Se envía con CLI</li>
+<li>Tanto el servidor JS como el navegador son compatibles.</li>
+<li>Almacenamiento en caché estático de JavaScript intermedio</li>
+<li>Caché estático de plantillas</li>
+<li>Cumple con el sistema de vista Express</li>
+</ul>
+<h3 id="instalaci%C3%B3n-ejs">Instalación EJS</h3>
+<pre class="hljs"><code><div>npm install ejs
+</div></code></pre>
+<h3 id="funcionamiento-de-ejs">Funcionamiento de EJS</h3>
+<p>Para entender cualquier motor de plantillas debemos conocer el concepto de renderizado. La accion de RENDERIZAR algo tiene que ver con el hecho de establecer una relacion entre la logica y la estructura del documento. Por ejemplo:</p>
+<p>Deseamos repetir un patron o componente una determinada cantidad de veces. Para eso debemos primero delimitar que se considera componente, que logica se va a aplicar y que datos van a ser COMPILADOS.</p>
+<p>En el caso de EJS la sintaxis es la siguiente:</p>
+<pre class="hljs"><code><div>&lt;% <span class="hljs-keyword">if</span> (user) { %&gt;
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">%=</span> <span class="hljs-attr">user.name</span> %&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span></span>
+&lt;% } %&gt;
+</div></code></pre>
+<p>Como podemos ver en el ejemplo, cuando escribimos sentencias o expresiones del lenguaje (Javascript) tenemos que abrir un bloque con <code>&lt;% %&gt;</code>. Dentro de este bloque ira la logica de javascript. Como este motor acepta sintaxis de javascript simple, podemos utilizar <code>if</code>, <code>else</code>,<code>while</code>,<code>do while</code>, <code>for</code>, variables, objetos, entre otras cosas. Todo lo que se encuentre fuera de la logica sera lo que consideraremos como componentes estaticos.</p>
+<p>Lo que hace el ejemplo anterior es, <strong>Mostrar la etiqueta <code>h2</code>, solo si, existe un objeto usuario instanciado</strong>.</p>
+<p>Como este ejemplo hay muchos, todo depende de la complejidad que le queramos dar a la plantilla.</p>
+<h3 id="utilizaci%C3%B3n-ejs">Utilización EJS</h3>
+<p>Al momento de escribir sintaxis de EJS tenemos que ser conscientes de que hay diferentes tipos de tags. Los tags son :<code>&lt;% %&gt;</code>, y como dijimos antes, estos separan el JS del HTML. A su vez sabemos que existe un &quot;compilador&quot; para este tipo de plantillas, el cual interpreta la sintaxis y devuelve una nueva plantilla renderiza como salida.</p>
+<p>Ahora bien, tenemos que saber que existen distintos tipos de TAGS que cambian el comportamiento a la hora de renderizar la plantilla. Los tags de EJS son:</p>
+<ul>
+<li>
+<p><code>&lt;% y %&gt;</code>&gt;: Son los tags de apertura y cierre &quot;Comunes&quot; de código JavaScript en EJS. Todo lo que se escribe dentro de estos tags será interpretado como código JavaScript. Este tag se utiliza principalmente para estructuras de control, como condicionales, ciclos, funciones, entre otros.</p>
+</li>
+<li>
+<p><code>&lt;%= %&gt;</code>: Se utiliza para imprimir en la salida el resultado de una expresión JavaScript. Por ejemplo, si tenemos una variable nombre con el valor &quot;Juan&quot;, podemos mostrarlo en la plantilla EJS de la siguiente manera: &lt;%= nombre %&gt;.</p>
+</li>
+<li>
+<p><code>&lt;%- %&gt;</code>: Este tag es similar al tag &lt;%= %&gt;, pero en este caso, la salida será interpretada como HTML en lugar de texto plano. Si tenemos una variable: <code>descripcion = &quot;&lt;strong&gt;Importante&lt;/strong&gt;&quot;</code>, podemos mostrarla en la plantilla EJS de la siguiente manera: &lt;%- descripcion %&gt;.</p>
+</li>
+<li>
+<p><code>&lt;%# %&gt;</code>: Este tag se utiliza para hacer comentarios en la plantilla EJS. Todo lo que se escriba dentro de estos tags no será interpretado como código JavaScript ni se mostrará en la salida.</p>
+</li>
+<li>
+<p><code>&lt;% include nombreDeLaPlantilla %&gt;</code>: Este tag se utiliza para incluir una plantilla EJS dentro de otra. Al utilizar este tag, la plantilla incluida será renderizada y su resultado se incluirá en la posición del tag. Por ejemplo, si tenemos una plantilla llamada <code>cabecera.ejs</code> que define la cabecera de la página, podemos incluirla en una plantilla llamada <code>pagina.ejs</code> de la siguiente manera: &lt;% include cabecera %&gt;.</p>
+</li>
+<li>
+<p><code>&lt;% -%&gt;</code>: Este tag se utiliza para eliminar el espacio en blanco y los saltos de línea entre el tag y el código JavaScript. Esto puede ser útil para evitar que se generen espacios innecesarios en la salida.</p>
+</li>
+<li>
+<p><code>&lt;% _%&gt;</code>: Este tag se utiliza para eliminar el espacio en blanco y los saltos de línea entre el código JavaScript y el tag que le sigue. Esto puede ser útil para evitar que se generen espacios innecesarios en la salida.</p>
+</li>
+<li>
+<p><code>&lt;%# _%</code>&gt;: Este tag se utiliza para hacer comentarios sin dejar espacios en blanco innecesarios.</p>
+</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-keyword">let</span> template = ejs.compile(str, options); <span class="hljs-comment">// Carga la plantilla .EJS, en forma de string</span>
+template(data); <span class="hljs-comment">// Le "Envia" los datos con los que se renderizan la plantilla final</span>
+<span class="hljs-comment">// =&gt; Rendered HTML string</span>
+
+ejs.render(str, data, options); <span class="hljs-comment">// Hace lo anterior pero en un solo paso</span>
+<span class="hljs-comment">// =&gt; Rendered HTML string</span>
+
+<span class="hljs-comment">// Carga un archivo .EJS como entrada y lo renderiza con los datos especificados</span>
+ejs.renderFile(filename, data, options, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, str</span>)</span>{
+    <span class="hljs-comment">//Tenemos una callback que verifica si hay errores</span>
+
+    <span class="hljs-comment">// str =&gt; Rendered HTML string</span>
+});
+</div></code></pre>
+<p><strong>Aclaración Importante: &quot;Rendered HTML string&quot; quiere decir que el metodo devuelve un STRING de la plantilla de salida (ya renderizada)</strong></p>
+<p>Antes de pasar con ejemplo final, debemos conocer unos de los métodos mas importantes de EJS y de los motores de renderizado, el <code>include()</code>.</p>
+<p><strong><code>Include()</code></strong>: Este nos permite reciclar fragmentos de codigo o componentes entero de un plantilla. Podemos pensarlo como un &quot;copiar y pegar&quot;. Por ejemplo, podemos reutilizar un unico header en varias plantillas, porque si lo pensamos, en el caso de los headers y footers, estos no varian entre plantillas, asi como tampoco las barras de navegación. En el caso de que no varien, estos se consideran <strong>elementos staticos</strong>.</p>
+<p>El <code>include(path[,data])</code> permite enviar datos desde una plantilla a otra tambien, en el ejemplo siguiente, veremos como se &quot;recicla&quot; el <code>&lt;head&gt;</code>, pero dependiendo desde donde se lo incluya, varia el <code>&lt;title&gt;</code>.</p>
+<p>Algo <strong>Importante a tener en cuenta</strong> es que, el <code>path</code> que nosotros le indicamos al  <code>include(path)</code> <strong>ES RELATIVO AL ARCHIVO DESDE DONDE SE LLAMA EL INCLUDE</strong>. Para comprender mejor vea el ejemplo siguiente.</p>
+<h4 id="ejemplo-de-ejs">Ejemplo de EJS</h4>
+<p><strong>Estructura del Directorio</strong></p>
+<p><img src="./readme-imgs/img20.JPG" alt="estructuraEJS"></p>
+<p><strong>head.ejs, este componente se repite en todas las plantillas</strong></p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"X-UA-Compatible"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"IE=edge"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1.0"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">%=</span> <span class="hljs-attr">titulo</span> %&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+</div></code></pre>
+<p><strong>Plantilla index.ejs</strong></p>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">%#</span> <span class="hljs-attr">Fijate</span> <span class="hljs-attr">que</span> <span class="hljs-attr">el</span> <span class="hljs-attr">path</span> <span class="hljs-attr">que</span> <span class="hljs-attr">pasamos</span>, <span class="hljs-attr">sale</span> <span class="hljs-attr">de</span> <span class="hljs-attr">la</span> <span class="hljs-attr">carpeta</span> <span class="hljs-attr">del</span> <span class="hljs-attr">archivo</span> <span class="hljs-attr">index.ejs...</span> %&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">%-</span> <span class="hljs-attr">include</span>('<span class="hljs-attr">..</span>/<span class="hljs-attr">public</span>/<span class="hljs-attr">head.ejs</span>', {<span class="hljs-attr">titulo:</span> '<span class="hljs-attr">Principal</span>'}) %&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="css">
+    <span class="hljs-selector-tag">body</span>{
+        <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#111</span>;
+        <span class="hljs-attribute">color</span>: <span class="hljs-number">#FFF</span>;
+        <span class="hljs-attribute">font-family</span>: monospace;
+        <span class="hljs-attribute">font-size</span>: .<span class="hljs-number">8em</span>;
+    }
+    <span class="hljs-selector-tag">h1</span>{
+        <span class="hljs-attribute">display</span>: flex;
+        <span class="hljs-attribute">align-items</span>: center;
+        <span class="hljs-attribute">justify-content</span>: center;
+    }
+    <span class="hljs-selector-tag">div</span>{
+        <span class="hljs-attribute">display</span>: flex;
+        <span class="hljs-attribute">align-items</span>: center;
+        <span class="hljs-attribute">justify-content</span>: center;
+        <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#333</span>;
+        <span class="hljs-attribute">width</span>: <span class="hljs-number">80%</span>;
+        <span class="hljs-attribute">height</span>: <span class="hljs-number">60vh</span>;
+        <span class="hljs-attribute">margin</span>: auto;
+    }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">%=</span> <span class="hljs-attr">frase</span> %&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">%=</span> <span class="hljs-attr">contenido</span> %&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</div></code></pre>
+<p><strong>Plantilla 404.ejs</strong></p>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">%-</span> <span class="hljs-attr">include</span>('<span class="hljs-attr">..</span>/<span class="hljs-attr">public</span>/<span class="hljs-attr">head.ejs</span>', {<span class="hljs-attr">titulo:</span> '<span class="hljs-attr">404</span>'}) %&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="css">
+    <span class="hljs-selector-tag">body</span>{
+        <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#111</span>;
+        <span class="hljs-attribute">color</span>: <span class="hljs-number">#FFF</span>;
+        <span class="hljs-attribute">font-family</span>: monospace;
+        <span class="hljs-attribute">font-size</span>: .<span class="hljs-number">8em</span>;
+    }
+    <span class="hljs-selector-tag">h1</span>{
+        <span class="hljs-attribute">display</span>: flex;
+        <span class="hljs-attribute">align-items</span>: center;
+        <span class="hljs-attribute">justify-content</span>: center;
+    }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">%=</span> <span class="hljs-attr">frase</span> %&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</div></code></pre>
+<p><strong>Archivo ejs.js, es el servidor que renderiza las 2 plantillas anteriores</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> http <span class="hljs-keyword">from</span> <span class="hljs-string">'http'</span>
+<span class="hljs-keyword">import</span> ejs <span class="hljs-keyword">from</span> <span class="hljs-string">"ejs"</span>;
+
+http.createServer(<span class="hljs-function">(<span class="hljs-params">req, res</span>)=&gt;</span>{
+    res.setHeader(<span class="hljs-string">'Content-Type'</span>, <span class="hljs-string">'text/html'</span>); <span class="hljs-comment">// Indicamos al cliente que tipo de archivo vamos a enviarle</span>
+    <span class="hljs-keyword">if</span> (req.url === <span class="hljs-string">'/'</span>) {
+        <span class="hljs-keyword">const</span> plantillaRenderizada = ejs.renderFile(<span class="hljs-string">'./views/index.ejs'</span>,{<span class="hljs-attr">frase</span>:<span class="hljs-string">"LA PAGINA"</span>, <span class="hljs-attr">contenido</span>:<span class="hljs-string">" Contenido de la página"</span>})
+        <span class="hljs-keyword">return</span> plantillaRenderizada.then(<span class="hljs-function">(<span class="hljs-params">template</span>)=&gt;</span>{
+            <span class="hljs-keyword">return</span> res.end(template);
+        })
+    }
+
+   <span class="hljs-keyword">const</span> render = ejs.renderFile(<span class="hljs-string">'./views/404.ejs'</span>,{<span class="hljs-attr">frase</span>:<span class="hljs-string">"Error 404: El Recurso Solicitado No Existe 😥"</span>})
+    <span class="hljs-keyword">return</span> render.then(<span class="hljs-function"><span class="hljs-params">template</span> =&gt;</span> {
+            <span class="hljs-keyword">return</span> res.end(template)
+    })
+
+}).listen(<span class="hljs-number">3000</span>)
+</div></code></pre>
+<h3 id="pm2-package">PM2 Package</h3>
+<p>PM2 es uno de los paquetes mas importantes en el momento del despliegue de la aplicación en la web. Su funcion es la de administrar los procesos de nuestra aplicación, de hay su nombre <strong>Process Manager</strong>. Este nos permitirá:</p>
+<ul>
+<li>Reiniciar la aplicación cuando esta crasheé de manera <strong>Automática</strong></li>
+<li>Monitorizar la aplicación</li>
+<li>Controlar y dividir la carga entre procesos</li>
+<li>Administrar la memoria</li>
+<li>Iniciar la aplicion cuando el servidor se reinicie</li>
+<li>Mantener la aplicación corriendo en segundo plano</li>
+</ul>
+<p><img src="https://pm2.io/images/home.gif" alt="pm2"></p>
+<h4 id="documentaci%C3%B3n-oficial">Documentación Oficial</h4>
+<p><a href="https://pm2.keymetrics.io/docs/usage/quick-start/"><img src="https://img.shields.io/badge/Documentacion Oficial-violet" alt="PATHMODULE"></a></p>
+<h4 id="instalacion-pm2">Instalacion PM2</h4>
+<pre class="hljs"><code><div>npm install pm2 -g
+</div></code></pre>
+<p>Al igual que con nodemon, PM2 requiere que lo instalemos de manera global en el pc, esto debido a que requiere privilegios del sistema para manejar los procesos, asi como tambien requiere estar instalado en nuestro PATH para poder ejecutar sus comandos</p>
+<h4 id="m%C3%A9todos-pm2">Métodos PM2</h4>
+<p><strong>Estructura del directorio</strong>
+<img src="" alt=""></p>
+<p><strong>Iniciar, detener, resetear y reiniciar procesos</strong></p>
+<pre class="hljs"><code><div>pm2 start &lt;app_name|json_conf&gt;
+pm2 stop &lt;app_name|namespace|id|<span class="hljs-string">'all'</span>|json_conf&gt;
+pm2 restart &lt;app_name|namespace|id|<span class="hljs-string">'all'</span>|json_conf&gt;
+pm2 delete &lt;app_name|namespace|id|<span class="hljs-string">'all'</span>|json_conf&gt;
+</div></code></pre>
+<p>Como podemos ver, aparece un fragmento <code>&lt;app_name|namespace|id|'all'|json_conf&gt;</code>, esto siginifica que podemos elegir cualquiera de las 4 opciones contenidas en el <code>&lt; &gt;</code>. Cada una de las opciones significa:</p>
+<ul>
+<li>app_name: Representa el nombre o ruta del archivo.</li>
+<li>namespace: Representa &quot;un grupo de procesos que se encuentra bajo el mismo espacio de nombres&quot;</li>
+<li>id: Representa el id que le asigna PM2 al proceso que inciamos</li>
+<li>all: Representa todos los procesos que administra pm2</li>
+<li>json_config: Representa el nombre o ruta del archivo de configuracion</li>
+</ul>
+<p><strong>Listar los procesos Admnistrados por PM2</strong>
+Ahora, imaginemos que inciamos 2 procesos :</p>
+<pre class="hljs"><code><div>pm2 list
+</div></code></pre>
+<p>Este comando nos permite mostrar una tabla por terminal que detalla el <strong>ESTADO</strong> de los procesos que administra PM2.</p>
+<p><img src="./readme-imgs/img22.JPG" alt="pm2Example"></p>
+<p><strong>Mostrar monitor de PM2</strong></p>
+<pre class="hljs"><code><div>pm2 monit
+</div></code></pre>
+<p>El monitor es una vista que abarca toda la terminal y que nos permite ver de forma <strong>Muy Detalla</strong> los procesos que adminsitra PM2</p>
+<p><img src="./readme-imgs/im21.JPG" alt="pm2Example2"></p>
+<p><strong>Mostrar monitor WEB de PM2</strong></p>
+<pre class="hljs"><code><div>pm2 plus
+</div></code></pre>
+<p>Para esto vamos a requerir registrarnos en la página oficial</p>
+<p><strong>Argumentos</strong></p>
+<p>Como vimos hace un momento, el comando <code>pm2 list</code>, nos muestra una tabla con varias columnas que nos dan información acerca del proceso. Si nos fijamos hay una columna llamada &quot;Watching&quot;.</p>
+<p>Watching hace alución a que si, PM2 se encuentra &quot;Mirando&quot; si el proceso es alterado, en otras palabras, verifica si el código fuente a cambiado. Si detecta que el código ha cambiado, entonces reinicia el proceso y lo muestra con sus nuevos cambios</p>
+<p>Para activarlo debemos pasar como argumento <code>--watch</code> al momento de iniciarlo:</p>
+<pre class="hljs"><code><div>pm2 start proceso1.js --watch
+</div></code></pre>
+<p><strong>Otros argumentos que podemos pasar al proceso:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Specify an app name</span>
+--name &lt;app_name&gt;
+
+<span class="hljs-comment"># Watch and Restart app when files change</span>
+--watch
+
+<span class="hljs-comment"># Set memory threshold for app reload</span>
+--max-memory-restart &lt;200MB&gt;
+
+<span class="hljs-comment"># Specify log file</span>
+--<span class="hljs-built_in">log</span> &lt;log_path&gt;
+
+<span class="hljs-comment"># Pass extra arguments to the script</span>
+-- arg1 arg2 arg3
+
+<span class="hljs-comment"># Delay between automatic restarts</span>
+--restart-delay &lt;delay <span class="hljs-keyword">in</span> ms&gt;
+
+<span class="hljs-comment"># Prefix logs with time</span>
+--time
+
+<span class="hljs-comment"># Do not auto restart app</span>
+--no-autorestart
+
+<span class="hljs-comment"># Specify cron for forced restart</span>
+--cron &lt;cron_pattern&gt;
+
+<span class="hljs-comment"># Attach to application log</span>
+--no-daemon
+</div></code></pre>
+<h4 id="config-file-ecosystemconfigjs">Config File (ecosystem.config.js)</h4>
+<p>Tenemos que saber que este permite crear un archivo de configuración llamado: <code>ecosystem.config.js</code>.</p>
+<p>Este archivo se crea con el siguiente comando:</p>
+<pre class="hljs"><code><div>pm2 init simple
+</div></code></pre>
+<p>La función que cumple este archivo es la de pre-setear todas las configuraciones que tendran los procesos que administrara PM2. Nos permite definir en un archivo externo:</p>
+<ul>
+<li>El/los procesos que se iniciarán</li>
+<li>Que argumentos tendrá</li>
+<li>Que nombre tendrá</li>
+<li>El interprete que se usara</li>
+<li>Las varibles de entorno</li>
+<li>El entorno, ya sea, de desarrollo o de producción</li>
+<li>Cantidad de instancias que se crearán de los procesos que especifiquemos</li>
+</ul>
+<p>Una vez creado deberiamos ver algo como esto:</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">module</span>.exports = {
+  <span class="hljs-attr">apps</span> : [{
+    <span class="hljs-attr">name</span>   : <span class="hljs-string">"app1"</span>,
+    <span class="hljs-attr">script</span> : <span class="hljs-string">"./app.js"</span>
+  }]
+}
+
+</div></code></pre>
+<p>Tambien podemos crear un <code>ecosystem.config.js</code> mas &quot;complejo&quot; con:</p>
+<pre class="hljs"><code><div>pm2 ecosystem
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-built_in">module</span>.exports = {
+  <span class="hljs-attr">apps</span> : [{
+    <span class="hljs-attr">name</span>: <span class="hljs-string">"app"</span>,
+    <span class="hljs-attr">script</span>: <span class="hljs-string">"./app.js"</span>,
+    <span class="hljs-attr">env</span>: {
+      <span class="hljs-attr">NODE_ENV</span>: <span class="hljs-string">"development"</span>,
+    },
+    <span class="hljs-attr">env_production</span>: {
+      <span class="hljs-attr">NODE_ENV</span>: <span class="hljs-string">"production"</span>,
+    }
+  }, {
+     <span class="hljs-attr">name</span>: <span class="hljs-string">'worker'</span>,
+     <span class="hljs-attr">script</span>: <span class="hljs-string">'worker.js'</span>
+  }]
+}
+</div></code></pre>
+<p>Para iniciar con el archivo de &quot;ecosystem&quot; tan solo debemos ejecutar</p>
+<pre class="hljs"><code><div>pm2 start ecosystem.config.js
+</div></code></pre>
+<p>En este objeto podemos darle muchos argumentos o parametros para el inicio de las distintas aplicaciones que ejecutemos, no vamos a ahondar mucho mas, porque son muchas las configuraciones que podemos darle.</p>
+<p>Documentación de Ecosystem File: <a href="https://pm2.keymetrics.io/docs/usage/application-declaration/">PM2 ECOSYSTEM FILE</a>.
+Aquí podra encontrar de forma muy detallada todo sobre los ecosystem files de PM2.</p>
+<h4 id="el-comando-startup">El comando <code>startup</code></h4>
+<p>Para finalizar con PM2, explicaremos como usar una de las funciones mas importantes que proveé el módulo. Como dijimos antes, PM2 permite iniciar procesos de manera <strong>Automática</strong> cada vez que se reinicie el servidor donde esta alojada nuestra aplicación. Esto es sumamente útil porque nos permite desligarnos de administrar nosotros el servidor.</p>
+<p>Antes de mostrar el comando cabe aclarar algo importante: Este comando no funcionará en Windows, o por lo menos no de &quot;forma facil&quot;. Debido a que PM2 esta pensado para ser utilizado en servidores basados en Unix, o sea, Linux, es que Windows no tiene soporte para esta caracteristica por defecto. Aunque podemos instalar un programa aparte que complementa a PM2 y que si permite utilizar esta función. El respositorio del programa es: <a href="https://github.com/jessety/pm2-installer">PM2-Installer Github</a>.</p>
+<p>Muy bien, una vez aclarado eso, veamos el comando.</p>
+<pre class="hljs"><code><div>pm2 startup
+</div></code></pre>
+<p>Este comando lo que nos permite es guardar una configuración de arranque de pm2 en nuestro sistema operativo. Concretamente este lo guarda en el PATH del sistema.</p>
+<p>Cuando ingresamos el comando debería aparecernos algo como esto:</p>
+<p><img src="./readme-imgs/img23.png" alt="pm2Startup"></p>
+<p>Lo que nos pedirá es que ingresemos el siguiente comando en nuestra terminal, una vez hechó eso pasaremos al siguiente sección:</p>
+<p><img src="./readme-imgs/img24.png" alt="pm2Startup2">:</p>
+<p>En esta sección pm2 nos mostrara una guía de comandos que podemos usar para seguir configurandolo.</p>
+<p>Ahora deberemos inciar los procesos que queremos que se ejecuten con el sistema operativo una vez que este sea reiniciado. En este caso, tenemos 2 procesos corriendo:</p>
+<p><img src="./readme-imgs/img25.png" alt="pm2Startup3"></p>
+<p>Una vez que hallamos terminado procedemos a ingresar el siguiente comando:</p>
+<pre class="hljs"><code><div>pm2 save
+</div></code></pre>
+<p><img src="./readme-imgs/img26.png" alt="pm2Startup4"></p>
+<p>Si por alguna razon quisieramos sacar esta configuración de arranque, podemos hacerlo ingresando el siguiente comando:</p>
+<pre class="hljs"><code><div>pm2 unstartup
+</div></code></pre>
+<h2 id="testing-en-nodejs">Testing en Nodejs</h2>
+<p>El testing es el proceso probar y analizar los resultados que produce nuestra aplicación, es una practica que aplica en todos los lenguajes de programación.</p>
+<p>Este nos permite conocer:</p>
+<ul>
+<li>El comportamiento del software que desarrollamos</li>
+<li>Los resultados que generan las distintas partes del sistema</li>
+<li>Probar el rendimiento de la aplicación</li>
+<li>Detectar y ayuda para solucionarlos errores</li>
+</ul>
+<p>En resumen, nos permite asegurarnos que la aplicación funcione como esperamos.</p>
+<p>Antes de seguir debemos aclarar que, el testing es una rama de la programación, que cumple determinadas funciones en el desarrollo de un proyecto, asi como lo hace un UX/UI Designer o un Backend Developer. Es un tipo de trabajo que requiere un estudio profundo, y nos algo concreto que podemos aprender como un tecnología, recordemos engloba tanto métodos como formas de trabajo. Sin embargo, para fines de este curso, es interesante dar un primer acercamiento a este mundo del testing.</p>
+<h3 id="piramide-del-testing-niveles-de-testing">Piramide del Testing (Niveles de Testing)</h3>
+<p>Cuando uno comienza a estudiar testing, una de las primeras conceptos que aparece es la piramide del testing. Esta representa un diagrama de piramide, o a veces un cono, la cual permite distribuir los distintos tipos de pruebas de manera que exista un equilibrio con respecto a la estrategia que usaremos para testear el sistema.</p>
+<p>Un estrategia abarca cuestiones como, el costo de realizar cierto tipo de prueba, la complejidad de la misma, el esfuerzo que requiere, el retorno de inversión que genera, entre otras cosas. En otras palabras, la piramide es una herramienta conceptual que funciona como guia o referencia para realizar el proceso de testing.</p>
+<p><img src="https://www.campusmvp.es/recursos/image.axd?picture=/2020/2T/piramide.png" alt="piramideTesting1"></p>
+<p><img src="https://martinfowler.com/bliki/images/testPyramid/test-pyramid.png" alt="piramideTesting2"></p>
+<p>Como podemos ver en el esquema, la piramide se divide por capas las cuales a medida que nos acercamos a la punta de la piramide se vuelven mas sencillas, tecnicamente hablando, y mas costosas, con respecto al tiempo. Además, cuanto más cerca nos encontramos de la punta, la cantidad de pruebas que realizamos es menor.</p>
+<ol>
+<li>
+<p>Pruebas Unitarias: Estas son las más sencillas de realizar, nos ofrecen un feedback casi inmediato, y ademas son las bases de todo el sistema. Aquí testeremos los componentes propios de nuestro software o sistema informático de manera aislada y uno por uno.</p>
+<p><img src="./readme-imgs/img27.png" alt="pruebaUnitaria"></p>
+</li>
+<li>
+<p>Pruebas de Servicios: Estas son un poco más complejas porque integran ya no solo los componentes de nuestro sistema, sino además, componentes de terceros. En este nivel se probara la relación o comunicación que existe entre los componentes de nuestro sistema con bases de datos y/o API's externas.</p>
+<p><img src="./readme-imgs/img28.png" alt="pruebaServicio"></p>
+</li>
+<li>
+<p>Pruebas de UI o End to End (E2E): Estas son las mas complejas y costosas de realizar, porqué es recomendable que tengamos realizadas las pruebas de los anteriores niveles, Si bien en este nivel la cantidad de pruebas es menor, la complejidad es más alta. En este nivel se comprueba el sistema entero, por eso se le conoce como &quot;End to End&quot;, de principio a fin probamos todas las funcionalidades que utilizará el usuario final, asi como tambien, si el sistema cumple con los requerimientos del cliente.</p>
+<p><img src="./readme-imgs/img29.png" alt="pruebaUI"></p>
+</li>
+</ol>
+<p>En algunas piramides aparece una nube o nivel conocido como <strong>pruebas exploratorias</strong>. Ese nivel se refiere a todas aquellas pruebas manuales en las cuales nosotros exploramos la aplicación entera en busqueda de errores o caracteristicas inesperadas.</p>
+<p><img src="https://cl.abstracta.us/wp-content/uploads/2019/12/piramide-automatizacion-pruebas-funcionales-mike-cohn-1024x559.png" alt="piramide"></p>
+<h3 id="herramientas-de-testing">Herramientas de Testing</h3>
+<p>Cuando hablamos de herramientas, nos estamos refiriendo a aquellos software que emulan o procesan el código de nuestra aplicación basandose en disntintos parametros y en disntintos entornos. Para entender mucho mejor podemos clasificar a los disntitos software basandonos en la piramide:</p>
+<p><img src="https://scontent.faep9-1.fna.fbcdn.net/v/t1.6435-9/174450239_3687374431371213_7281839233968067926_n.png?_nc_cat=104&amp;ccb=1-7&amp;_nc_sid=730e14&amp;_nc_eui2=AeGmQkkJFS3SCLMfbwAEVTl9gxNgMyJMgWmDE2AzIkyBaWCuhMux2td1aqLbW6nAQinv-_9bKAY8jdxsR7SCybWE&amp;_nc_ohc=ytybDD4zvxkAX9hg3gH&amp;_nc_ht=scontent.faep9-1.fna&amp;oh=00_AfCkScdBXk9YQJu5CeXMFu_rWBzHh-6bv2wA_nqfzJVwqA&amp;oe=6426CCA5" alt="testingTools"></p>
+<p>En este caso podemos ver que cada software se especiliza en una cosa diferente, aunque algunos de estos pueden realizar diversas funciones para los distintos niveles. Para fines de este curso, vamos a estudiar estudiar mocha.
+Como curiosidad podemos ver que aparece Postman, y es que si, Postman es una herramienta de desarrollo que nos permite probar las rutas http de nuestro servidor, por esa razon, se encontraría en las pruebas de servicio.</p>
+<p>Las herramientas de testing podemos clasificarlas en 2 grupos:</p>
+<ul>
+<li>
+<p>Frameworks de testing: Un framework de testing es una herramienta que te permite definir, escribir y ejecutar pruebas para tu aplicación. En Node.js, algunos de los frameworks más populares son Mocha, Jest y Jasmine.</p>
+</li>
+<li>
+<p>Herramientas de aserción: Las herramientas de aserción se utilizan en testing para comparar los resultados esperados con los resultados obtenidos. Por ejemplo, una herramienta de aserción puede verificar si un valor es verdadero (true) o falso (false), o si una variable tiene el valor esperado.</p>
+</li>
+</ul>
+<h3 id="mocha">Mocha</h3>
+<h4 id="documentaci%C3%B3n-oficial-mocha">Documentación Oficial Mocha</h4>
+<p><a href="https://mochajs.org/"><img src="https://img.shields.io/badge/Documentacion Oficial-red" alt="MOCHA"></a></p>
+<h4 id="instalaci%C3%B3n-mocha">Instalación Mocha</h4>
+<pre class="hljs"><code><div>npm init
+
+npm install --save-dev mocha
+
+npm <span class="hljs-built_in">test</span>
+</div></code></pre>
+<p>Una vez que iniciamos npm e instalamos mocha el <code>package.json</code> debería parecerse a algo como esto:</p>
+<pre class="hljs"><code><div>{
+  <span class="hljs-attr">"devDependencies"</span>: {
+    <span class="hljs-attr">"mocha"</span>: <span class="hljs-string">"^10.2.0"</span>
+  },
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"testing"</span>,
+  <span class="hljs-attr">"version"</span>: <span class="hljs-string">"1.0.0"</span>,
+  <span class="hljs-attr">"main"</span>: <span class="hljs-string">"index.js"</span>,
+  <span class="hljs-attr">"directories"</span>: {
+    <span class="hljs-attr">"test"</span>: <span class="hljs-string">"test"</span>
+  },
+  <span class="hljs-attr">"dependencies"</span>: {
+    <span class="hljs-comment">/* Dependencias*/</span>
+  },
+  <span class="hljs-attr">"scripts"</span>: {
+    <span class="hljs-attr">"test"</span>: <span class="hljs-string">"mocha"</span>
+  },
+  <span class="hljs-attr">"author"</span>: <span class="hljs-string">""</span>,
+  <span class="hljs-attr">"license"</span>: <span class="hljs-string">"ISC"</span>,
+  <span class="hljs-attr">"description"</span>: <span class="hljs-string">""</span>
+}
+</div></code></pre>
+<p>Prestemos especial atención en el apartado <code>script</code>, en el cual figura la palabra &quot;test&quot; asociada a mocha, debemos asegurarnos que esto aparezca asi, por que de esta manera es como correremos mocha.</p>
+<h4 id="m%C3%A9todos-mocha">Métodos Mocha</h4>
+<p><strong><code>describe():</code></strong>  Se utiliza para agrupar pruebas relacionadas en un bloque. Además permite anidar múltiples llamadas para crear una estructura jerárquica de pruebas. Su sintaxis es la siguiente:</p>
+<pre class="hljs"><code><div>describe(<span class="hljs-string">'nombre del bloque'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-comment">// pruebas relacionadas (it's)</span>
+});
+</div></code></pre>
+<p><strong><code>it():</code></strong> Se utiliza para escribir pruebas individuales dentro de un bloque describe. El primer argumento de it es una descripción de la prueba, <strong>que debe ser clara y concisa</strong>. La función que sigue contiene las <strong>aserciones</strong> que se deben comprobar para que la prueba pase. Su sintaxis es la siguiente:</p>
+<pre class="hljs"><code><div>it(<span class="hljs-string">'descripción de la prueba'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-comment">// aserciones</span>
+});
+</div></code></pre>
+<p>Ahora bien, el siguiente código presenta un caso de testing en el cual se testeará si la función provista devuelve el resultado esperado:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> { suma } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./funciones'</span>);
+<span class="hljs-keyword">const</span> assert = <span class="hljs-built_in">require</span>(<span class="hljs-string">'assert'</span>);
+
+describe(<span class="hljs-string">'Función de Suma'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    describe(<span class="hljs-string">'Cuando se le pasan dos números'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      it(<span class="hljs-string">'debería devolver la suma de los dos números'</span>, ()=&gt;{
+        assert.equal(suma(<span class="hljs-number">2</span>, <span class="hljs-number">3</span>), <span class="hljs-number">5</span>);
+      });
+    });
+  
+    describe(<span class="hljs-string">'cuando se le pasan argumentos no numéricos'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      it(<span class="hljs-string">'Debería devolver NaN'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        assert.throws(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+          suma(<span class="hljs-number">2</span>, <span class="hljs-string">'3'</span>);
+        });
+      });
+    });
+  }); 
+</div></code></pre>
+<p>En este caso podemos ver como se testea la misma función pero en 2 &quot;escenarios&quot; distintos, si la función se modificará, podriamos probarla rapidamente tan solo, volviendo a ejecutar el test con el comando <code>npm test</code>, luego de haber configurado el <code>package.json</code>.</p>
+<p>Como podemos ver en el código anterior, se utiliza el modulo <code>assert</code>, para comprender este módulo debemos de conocer que son las Assertions y los Matchers.</p>
+<p>Cuando hacemos testing existen paquetes que nos brindan funciones o métodos que nos simplifica enormemente la lógica. Estos se dividen en 2 grupos</p>
+<ul>
+<li>
+<p><strong>Assertions:</strong> Son funciones que se utilizan para comprobar si un valor o resultado es <strong>igual</strong> a lo que se espera. Un ejemplo podria ser:_</p>
+<pre class="hljs"><code><div>assert.equal(suma(<span class="hljs-number">2</span>, <span class="hljs-number">3</span>), <span class="hljs-number">5</span>);
+</div></code></pre>
+<p>Algunas otras bibliotecas populares de aserciones en JavaScript son Chai, Jest y Jasmine.</p>
+</li>
+<li>
+<p><strong>Matchers</strong>: Son funciones que se utilizan para comprobar si un valor o resultado <strong>cumple con una condición</strong> específica. A diferencia de las aserciones, que se utilizan para comprobar si un valor es igual a otro, los matchers se utilizan para comprobar si un valor coincide con un patrón o condición específica. Un ejemplo podría ser:</p>
+<pre class="hljs"><code><div>assert.match(<span class="hljs-string">'Hola Mundo!'</span>, /^Hola/);
+<span class="hljs-comment">// OK</span>
+</div></code></pre>
+<p>En el ejemplo anterior el segundo argumento de la funcion <code>.match()</code> es una expresión regular. Las expresiones regulares son patrones que nos permiten buscar coincidencias dentro una cadena de caracteres. En este caso, la expresión busca la palabra &quot;Hola&quot; dentro del string &quot;Hola Mundo!&quot;, si existe coincidencia devuelve que la prueba fué existosa.</p>
+</li>
+</ul>
+<h4 id="m%C3%A9todos-de-assert">Métodos de Assert</h4>
+<p>Para finalizar con el capitulo de testing vamos a presentar algunos de los métodos mas importante del módulo Assert. Cabe aclarar que, en la practica, por lo general se utilizan módulos de terceros como Jest o Chai.</p>
+<p><strong>Documentación oficial:</strong> <a href="https://nodejs.org/dist/latest-v18.x/docs/api/assert.html#assertmatchstring-regexp-message">AssertModule</a></p>
+<ul>
+<li><code>assert(value, message):</code> Lanza un error si value es falso.</li>
+<li><code>assert.deepEqual(actual, expected, message):</code> Verifica que actual y expected son valores idénticos, en profundidad.</li>
+<li><code>assert.deepStrictEqual(actual, expected, message):</code> Similar a <code>assert.deepEqual()</code>, pero no convierte los tipos de los valores al compararlos.</li>
+<li><code>assert.equal(actual, expected, message):</code> Verifica que actual y expected son iguales (==).</li>
+<li><code>assert.fail(message)</code>: Lanza un error con el mensaje proporcionado.</li>
+<li><code>assert.ifError(value)</code>: Lanza un error si value no es falso.</li>
+<li><code>assert.notDeepEqual(actual, expected, message)</code>: Verifica que actual y expected no son valores idénticos, en profundidad.</li>
+<li><code>assert.notDeepStrictEqual(actual, expected, message)</code>: Similar a assert.notDeepEqual(), pero no convierte los tipos de los valores al compararlos.</li>
+<li><code>assert.notEqual(actual, expected, message)</code>: Verifica que actual y expected no son iguales (!=).</li>
+<li><code>assert.notStrictEqual(actual, expected, message)</code>: Verifica que actual y expected no son estrictamente iguales (!==).</li>
+<li><code>assert.ok(value, message)</code>: Lanza un error si value es falso.</li>
+<li><code>assert.rejects(asyncFn, error, message)</code>: Verifica que una promesa asyncFn es rechazada con un error específico o una instancia de error específico.</li>
+<li><code>assert.resolve(value, message)</code>: Verifica que una promesa es resuelta (no rechazada) con un valor verdadero.</li>
+<li><code>assert.strictEqual(actual, expected, message)</code>: Verifica que actual y expected son estrictamente iguales (===).</li>
+<li><code>assert.throws(fn, error, message)</code>: Verifica que fn arroja un error específico o una instancia de error específico.</li>
+</ul>
+<h2 id="logging-en-nodejs">Logging en Nodejs</h2>
 
 </body>
 </html>

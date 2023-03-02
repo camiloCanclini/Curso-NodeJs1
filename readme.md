@@ -2941,3 +2941,253 @@ Para finalizar con el capitulo de testing vamos a presentar algunos de los méto
 * `assert.throws(fn, error, message)`: Verifica que fn arroja un error específico o una instancia de error específico.
 
 ## Logging en Nodejs
+
+El logging en NodeJs se refiere a la acción de registra información relevante de nuestra aplicación. Esto nos permite realizar un seguimiento de los procesos que estamos ejecutando, nos permite conocer como estan funcionando los componentes. Gracias a esto, y otras técnicas como las de testing, es que podemos depurar (en ingles: Debbuging).
+
+Una forma sencilla de realizar logging es con el objeto `console`, con métodos como:
+
+* `console.log()`
+* `console.warn()`
+* `console.error()`
+* `console.info()`
+
+Algunos conceptos importantes que se trabajan en el logging, son los niveles de logging, los destinos de registro y el formateo de registros. Vamos uno por uno:
+
+### Niveles de logging
+
+Los niveles de logging no son ni mas ni menos que la forma en la cual se agrupan los distintos mensajes. Se Clasifican segun su importancia o gravedad, esto para identificar rapidamente el estado de la aplicación.
+
+![nivelesLogging](https://technology.amis.nl/wp-content/uploads/2020/07/loglevels2020-07-07_16-48-34.png)
+
+Como podemos ver en la imagen anterior, lso niveles de logging son:
+
+1. **Debug:** Son los menos relevantes, indican registros de depuración, son los que nos permiten conocer que se esta ejecutando, que valor tienen ciertas variables, entre otras cosas.
+
+2.**Info:** Son aquellos registros que indican el estado del rendimiento actual de la aplicación. Sirve tanto para usuarios finales, como para el programador.
+
+3.**Warn (Advertencia):** Son aquellos registros que indican que algun componente de la aplicación podria generar problemas.
+
+4: **Error:** Son aquellos registros que indican que ocurrió un problema y que debe ser resuelto para continuar.
+
+5: **Fatal:** Son aquellos registros que indican que ocurrió un error critico, y que además podría perjudicar a la seguridad e integridad de la aplicación.
+
+Sin embargo, esta forma ya no es tan eficiente una vez que nuestra aplicación crece. Por esa razón es que aparecieron librerias con módulos que ofrecen mas utilidades para realizar ese proceso.
+
+### Destinos de Registros
+
+Los destinos de registro son, simple y llanamente, los lugares en donde se almacenaran estos mensajes de deupación. Poder elegir el destino de donde iran a parar este tipo de mensajes nos permite, por un lado organizarnos, y por otro lado, nos da la posibilidad de restringir el acceso a esta información, la cual a veces, es mejor que no sea visible para el usuario final.
+
+Los destinos mas comunes a los que podemos enviar los registros son:
+
+* **Consola:** Los mensajes de registro se muestran en la consola del sistema. Estos son las básicos, este método es el que usa el objeto `console`, de ahí su nombre.
+
+* **Archivos:** Los mensajes de registro se almacenan en archivos en el sistema de archivos. Un ejemplo de esto, puede ser cuando una aplicación crashea, a veces, esta genera un reporte que podemos guardar en un archivo externo.
+
+* **Correo electrónico:** Los mensajes de registro se envían por correo electrónico a una dirección especificada.
+
+* **Bases de datos:** Los mensajes de registro se almacenan en una base de datos como MySQL, MongoDB, o PostgreSQL. Este puede ser uno de los destinos mas seguros, ya que, nos permite agregar una capa de seguridad
+
+* **Servicios de terceros:** Los mensajes de registro se envían a servicios de terceros como Splunk, Papertrail, o Loggly.
+
+### Formateo de registros
+
+El formato de registros se refiere a la estructura que toman los registros a la hora de ser mostrados en pantalla o guardados en algun destino. Dependiendo del formato en el que se encuentren, puede cambiar la forma en la cual, se muestran, la legibilidad, el acceso, entre otras cosas. Como en todo hay ventajas y desventejas.
+
+Ahora, cuales son algunos de los formatos mas comunes cuando hablamos de registros:
+
+* **Texto simple:** Los mensajes de registro se muestran como texto plano sin ningún formato adicional.
+
+* **JSON:** Los mensajes de registro se muestran como objetos JSON estructurados, lo que facilita el análisis y el procesamiento por parte de herramientas de registro y análisis.
+
+* **Colores:** Los mensajes de registro se muestran en diferentes colores según su nivel de registro. Por ejemplo, los mensajes de depuración pueden aparecer en verde, mientras que los mensajes de error pueden aparecer en rojo.
+
+* **Formato personalizado:** Los desarrolladores pueden crear su propio formato personalizado para los mensajes de registro, lo que les permite controlar exactamente cómo se presentan los mensajes.
+
+![logsExample](https://oracle-max.com/wp-content/uploads/2020/11/3-1024x471.png)
+
+Muy bien, una vez aclarado lo básico, podemos pasar a explicar un módulo muy conocido y utilizado cuando depuramos.
+
+### Winston Module
+
+En este caso, veremos el módulo `Winston`, el cual es uno de los módulos mas populares para este tipo de tareas. Algunas de las utilidades que ofrecen son:
+
+* Registrar información en diferentes destinos
+* Como archivos de registro
+* Bases de datos o servicios de terceros
+
+Por su propia definición, sabemos que:
+
+> winston está diseñado para ser una biblioteca de registro simple y universal con soporte para múltiples transportes. winston tiene como objetivo desacoplar partes del proceso de registro para hacerlo más flexible y extensible.
+
+#### Documentación Winston
+
+[![Winston](https://img.shields.io/badge/Documentacion%20Oficial-red)](https://www.npmjs.com/package/winston)
+
+#### Instalación Winston
+
+```bash
+npm install winston
+```
+
+### Uso Winston
+
+Para emepzar a usar `winston` debemos crear el objeto `logger`. Este es el que nos permitira crear los registros. Este logger necesita ser configura utilizando el siguiente método:
+
+```js
+const logger = winston.createLogger({
+  /* Aquí van las configuraciones*/
+});
+```
+
+Este método recibe como argumento un objeto que contiene las configuraciones que posteriormente utilizará el logger. Algunas de las configuraciones que acepta son:
+
+```js
+{
+    level: 'info', // Nivel máximo que puede alcanzar un log 
+    format: winston.format.json(), // formato que tendra el log
+    defaultMeta: { service: 'Log de Winston' },
+    transports: [
+        // Destinos de registro, con sus configuraciones
+    ]
+}
+```
+
+Cada una de las configuraciones puede ser personalizada al completo, aunque para este curso, solo mostraremos los valores predefinidos
+
+Vamos a explicar cada atributo uno por uno:
+
+* `level:` Este es el nivel máximo que acepta el log, si lo supera, no lo registra. Los niveles son (Siendo el de arriba el más crítico y el de abajo el menos):
+
+  * error
+  * warn
+  * info
+  * http
+  * verbose
+  * debug
+  * silly
+
+* `defaultMeta:` es un objeto que tambien recibe ciertos atributos, la función que cumple este objeto es la de agregar información adicional al registro que generamos. En este caso al final del registro va a decir que este registro fué generado por winston:
+
+* `format:` Este es el atributo es el más complicado de explicar, asi que vamos por partes.
+
+    Para empezar este atributo acepta distintas funciones, que vienen incluidas en `winston.format`.
+    La forma sencilla de explicarlo sería decir que, **a medida que se agregan funciones al atributo `format:`, se va estilizando la estructura de salida.** Vea el siguiente ejemplo:
+
+    ```js
+    const winston = require('winston');
+
+    const logger = winston.createLogger({
+        level: 'info',
+        format: winston.format.combine(
+            winston.format.timestamp(),
+            winston.format.colorize(),
+            winston.format.align(),
+            winston.format.printf((info)=>{
+                return `[WinstonLogs - Nivel: ${info.level} - Timestamp: ${info.timestamp}] ${info.message}`
+            })
+        ),
+        transports: [
+            new winston.transports.Console(),
+        ]
+    });
+
+    logger.info('Hello, world!');
+    logger.error('Something went wrong');
+    //[WinstonLogs - Nivel: info - Timestamp: 2023-03-02T19:40:10.320Z]       Hello, world!
+    //[WinstonLogs - Nivel: error - Timestamp: 2023-03-02T19:40:10.322Z]      Something went wrong
+    ```
+
+    En el ejemplo anterior, el formato de salida es totalmente personalizado. Cada función que se agrega dentro de `winston.format.combine()` agrega un estilo o componente diferente a la salida. Por ejemplo:
+
+    `.colorize():` Cambia el color dependiendo del nivel del mensaje, si es un error se muestra rojo y si es info se muestra en verde.
+
+    `.align()`: Separa el cuerpo del mensaje de los "metadatos"
+
+    `.timestamp()`: Agrega la hora a la cual se realizó el log como atributo de `info`
+
+    y por último. `printf(callback(info))`: Acepta todo lo que se agregó anteriormente y permite generar la salida totalmente personalizada.
+
+    Para entender mejor este atributo, se recomienda probar sacar y poner funciones para ver los "efectos" que se pueden conseguir
+
+He aquí una lista de las **funciones** que ofrece `winston.format()`:
+
+* `combine():` Combina varios objetos de formato en uno solo.
+* `colorize():` Agrega colores a la salida de registro, según el nivel de registro.
+* `json():` Crea un objeto JSON con la información del registro.
+* `label():` Agrega una etiqueta personalizada al registro.
+* `metadata():` Agrega metadatos personalizados al registro.
+* `ms():` Convierte la marca de tiempo en una cadena de tiempo transcurrido en milisegundos.
+* `padLevels():` Añade padding (relleno) a los niveles de registro.
+* `prettyPrint():` Imprime el objeto de registro en formato JSON con indentación y saltos de línea.
+* `printf():` Crea una función de formato personalizada utilizando una cadena de formato, similar a printf en C.
+* `simple():` Crea una cadena de registro simple con solo el nivel de registro y el mensaje.
+* `timestamp():` Agrega una marca de tiempo a los registros.
+
+  * `Transports:` Este es el último atributo que ofrece el objeto `logger`, este acepta como valor un array que, a su vez, guarda objetos del tipo `winston.transport`:
+
+  Los objetos de transport representan los destinos de los registros
+
+  Algunos de los destinos mas comunes son:
+
+  * `Console`: para enviar registros a la consola
+  * `File`: para escribir registros en un archivo
+  * `Http`: para enviar registros a través de una solicitud HTTP
+  * `Syslog`: para enviar registros a un servidor syslog.
+
+  También puedes crear tus propios destinos de registro personalizados utilizando la clase winston.Transport
+
+  En el siguiente ejemplo se configuran un destino http y un archivo:
+
+  ```js
+  const winston = require('winston');
+  const { format } = winston;
+
+  const fileTransport = new winston.transports.File({
+    filename: 'logs/app.log',
+    level: 'info',
+    format: format.combine(
+      format.timestamp(),
+      format.json()
+    )
+  });
+
+  const httpTransport = new winston.transports.Http({
+    host: 'example.com',
+    port: 80,
+    path: '/logs',
+    auth: {
+      username: 'user',
+      password: 'password'
+    },
+    ssl: true,
+    level: 'error',
+    format: format.combine(
+      format.timestamp(),
+      format.json()
+    )
+  });
+
+  const logger = winston.createLogger({
+    transports: [ fileTransport, httpTransport ]
+  });
+
+  logger.info('Hello, Winston!');
+  logger.error('Something went wrong!');
+  ```
+
+Y para finalizar con este módulo veamos como enviar los disntintos tipos de log. Simplemente utilizamos el `logger` configurado previamente y utilizamos la siguiente estructura:
+
+```js
+const logger = winston.createLogger({
+    
+});
+//logger.[nivel](...)
+// Métodos de registro disponibles en logger:
+logger.log(level, message, [metadata], [callback]);
+logger.error(message, [metadata], [callback]);
+logger.warn(message, [metadata], [callback]);
+logger.info(message, [metadata], [callback]);
+logger.verbose(message, [metadata], [callback]);
+logger.debug(message, [metadata], [callback]);
+logger.silly(message, [metadata], [callback]);
+```
