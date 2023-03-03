@@ -2119,6 +2119,7 @@ Las diferencias son muchas, pero no ahondaremos mucho mas, porque, como dijimos 
 
 Para cerrar, el módulo http es difícil de entender al principio, ya que posee muchas clases las cuales se relacionan directamente con conceptos como Streams y Sockets, que tambien requieren un cierto grado de estudio. Por esa razon es recomndable conocer y entender muy bien estos conceptos fundamentales, si queremos entender a profundidad el módulo.
 
+___
 ## Aditional Packages
 
 Ya hemos terminado con los temas principales de NodeJs, hasta este momento hemos explicado, trabajado y comprendido, los conceptos mas basicos y fundamentales con los que nos encontramos a la hora de trabajar en el entorno de Node.
@@ -2752,7 +2753,7 @@ Si por alguna razon quisieramos sacar esta configuración de arranque, podemos h
 ```bash
 pm2 unstartup
 ```
-
+___
 ## Testing en Nodejs
 
 El testing es el proceso probar y analizar los resultados que produce nuestra aplicación, es una practica que aplica en todos los lenguajes de programación.
@@ -2939,7 +2940,7 @@ Para finalizar con el capitulo de testing vamos a presentar algunos de los méto
 * `assert.resolve(value, message)`: Verifica que una promesa es resuelta (no rechazada) con un valor verdadero.
 * `assert.strictEqual(actual, expected, message)`: Verifica que actual y expected son estrictamente iguales (===).
 * `assert.throws(fn, error, message)`: Verifica que fn arroja un error específico o una instancia de error específico.
-
+___
 ## Logging en Nodejs
 
 El logging en NodeJs se refiere a la acción de registra información relevante de nuestra aplicación. Esto nos permite realizar un seguimiento de los procesos que estamos ejecutando, nos permite conocer como estan funcionando los componentes. Gracias a esto, y otras técnicas como las de testing, es que podemos depurar (en ingles: Debbuging).
@@ -3191,3 +3192,258 @@ logger.verbose(message, [metadata], [callback]);
 logger.debug(message, [metadata], [callback]);
 logger.silly(message, [metadata], [callback]);
 ```
+___
+## Threads
+
+Cuando trabajamos con NodeJs se nos dice que este es un lenguaje que trabaja con un solo hilo, que es **Single Thread**. Esto significa que trabaja linea por linea con un "solo flujo". Si en este flujo aparece un obstaculo, como un proceso que requiere un cierto tiempo para terminar su ejecución, entonces la aplicación se bloquea.
+
+Este "obstaculo", a veces, no se puede esquivar, por eso lo que se busca utilizar disntintas técnicas que permitan reducir el tiempo de espera, como por ejemplo, las callbacks o las promesas. Pero también existen situaciones en las cuales estas herramientas no son suficientes, vea el siguiente ejemplo.
+
+```js
+const express = require("express")
+const app = express()
+
+app.get("/a", (req, res) => {
+  const startTime = new Date()
+  const result = fibonacci(parseInt(req.query.number)) //parseInt is for converting string to number
+  const endTime = new Date()
+  res.json({
+    number: parseInt(req.query.number),
+    fibonacci: result,
+    time: endTime.getTime() - startTime.getTime() + "ms",
+  })
+})
+
+const fibonacci = n => {
+  if (n <= 1) {
+    return 1
+  }
+
+  return fibonacci(n - 1) + fibonacci(n - 2)
+}
+
+app.listen(3000, () => console.log("listening on port 3000"))
+```
+
+Como podra ver, en el ejemplo anterior usamos express, pero no se preocupe, solo usaremos funciones baásicas del framework, como poder escuchar ciertas rutas, y montar el servidor.
+
+En el código anterior lo que hacemos  es crear un servidor web, que escucha en el puerto 3000 y responde a las rutas `https://localhost:3000/a`.
+
+Los números de **Fibonacci** son una secuencia de números enteros en la que cada número es la suma de los dos números anteriores. La secuencia comienza con los números 0 y 1, y los siguientes números se calculan sumando los dos números anteriores (0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, ...).
+Por ejemplo, si se llama a fibonacci(6), la función devolverá el valor 8, ya que el sexto número de Fibonacci es 8 (la secuencia comienza con 0, 1, 1, 2, 3, 5, 8, ...).
+
+Para poder pasar este valor a la función desde el navegador, lo hacemos con parametros vía url: ``https://localhost:3000/a?number=6``.
+
+Ahora bien, esta función es peligrosa, porque dependiendo del numero que ingrese el usuario, al ser recursiva, esta deberá llamarse una y otra vez hasta encontrar el numero que le usuario pidió.
+
+Y el problema aquí es que, si el numero es muy alto, el programa se bloqueará, y esto nos llevara a tener un alto consumo de recursos. Sin mencionar que, si el servidor debe atender otras cuestiones, estas funciones tambien se veran interrumpidas, ya que, como tenemos un solo hilo este debe terminar este tarea para continuar.
+
+![singleThread2](https://alvinlal.netlify.app/static/b9d4603a6d33a428fa4a9d2b8e5505a2/8a92d/taskmanager.webp)
+
+![singleThread3](https://alvinlal.netlify.app/e2f1dc41ad100e8dc0dd9d1b15125bbd/getfibanacci_hanging.gif)
+
+En un primer momento, uno pensaría que usando promesas esto tambien se solucionaría, pues bien, la respuesta es no. Esto se debe a que las promesas, por decirlo de alguna forma, internamente se manejan con callbacks, por lo que, el resultado no varía. 
+
+Gracias a la situación anterior cabe recalcar un concepto muy importante sobre las calbacks y promesas. Si bien su función es la de ejecutar tareas en segundo plano, **las tareas que ejecutan son aquellas que demandan tiempo, y no necesariamente procesamiento por parte de la CPU.**
+
+Las tareas que comunmente se destinan a callback y promesas, son aquellas en las que, su realización, **depende de factores externos**, como la conexión de red, el procesamiento de una API o Base de Datos, etc.
+
+Pero el problema que tenemos aquí es que, la tarea que estamos intentando realizar bloquea la aplicación entera por falta de velocidad procesamiento. Lo que nos lleva al siguiente asunto: Comó se soluciona?
+Pues bien, la cuestión es la siguiente, la velocidad de procesamiento depende de varios componentes de la pc, pero en especial del **procesador** y de la administración del **sistema operativo**.
+
+Con respecto a la CPU (el procesador), este internamente poseé distintos núcleos que son los que realizan los distintos procesos, y a su vez los procesos pueden tener hilos. Los hilos son como, partes de un mismo proceso, que cumplen diferentes tareas.
+
+En este caso el ejemplo es mas que claro, Estamos intentando realizar una tarea que ocupa demasiados recursos, y qué debido, a la mala gestión, terminar por bloquear las demas tareas que tiene realizar la aplicación.
+
+Realmente esto tiene disntitas formas de ser solucionado:
+### Worker Threads
+
+Como sabemos, Nodejs por defecto trabaja con un **Single Thread**, lo que quiere decir que existe un solo hilo principal o **Main Thread**, alojado en un unico proceso. Aqui es donde vuelve a aparece el concepto de Event Loop.
+
+![SingleThread](https://s1.o7planning.com/fr/11951/images/21212670.png)
+
+Pues bien, dentro de este único proceso podemos crear worker threads, que no son mas que "hilos adicionales" que trabajan en paralelo con el hilo principal.
+
+Estos se útilizan para realizar tareas que consuman mucho tiempo en la CPU, Como la resolucion de algun problema matemático. Ademas estos hilos **comparten espacio de memoria**, lo que quiere decir que pueden comunicarse entre ellos usando lo que se conoce como ``ArrayBuffer``.
+
+![hilosYProcesos](http://1.bp.blogspot.com/-4ZARqxV_tmY/T8eS2cl0IuI/AAAAAAAAADo/bg76M7rmpxA/s1600/proceso.png)
+
+![workerThread](https://images.ctfassets.net/hspc7zpa5cvq/SIXlUR85TDb9uzlnTJEjb/0a9cb1fdcfadbee44283aada6a312443/Worker-Threads-Process.png)
+Nodejs, nos proveé un módulo para trabajar con los worker threads. Pero cabe aclarar, que este módulo no sera visto en mucha profundida.
+
+#### Módulo Worker Threads
+
+**Importación**
+
+```js
+const worker = require('worker_threads')
+```
+**Creación de Workers**
+
+```js
+// new Worker(__filename, {workerData: [var|array]});
+const worker = new Worker('./worker.js', {workerData: variable});
+```
+
+**Métodos y propiedades del objeto worker**
+
+* ``worker.postMessage(value)``: Método que se utiliza para enviar un mensaje al worker thread desde el hilo principal. 
+
+* ``worker.on('message', callback)`` Evento que se dispara cuando el worker thread envía un mensaje al hilo principal, y que permite ejecutar una función (callback) para procesar dicho mensaje.
+
+* ``worker.on('error', callback)`` Evento que se dispara cuando ocurre un error en el worker thread, y que permite ejecutar una función (callback) para manejar dicho error.
+
+* ``worker.terminate()`` Método que se utiliza para terminar el worker thread.
+
+* ``worker.threadId`` Propiedad que contiene el ID del thread del worker.
+
+* ``worker.isMainThread`` Propiedad que indica si el worker está corriendo en el hilo principal o en un thread distinto.
+
+* ``worker.parentPort`` Propiedad que contiene una referencia al canal de comunicación entre el hilo principal y el worker, en el caso de que el worker esté corriendo en un thread distinto.
+
+* ``worker.workerData`` Propiedad que contiene los datos que se pasaron al worker thread como segundo parámetro del objeto de opciones al momento de crear el worker mediante el constructor Worker().
+  
+#### Solución de Problema Con Worker Threads
+
+main.js
+```js
+const { Worker } = require('worker_threads');
+
+const app = require('express')()
+
+app.get('/a',(req,res)=>{
+    function fibonacci(n) {
+        return new Promise((resolve, reject) => {
+
+            const worker = new Worker('./worker.js', { workerData: n });
+
+            worker.on('message', resolve); // Se recibe el mensaje con el resultado del worker
+            worker.on('error', reject); // Se recibe un error del worker
+
+        });
+    }
+    const startTime = new Date()
+    // Retorna una promesa 
+    fibonacci(parseInt(req.query.number)) //parseInt is for converting string to number
+    .then(result => res.send(`La suma es: ${result}`))
+    .catch(error => console.error(error));
+    const endTime = new Date()
+});
+
+app.get('/b',(req,res)=>{
+    res.send('Hola').status(200)
+})
+
+app.listen(3636, () => console.log("Escuchando en puerto 3636"))
+```
+
+worker.js
+```js
+const { workerData, parentPort } = require('worker_threads');
+
+const fibonacci = n => {
+  if (n <= 1) {
+    return 1
+  }
+
+  return fibonacci(n - 1) + fibonacci(n - 2)
+}
+
+parentPort.postMessage(fibonacci(workerData));
+```
+
+Con este método y utilizando 2 hilos, uno se "bloquea" intentando solucionar la operación matemática y el otro , el Main Thread, se queda a la escucha de otras peticiones, por lo que, la ejecución de la aplicación no se interrumpe.
+
+### child_process
+
+Otra forma de solucionar este problema seria la de **generar procesos hijos o secundarios**. Este método ya no solo creara un hilo, sino que ahora creara un **proceso independiente** que será hijo de nuestra aplicación de nodejs.
+
+Los procesos secundarios son útiles porqué nos permiten ejecutar un script externo o ejecutar una aplicación externa a la nuestra. Además los procesos secundarios también son útiles cuando se necesita realizar operaciones que consumen muchos recursos, ya que, **Dato importante: Cada proceso secundario se ejecuta en su propio espacio de memoria y su propio hilo. Debido a que, como se dijo antes, son PROCESOS AISLADOS**.
+
+![child_process](https://soshace.com/wp-content/uploads/2020/01/component-3-1.jpg)
+
+Para todo esto, Node nos ofrece el módulo ``child_process``.
+
+#### Módulo child_process
+
+**Al igual que con el ``worker_threads``, este módulo no será presentado en profundida.**
+
+Lo primero que tenemos que entender es que, cuando ``child_process`` crea un subproceso, para comunicarse con el proceso padre, estos 2 utilizan **pipes**. Si, los mismos pipes de los **streams**. Y tambien vuelven a aparecer los streams: STDOUT, STDIN y STDERR.
+
+Ahora, ``child_process`` ofrece varias formas de crear procesos secundarios, incluyendo la creación de un nuevo proceso mediante la invocación de un comando externo, la creación de un proceso secundario a partir de un archivo de script de Node.js, y la creación de un proceso secundario utilizando un archivo binario ejecutable.
+
+**Métodos child_process**
+* ``child_process.exec(command[, options][, callback])``: Ejecuta un comando en una **subshell** y devuelve los resultados de la ejecución como una cadena.
+  
+* ``child_process.execFile(file[, args][, options][, callback])``: Ejecuta un archivo binario y devuelve los resultados de la ejecución como una cadena. La diferencia con el anterior es que no crea una **subshell** nueva.
+  
+* ``child_process.spawn(command[, args][, options])``: Crea un nuevo proceso secundario y devuelve un objeto ChildProcess que permite interactuar con el proceso secundario a través de sus flujos de entrada y salida.
+  
+* ``child_process.fork(modulePath[, args][, options])``: Crea un nuevo proceso secundario  y devuelve un objeto ChildProcess que permite comunicarse con el proceso secundario a través de mensajes, utilizando `subprocess.send()`. Siguen siendo procesos independientes, pero ahora tienen un canal por el que comunicarse directamente entre padre e hijo, y no a traves de eventos.
+
+**Cada uno de estos metodos devuelve un objeto ``ChildProcess``, el cual a su vez hereda métodos de la clase ``EventEmitter``.**
+
+![metodosChildProcess](https://i.ytimg.com/vi/kR1DCU5kO5s/maxresdefault.jpg)
+
+#### Solución al Problema con ChildProcess
+
+main.js
+
+```js
+const express = require("express")
+
+const app = express()
+const { fork } = require("child_process")
+
+app.get("/a", (req, res) => {
+  const childProcess = fork("./forkedchild.js") //the first argument to fork() is the name of the js file to be run by the child process
+  childProcess.send({ number: parseInt(req.query.number) }) //send method is used to send message to child process through IPC
+  const startTime = new Date()
+  childProcess.on("message", message => {
+    //on("message") method is used to listen for messages send by the child process
+    const endTime = new Date()
+    res.json({
+      ...message,
+      time: endTime.getTime() - startTime.getTime() + "ms",
+    })
+  })
+})
+
+app.get("/b", (req, res) => {
+  res.send("I am unblocked now")
+})
+
+app.listen(3636, () => console.log("listening on port 3636"))
+```
+
+forkedchild.js
+```js
+process.on("message", message => {
+    //child process is listening for messages by the parent process
+    const result = isPrime(message.number)
+    process.send(result)
+    process.exit() // make sure to use exit() to prevent orphaned processes
+  })
+  
+  function isPrime(number) {
+    let isPrime = true
+  
+    for (let i = 3; i < number; i++) {
+      if (number % i === 0) {
+        isPrime = false
+        break
+      }
+    }
+  
+    return {
+      number: number,
+      isPrime: isPrime,
+    }
+  }
+```
+
+Este método es mucho mas intuitivo que el anterior, Aqui creamos el proceso hijo con ``fork()``, luego le enviamos el parametro que llegó por url con ``childProcess.send(object)``, y dejamos un event listeners esperando la respuesta del subproceso.
+
+## Cluster
+
+Los Clusters son.
