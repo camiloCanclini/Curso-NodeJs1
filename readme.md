@@ -3368,7 +3368,18 @@ Para todo esto, Node nos ofrece el módulo ``child_process``.
 
 **Al igual que con el ``worker_threads``, este módulo no será presentado en profundida.**
 
-Lo primero que tenemos que entender es que, cuando ``child_process`` crea un subproceso, para comunicarse con el proceso padre, estos 2 utilizan **pipes**. Si, los mismos pipes de los **streams**. Y tambien vuelven a aparecer los streams: STDOUT, STDIN y STDERR.
+Lo primero que tenemos que entender es que, cuando ``child_process`` crea un subproceso, este requerirá comunicarse con otros, aquí es cuando aparece el termino IPC.
+
+**IPC (Inter-Process Communication)**: Es un término que se refiere a los mecanismos y técnicas utilizados para permitir la comunicación entre procesos en un sistema operativo.
+
+Algunos de estos métodos pueden ser:
+
+* Memoria compartida
+* Pipes
+* Sockets
+* Colas de mensajes
+
+Para este caso, donde tenemos un proceso padre y un proceso hijo, utilizaremos los **pipes**. Si, los mismos pipes de los **streams**. Y tambien, con esto volveremos a ver los streams: STDOUT, STDIN y STDERR.
 
 Ahora, ``child_process`` ofrece varias formas de crear procesos secundarios, incluyendo la creación de un nuevo proceso mediante la invocación de un comando externo, la creación de un proceso secundario a partir de un archivo de script de Node.js, y la creación de un proceso secundario utilizando un archivo binario ejecutable.
 
@@ -3446,4 +3457,93 @@ Este método es mucho mas intuitivo que el anterior, Aqui creamos el proceso hij
 
 ## Cluster
 
-Los Clusters son.
+Los Clusters son grupos de procesos que trabajan en paralelo, los cuales dividen las tareas a realizar, se organizan bajo una jerarquía y comparten un mismo puerto. La **Clusterización** Es una técnica que permite aprovechar significativamente el rendimiento y la capacidad de respuesta de una aplicación, especialmente en aplicaciones que realizan tareas intensivas en CPU.
+
+![clusterizacion](https://www.webmound.com/public/uploads/67/nodejs-clustering-increase-server-performance.jpg?ezimgfmt=rs:341x184/rscb4/ngcb4/notWebP)
+
+Cada clúster consta de un proceso principal y uno o varios procesos secundarios. El proceso principal actúa como un coordinador y se encarga de distribuir el trabajo a los procesos secundarios. Aquí aparecen 2 formas de distribuir:
+
+* **"Round-robin"**: Traducido, "turnos rotativos", se distribuye el trabajo de manera equitativa entre los procesos secundarios. Esto significa que cada proceso secundario tiene una oportunidad igual de realizar trabajo.
+
+* **Escucha de socket**: En este el proceso master, crea un socket que puede ser escuchado por los demas workers, Y solo responde el worker que este desocupado.
+
+![cluster](https://raw.githubusercontent.com/nextapps-de/flexsearch-server/master/doc/cluster.png)
+
+La idea detrás de los clústeres es que, en lugar de tener un solo proceso que tenga que hacer todo el trabajo, se pueden crear varios procesos secundarios para dividir la carga de trabajo. 
+
+Con esto aprovechamos al máximo las ventajas de los anteriores métodos.
+
+El funcionamiento detras de los clusters es el siguiente:
+
+* Cuando se recibe una solicitud o tarea en el proceso principal, este selecciona un proceso secundario disponible (es decir, un proceso que no esté actualmente ocupado con otra tarea) y le asigna la tarea.
+  
+* El proceso secundario ejecuta la tarea y devuelve los resultados al proceso principal.
+
+* El proceso principal luego envía los resultados al cliente que realizó la solicitud original.
+
+![cluster2](https://www.sysleaf.com/static/133a45ee56a5f63eb9f85182af914996/a6906/nodejs-cluster-arch.png)
+
+Además, los procesos secundarios pueden comunicarse entre sí y con el proceso principal utilizando un mecanismo de comunicación de mensajes. Este mecanismo permite que los procesos compartan información y coordinen su trabajo.
+
+### Módulo Cluster
+
+**Este módulo tampoco será visto en demasiada profundidad**
+
+Este módulo y `child_process` comparten métodos y propiedades, el módulo cluster también proporciona eventos que se pueden usar para controlar el comportamiento de los procesos secundarios, como el evento ``fork``, que se emite cuando se crea un nuevo proceso secundario, y el evento ``exit``, que se emite cuando un proceso secundario se cierra.
+
+#### Métodos Cluster
+
+``cluster.fork()``: Crea un nuevo proceso secundario que se ejecuta en paralelo al proceso principal.
+``cluster.setupMaster([settings])``: Configura las opciones globales para todos los procesos secundarios.
+
+**Propiedades:**
+
+``cluster.isMaster``: Devuelve true si el proceso actual es el proceso principal, de lo contrario devuelve false.
+``cluster.isWorker``: Devuelve true si el proceso actual es un proceso secundario, de lo contrario devuelve false.
+``cluster.worker``: Proporciona una referencia al objeto worker para el proceso secundario actual.
+``cluster.workers``: Proporciona un objeto que contiene todos los procesos secundarios que se han creado.
+
+#### Solucionando el Problema con Cluster
+
+```js
+const cluster = require("cluster")
+const http = require("http")
+const cpuCount = require("os").cpus().length //returns no of cores our cpu have
+
+if (cluster.isMaster) {
+  masterProcess()
+} else {
+  childProcess()
+}
+
+function masterProcess() {
+  console.log(`Master process ${process.pid} is running`)
+
+  //fork workers.
+
+  for (let i = 0; i < cpuCount; i++) {
+    console.log(`Forking process number ${i}...`)
+    cluster.fork() //creates new node js processes
+  }
+  cluster.on("exit", (worker, code, signal) => {
+    console.log(`worker ${worker.process.pid} died`)
+    cluster.fork() //forks a new process if any process dies
+  })
+}
+
+function childProcess() {
+  const express = require("express")
+  const app = express()
+  //workers can share TCP connection
+
+  app.get("/", (req, res) => {
+    res.send(`hello from server ${process.pid}`)
+  })
+
+  app.listen(5555, () =>
+    console.log(`server ${process.pid} listening on port 5555`)
+  )
+}
+```
+
+Como podemos ver en este o
