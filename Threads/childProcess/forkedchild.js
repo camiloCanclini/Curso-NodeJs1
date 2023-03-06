@@ -1,22 +1,15 @@
 process.on("message", message => {
-    //child process is listening for messages by the parent process
-    const result = isPrime(message.number)
-    process.send(result)
-    process.exit() // make sure to use exit() to prevent orphaned processes
-  })
+  //child process is listening for messages by the parent process
+  const result = fibonacci(message.number)
+  process.send(result)
+  process.exit() // make sure to use exit() to prevent orphaned processes
+})
   
-  function isPrime(number) {
-    let isPrime = true
-  
-    for (let i = 3; i < number; i++) {
-      if (number % i === 0) {
-        isPrime = false
-        break
-      }
-    }
-  
-    return {
-      number: number,
-      isPrime: isPrime,
-    }
+const fibonacci = n => {
+  if (n <= 1) {
+    return 1
   }
+
+  return fibonacci(n - 1) + fibonacci(n - 2)
+}
+  

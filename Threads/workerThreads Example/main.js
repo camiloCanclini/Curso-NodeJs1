@@ -3,7 +3,7 @@ const { Worker } = require('worker_threads');
 const app = require('express')()
 
 app.get('/a',(req,res)=>{
-    function sum(n) {
+    function fibonnaci(n) {
         return new Promise((resolve, reject) => {
 
             const worker = new Worker('./worker.js', { workerData: n });
@@ -14,8 +14,8 @@ app.get('/a',(req,res)=>{
         });
     // Se Empieza pidiendo que calcule la suma de 0 a 1000000000
     }
-    sum(1000000000)// Como retorna una promesa...
-      .then(result => res.send(`La suma es: ${result}`))
+    fibonnaci(req.query.number)// Como retorna una promesa...
+      .then(result => res.send(`Fibonnaci: ${result}`))
       .catch(error => console.error(error));
 });
 
@@ -24,3 +24,4 @@ app.get('/b',(req,res)=>{
 })
 
 app.listen(3636, () => console.log("Escuchando en puerto 3636"))
+

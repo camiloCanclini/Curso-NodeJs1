@@ -3192,7 +3192,9 @@ logger.verbose(message, [metadata], [callback]);
 logger.debug(message, [metadata], [callback]);
 logger.silly(message, [metadata], [callback]);
 ```
+
 ___
+
 ## Threads
 
 Cuando trabajamos con NodeJs se nos dice que este es un lenguaje que trabaja con un solo hilo, que es **Single Thread**. Esto significa que trabaja linea por linea con un "solo flujo". Si en este flujo aparece un obstaculo, como un proceso que requiere un cierto tiempo para terminar su ejecución, entonces la aplicación se bloquea.
@@ -3242,7 +3244,7 @@ Y el problema aquí es que, si el numero es muy alto, el programa se bloqueará,
 
 ![singleThread3](https://alvinlal.netlify.app/e2f1dc41ad100e8dc0dd9d1b15125bbd/getfibanacci_hanging.gif)
 
-En un primer momento, uno pensaría que usando promesas esto tambien se solucionaría, pues bien, la respuesta es no. Esto se debe a que las promesas, por decirlo de alguna forma, internamente se manejan con callbacks, por lo que, el resultado no varía. 
+En un primer momento, uno pensaría que usando promesas esto tambien se solucionaría, pues bien, la respuesta es no. Esto se debe a que las promesas, por decirlo de alguna forma, internamente se manejan con callbacks, por lo que, el resultado no varía.
 
 Gracias a la situación anterior cabe recalcar un concepto muy importante sobre las calbacks y promesas. Si bien su función es la de ejecutar tareas en segundo plano, **las tareas que ejecutan son aquellas que demandan tiempo, y no necesariamente procesamiento por parte de la CPU.**
 
@@ -3256,6 +3258,7 @@ Con respecto a la CPU (el procesador), este internamente poseé distintos núcle
 En este caso el ejemplo es mas que claro, Estamos intentando realizar una tarea que ocupa demasiados recursos, y qué debido, a la mala gestión, terminar por bloquear las demas tareas que tiene realizar la aplicación.
 
 Realmente esto tiene disntitas formas de ser solucionado:
+
 ### Worker Threads
 
 Como sabemos, Nodejs por defecto trabaja con un **Single Thread**, lo que quiere decir que existe un solo hilo principal o **Main Thread**, alojado en un unico proceso. Aqui es donde vuelve a aparece el concepto de Event Loop.
@@ -3278,6 +3281,7 @@ Nodejs, nos proveé un módulo para trabajar con los worker threads. Pero cabe a
 ```js
 const worker = require('worker_threads')
 ```
+
 **Creación de Workers**
 
 ```js
@@ -3287,7 +3291,7 @@ const worker = new Worker('./worker.js', {workerData: variable});
 
 **Métodos y propiedades del objeto worker**
 
-* ``worker.postMessage(value)``: Método que se utiliza para enviar un mensaje al worker thread desde el hilo principal. 
+* ``worker.postMessage(value)``: Método que se utiliza para enviar un mensaje al worker thread desde el hilo principal.
 
 * ``worker.on('message', callback)`` Evento que se dispara cuando el worker thread envía un mensaje al hilo principal, y que permite ejecutar una función (callback) para procesar dicho mensaje.
 
@@ -3306,13 +3310,14 @@ const worker = new Worker('./worker.js', {workerData: variable});
 #### Solución de Problema Con Worker Threads
 
 main.js
+
 ```js
 const { Worker } = require('worker_threads');
 
 const app = require('express')()
 
 app.get('/a',(req,res)=>{
-    function fibonacci(n) {
+    function fibonnaci(n) {
         return new Promise((resolve, reject) => {
 
             const worker = new Worker('./worker.js', { workerData: n });
@@ -3321,13 +3326,11 @@ app.get('/a',(req,res)=>{
             worker.on('error', reject); // Se recibe un error del worker
 
         });
+    // Se Empieza pidiendo que calcule la suma de 0 a 1000000000
     }
-    const startTime = new Date()
-    // Retorna una promesa 
-    fibonacci(parseInt(req.query.number)) //parseInt is for converting string to number
-    .then(result => res.send(`La suma es: ${result}`))
-    .catch(error => console.error(error));
-    const endTime = new Date()
+    fibonnaci(req.query.number)// Como retorna una promesa...
+      .then(result => res.send(`Fibonnaci: ${result}`))
+      .catch(error => console.error(error));
 });
 
 app.get('/b',(req,res)=>{
@@ -3338,6 +3341,7 @@ app.listen(3636, () => console.log("Escuchando en puerto 3636"))
 ```
 
 worker.js
+
 ```js
 const { workerData, parentPort } = require('worker_threads');
 
@@ -3384,6 +3388,7 @@ Para este caso, donde tenemos un proceso padre y un proceso hijo, utilizaremos l
 Ahora, ``child_process`` ofrece varias formas de crear procesos secundarios, incluyendo la creación de un nuevo proceso mediante la invocación de un comando externo, la creación de un proceso secundario a partir de un archivo de script de Node.js, y la creación de un proceso secundario utilizando un archivo binario ejecutable.
 
 **Métodos child_process**
+
 * ``child_process.exec(command[, options][, callback])``: Ejecuta un comando en una **subshell** y devuelve los resultados de la ejecución como una cadena.
   
 * ``child_process.execFile(file[, args][, options][, callback])``: Ejecuta un archivo binario y devuelve los resultados de la ejecución como una cadena. La diferencia con el anterior es que no crea una **subshell** nueva.
@@ -3428,29 +3433,22 @@ app.listen(3636, () => console.log("listening on port 3636"))
 ```
 
 forkedchild.js
+
 ```js
 process.on("message", message => {
-    //child process is listening for messages by the parent process
-    const result = isPrime(message.number)
-    process.send(result)
-    process.exit() // make sure to use exit() to prevent orphaned processes
-  })
+  //child process is listening for messages by the parent process
+  const result = fibonacci(message.number)
+  process.send(result)
+  process.exit() // make sure to use exit() to prevent orphaned processes
+})
   
-  function isPrime(number) {
-    let isPrime = true
-  
-    for (let i = 3; i < number; i++) {
-      if (number % i === 0) {
-        isPrime = false
-        break
-      }
-    }
-  
-    return {
-      number: number,
-      isPrime: isPrime,
-    }
+const fibonacci = n => {
+  if (n <= 1) {
+    return 1
   }
+
+  return fibonacci(n - 1) + fibonacci(n - 2)
+}
 ```
 
 Este método es mucho mas intuitivo que el anterior, Aqui creamos el proceso hijo con ``fork()``, luego le enviamos el parametro que llegó por url con ``childProcess.send(object)``, y dejamos un event listeners esperando la respuesta del subproceso.
@@ -3469,7 +3467,7 @@ Cada clúster consta de un proceso principal y uno o varios procesos secundarios
 
 ![cluster](https://raw.githubusercontent.com/nextapps-de/flexsearch-server/master/doc/cluster.png)
 
-La idea detrás de los clústeres es que, en lugar de tener un solo proceso que tenga que hacer todo el trabajo, se pueden crear varios procesos secundarios para dividir la carga de trabajo. 
+La idea detrás de los clústeres es que, en lugar de tener un solo proceso que tenga que hacer todo el trabajo, se pueden crear varios procesos secundarios para dividir la carga de trabajo.
 
 Con esto aprovechamos al máximo las ventajas de los anteriores métodos.
 
@@ -3510,64 +3508,258 @@ const cluster = require("cluster")
 const numCPUs = require("os").cpus().length
 const express = require("express")
 
-const app = express()
+function fibonacci(number=1){
+  if (number <= 1) {
+    return 1
+  } else{
+    return fibonacci(number - 1) + fibonacci(number - 2)
+  }
+}
 
-app.get("/a", (req, res) => {
-  if (cluster.isMaster) {
+if (cluster.isMaster) {
+
+  const app = express()
+  
+  app.get("/a", (req, res) => {
+    
     // Si se ingresa a la ruta '/a' y el proceso actual es el principal, creamos un worker
     const worker = cluster.fork()
-
+    worker.send({ number: parseInt(req.query.number)})
+    
     // Escuchamos el evento "message" del worker para recibir la respuesta del cálculo pesado
-    worker.on("message", message => {
-      const endTime = new Date()
-      res.json({
-        result: message.result,
-        time: endTime.getTime() - message.startTime.getTime() + "ms",
+      worker.on("message", message => {
+        //const endTime = new Date()
+        res.send(message)
+  
+        // Enviamos un mensaje al worker para que se desconecte después de haber manejado la solicitud
+        worker.send("disconnect")
       })
+  
+      // Enviamos un mensaje al worker con los datos de la solicitud
+      //const startTime = new Date()
 
-      // Enviamos un mensaje al worker para que se desconecte después de haber manejado la solicitud
-      worker.send("disconnect")
+      
     })
-
-    // Enviamos un mensaje al worker con los datos de la solicitud
-    const startTime = new Date()
-    worker.send({ number: parseInt(req.query.number), startTime })
+    
+    app.get("/b", (req, res) => {
+      res.send("I am unblocked now")
+    })
+    
+    app.listen(3636, () => console.log("listening on port 3636"))
+    
   } else {
-    // Si se ingresa a la ruta '/a' y el proceso actual es un worker, realizamos el cálculo pesado
-    isPrime(parseInt(req.query.number), result => {
-      process.send({ result, startTime: new Date() })
-    })
 
     // Escuchamos el evento "message" para recibir un mensaje de desconexión y cerramos el worker
     process.on("message", message => {
+      
       if (message === "disconnect") {
         process.disconnect()
       }
+
+      const result = fibonacci(parseInt(message.number))
+      process.send({ result })
+
     })
-  }
-})
-
-app.get("/b", (req, res) => {
-  res.send("I am unblocked now")
-})
-
-app.listen(3636, () => console.log("listening on port 3636"))
-
-function isPrime(number) {
-    let isPrime = true
-  
-    for (let i = 3; i < number; i++) {
-      if (number % i === 0) {
-        isPrime = false
-        break
-      }
-    }
-  
-    return {
-      number: number,
-      isPrime: isPrime,
-    }
-  }
+}
 ```
 
-Como podemos ver en este o
+Usando este método tenemos que remarcar algo, y es que, por definición, cuando usamos clusters lo que estamos haciendo es crear SUBPROCESOS, los cuales tienen un padre del que dependen. Al depender del proceso padre, este debe compartirles memoria y recursos.
+
+Entre los recursos que se comparten, se encuentra la `call stack`. Este componente lo vimos anteriormente, cuando presentamos el Event Loop de Javascript.
+
+![call stack](https://linuxhint.com/wp-content/uploads/2022/03/5.png)
+
+Al compartir la misma pila, lo que ocurre es que, cuando se realizan operaciones recursivas, si la operación requiere demasiados llamados, el proceso entero termina por saturarce y arroja el error conocido como `Maximum call stack size exceeded`, que nos indica que hemos excedido el limite permitido, y por ende, el proceso se bloquea.
+
+Para el caso del ejemplo anterior, si el número que se pasa como argumento para realizar la función de `fibonnaci(n)` no es muy grande, entonces el programa funcionará y la aplicación podra continuar su ejecución con normalidad.
+
+## Diferencias entre child_process y cluster
+
+* **Creación de procesos:** child_process crea procesos INDEPENDIENTES del proceso principal, mientras que cluster crea subprocesos DEPENDIENTES del proceso principal.
+
+* **Número de procesos:** child_process permite crear cualquier cantidad de procesos, mientras que cluster permite crear una cantidad limitada de subprocesos, según la cantidad de núcleos de la CPU.
+
+* **Creación de procesos secundarios:** child_process permite crear procesos secundarios de diferentes tipos, como procesos independientes, procesos de shell o procesos de spawn, mientras que cluster solo se utiliza para crear subprocesos en el mismo equipo.
+
+* **Comunicación entre procesos:** child_process y cluster pueden comunicarse con el proceso principal a través de la emisión de eventos y el intercambio de mensajes, pero cluster también permite que los subprocesos se comuniquen directamente entre sí, lo que puede ser útil en algunas situaciones. Además, Cluster utiliza IPC para la comunicación entre los subprocesos, mientras que child_process utiliza pipes (tuberías).
+
+* **Carga de trabajo:** child_process se utiliza generalmente para ejecutar procesos pesados y costosos en recursos, como tareas de procesamiento de imágenes o de video, mientras que cluster se utiliza generalmente para servidores web y aplicaciones que requieren una gran cantidad de solicitudes de red.
+
+* **Escalabilidad:** cluster es una solución escalable y fácil de usar para aplicaciones de servidor Node.js que necesitan manejar una gran cantidad de solicitudes simultáneas, mientras que child_process es más adecuado para tareas de procesamiento de datos.
+
+___
+
+## Module Bundlers ( VITE )
+
+Ya casi llegando al final del curso, no podemos, no mostrar nada sobre Module Bundlers
+
+Un module bundler o empaquetador de módulos es una herramienta de construcción de proyectos para aplicaciones web que permite combinar múltiples archivos de código fuente en un solo archivo, también conocido como "bundle". Este archivo puede ser servido al cliente y ejecutado en el navegador o en el servidor.
+
+El objetivo principal de un module bundler es simplificar el proceso de desarrollo y despliegue de aplicaciones web, al permitir la modularidad del código y reducir el número de solicitudes de red al combinar múltiples archivos en uno solo. Además, los module bundlers pueden realizar tareas adicionales como la optimización del código, el análisis de dependencias y la eliminación de código muerto, lo que puede mejorar el rendimiento y la eficiencia de la aplicación.
+
+![moduleBundler](https://miro.medium.com/max/1400/1*-JfKHumt7O_RsDg601EDIg.png)
+
+Algunos ejemplos de module bundlers populares incluyen Webpack, Parcel y Rollup. Cada uno de ellos tiene sus propias características y beneficios, y la elección de uno depende de los requisitos específicos de tu proyecto.
+
+Para este curso, no presentaremos un module bundler, tambien muy conocido, llamado Vite. La razon? Porqué hoy en dia es muy utilizado, es uno de los mas rapidos y cubre todas las necesidades básicas que un programador necesita para desplegar su aplicación.
+
+![vite](https://d2ms8rpfqc4h24.cloudfront.net/Webpack_vs_Vite_JS_Comparison_ee30b4d967.jpg)
+
+[![viteDocs](https://img.shields.io/badge/Documentacion%20Oficial-pink)](https://vitejs.dev/guide/)
+
+Antes de explicar como utilizarlo, debemos aclarar que, **Este modulo no sera visto con demasiada profundida**, debido a que, como mencionamos antes, una de las características de Vite es que cumple con las necesidades básicas que podemos esperar de un módule bundler. Si bien este ofrece varias características, para fines de este curso nos enfocaremos en los comandos básicos.
+
+### Algunas características de Vite
+
+* Ofrece SSD(Server Side Rendering)
+
+* Proporciona un servidor de desarrollo en tiempo real con recarga rápida (parecido a Nodemon)
+
+* Soporte nativo para multiples frameworks como: Vue.js, React, Preact, y Svelte.
+
+* Soporte para typescript
+
+* Permite la instalación de "plugins1"
+
+### Instalación de Vite
+
+```bash
+npm install -g vite
+```
+
+### Comandos
+
+```bash
+
+npm create vite # Usamos Vite para crear el proyecto (Directorios y Archivo)
+
+# Nos hace una serie de preguntas para configurar el proyecto
+
+cd nombre_proyecto # Entramos a la carpeta del proyecto
+
+npm install # Instala todas las dependencias del proyecto
+
+npm run dev #Inicia el servidor que a creado Vite
+
+```
+
+### Funcionamiento
+
+Cuando usamos Vite, este busca simplicar y optimizar al máximo nuestro proyecto, tanto para desarrollo como para producción. Para esto, Vite sigue un cierto comportamiento o reglas que debemos tener en cuenta. No son reglas explicitas, podriamos decir que este espera que configuremos los archivos de cierta forma para poder compilar todo el proyecto correctamente.
+
+Para empezar, Vite trabaja con la forma EMACSript 6 (Con modulos), por lo que utilizamos `imports`, pero podemos configurarlo.
+
+Otra característica importante es que, como ahora todo nuestro proyecto lo procesa Vite, debemos adaptar el proyecto y las tecnologías que usamos para que Vite no tenga problemas al compilar. Hay framewroks y librerías que no daran problemas, pero por ejemplo, librerias como React o librerias que traigan Web Components, requerirán ciertas configuraciones necesarias para funcionar en Vite.
+
+Por lo general estas configuraciones nos las explican en la documentación de dichas librerías, o en la misma documentación de Vite.
+
+#### Mas características de Vite
+
+* Configuración de Vite: Vite se configura mediante un archivo de configuración de JavaScript llamado vite.config.js. Este archivo se utiliza para especificar opciones como el puerto del servidor, la ruta de acceso a los archivos de origen y la configuración de los plugins.
+
+* Soporte para diferentes tipos de archivos: Vite admite una amplia gama de tipos de archivos, como JavaScript, TypeScript, CSS, Less, Sass, JSON, SVG, PNG y más. Esto significa que puede utilizar Vite para proyectos que utilicen diferentes tecnologías y lenguajes.
+
+* Uso de plugins: Vite admite plugins que pueden ampliar la funcionalidad del entorno de desarrollo. Por ejemplo, puede utilizar plugins para agregar soporte para diferentes tipos de archivos o para optimizar el rendimiento de la aplicación.
+
+* Preprocesamiento de CSS: Vite admite preprocesamiento de CSS, lo que significa que puede utilizar Less, Sass u otros preprocesadores de CSS para escribir estilos en su proyecto.
+
+* Soporte para TypeScript: Vite es compatible con TypeScript y ofrece soporte para la compilación de TypeScript en tiempo real. Esto significa que puede utilizar TypeScript en su proyecto y ver los cambios en tiempo real mientras trabaja.
+
+### Arbol de Directorios
+
+Otra característica que ofrece Vite, es que cuando generamos el proyecto, se crea un arbol de directorios básico. Un arbol de directorios es la estructura o jerarquía de carpetas y archivos que tiene un proyecto.
+
+Cuando Desarrollamos, dependiendo de la tecnologia, o incluso, dependiendo de la rama de la programación en la que trabajamos, tendremos diferentes tipos de estructuras. En Web Development, por lo general, podemos encontrar algo como esto:
+
+```bash
+my-project/
+├── client/
+│   ├── public/
+│   │   ├── index.html
+│   │   └── ...
+│   ├── src/
+│   │   ├── App.js
+│   │   ├── components/
+│   │   ├── styles/
+│   │   ├── pages/
+│   │   └── ...
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── README.md
+│   └── ...
+├── server/
+│   ├── index.js
+│   ├── routes/
+│   ├── controllers/
+│   ├── models/
+│   ├── config/
+│   ├── middleware/
+│   ├── public/
+│   └── ...
+├── database/
+│   ├── migrations/
+│   ├── seeds/
+│   ├── config/
+│   ├── models/
+│   └── ...
+├── package.json
+├── package-lock.json
+└── ...
+
+```
+
+* La carpeta client/ contiene el código fuente del cliente web, que utiliza React. La carpeta public/ contiene el archivo HTML principal y los recursos estáticos. La carpeta src/ contiene el código JavaScript y CSS. La carpeta components/ contiene los componentes de React, la carpeta styles/ contiene los archivos de estilos, la carpeta pages/ contiene las diferentes páginas de la aplicación y la carpeta ... puede contener otros recursos del proyecto.
+
+* La carpeta server/ contiene el código fuente del servidor, que utiliza Node.js y Express. El archivo index.js es el punto de entrada del servidor. La carpeta routes/ contiene las definiciones de las rutas de la API, la carpeta controllers/ contiene las funciones de controlador, la carpeta models/ contiene los modelos de base de datos, la carpeta config/ contiene la configuración de la aplicación, la carpeta middleware/ contiene los middleware personalizados y la carpeta public/ contiene los recursos estáticos que se servirán.
+
+* La carpeta database/ contiene los archivos relacionados con la base de datos, que pueden ser generados por una biblioteca ORM (Object-Relational Mapping). La carpeta migrations/ contiene los archivos de migración de la base de datos, la carpeta seeds/ contiene los datos de semillas para la base de datos, la carpeta config/ contiene la configuración de la base de datos, la carpeta models/ contiene los modelos de datos y la carpeta ... puede contener otros recursos relacionados con la base de datos.
+
+* El archivo package.json en la raíz del proyecto contiene la información del proyecto y las dependencias del servidor. El archivo package.json en la carpeta client/ contiene las dependencias del cliente.
+
+* El archivo README.md es un archivo de documentación que contiene información sobre el proyecto.
+
+___
+
+## Más depuración en NodeJs
+
+¡Hemos llegado al último tema del curso! Este capítulo no sera más que conceptos puntuales sobre la depuración. Desde que vimos testing podemos decir que los temas siguientes como: logging y threads, no son mas que formas que presentamos para optimizar y solucionar ciertos errores que pueden surgir durante el desarrollo.
+
+Pues bien, antes hemos mencionado el conpeto de depurar, o debugging, pero no lo hemos definido. La depuración es el proceso de IDENTIFICAR, y RESOLVER errores. Lo que nos interesaría aquí sería identificar estos errores, para tratarlos antes de que la aplicación llegue a producción.
+
+Una herramienta sumamente útil 
+
+___
+
+## Final del Curso
+
+Bueno, hemos llegado, ahora si al final del curso. Una vez finalizado deberiamos ser capaces de entender Javascript en mayor profundida, ya que, hemos visto conceptos avanzados para la mayoria de los cursos, que, si bien se requiere una base solida en programación para lograr entender bien todo lo que presentamos, se ha intentado ser lo mas didacticos posible.
+
+Como se dijo desde un comienzo, este curso es simple y llanamente la ruta que siguió una persona que deicidió aprender Node y Javascript de manera autodidacta. La cual, a compartido su método o estructura de estudio y los avances que ha ido adquiriendo, con cualquiera que este leyendo esto.
+
+Para finalizar con el curso daré, una recomendación final, un "¿Cómo seguimos?" y una conclusión:
+
+### Recomendación Final
+
+A la hora de apreder nuevas tecnologías siempre es importante saber a donde queremos llegar, cual es nuestro objetivo y de ahi en mas trazar una ruta. En mi caso elegí utilizar, principalmente un roadmap e ir desarrollando y relacionando cada concepto que iba descubriendo. Cada persona es un mundo, no existe una única forma de estudiar, pero si es importante tener una buena organización, sobre todo para no perder nuestro tiempo.
+
+Como recomendación, les digo a cualquiera que este leyendo esto que, aprovechen las herramientas que existen hoy en día: YouTube, GitHub, las documentaciones, cursos online, charlas grabadas, newsletter, LinkedIn, páginas de noticias, entre otras. Desde que soy estudiante, siempre he notado que, por lo general, las personas que enseñan en "institutos tradicionales", les cuesta mucho apostar por la tecnología como herramienta para enseñar.
+
+El mundo hoy en dia avanza a pasos agigantados, y considero que no podemos seguir quedandonos con estos viejos métodos y herramientas de enseñanza, hay que aprovechar los recursos y optimizarlos lo maximo que podamos para realmente ser un poquito mejor todos los días.
+
+### ¿Cómo seguimos?
+
+Una vez finalizado el curso, recomiendo que siga estudiando: Express, MongoDb, React/Vue/Angular, Bases de datos Relacionales, patrones de diseño y estructuras de datos.
+
+Por lo que he podido investigar, con el conocimiento obtenido en este curso y con algo de pratica se estaria habilitado para seguir con los conceptos que mencionamos anteriormente.
+
+Por mi parte realizaré un curso de Express, MongoDb y React, una vez finalizado este. Es el camino que elegí seguir en mi camino a ser full stack developer, por lo que si te gusto este curso y deseas chequearlos, una vez que los realice, los publicaré en mi github personal.
+
+https://github.com/camiloCanclini?tab=repositories
+
+### Conclusión
+
+La verdad que estudiar NodeJs terminó por enamorarme de Javascript, es una tecnología fundamental cuando se trabaja con este lenguaje, y creo que gracias a esta herramienta es que Javascript alcanza su potencial real.
+
+Antes de comenzar a estudiar Node, no terminaba de entender porque, todo el mundo, ama tanto a Javascript. No era capaz de concebir las capacidades reales del lenguaje. Y es que una vez finalizado el curso no solo entendí el porque tantas personas se abocan a este lenguaje para desarrollar software o web development, sino que terminé comprender ciertos paradigmas, conceptos y caracteristicas que he visto en el pasado.
+
+Podría extenderme largo y tendido hablando de lo que aprendí realizando este curso, pero creo que será mejor demostrarlo realizando proyectos, y estudiando otras tecnologías que complementen lo aprendido en este curso.

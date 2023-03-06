@@ -368,7 +368,7 @@ code {
 <h1 id="curso-de-nodejs-nodejs">Curso de NodeJs <img src="https://img.shields.io/badge/Node.JS-339933?logo=node.js&amp;logoColor=white" alt="Node.JS"></h1>
 <h2 id="por-camilo-canclini">Por Camilo Canclini</h2>
 <hr>
-<p>Este &quot;curso&quot; refleja mi propio aprendizaje con respecto a NodeJs. Ire recopilando todo lo que vaya aprendiendo y lo iré guardando en este repositorio. Me parece que es una forma interesante de estudiar y de demostrar como estudio. Sin mencionar que, por un lado, me sirve tener esta informacion guardada y documentada en un servicio online como github. Y, por otro lado, tambien soy consciente de que esto puede contruibuirle a alguna persona en el futuro.
+<p>Este &quot;curso&quot; refleja mi propio aprendizaje con respecto a NodeJs. Ire recopilando todo lo que vaya aprendiendo y lo iré guardando en este repositorio. Me parece que es una forma interesante de estudiar y de demostrar como estudio. Sin mencionar que, por un lado, me sirve tener esta informacion guardada y documentada en un servicio online como github. Y, por otro lado, tambien soy consciente de que esto puede contruibuirle a alguna persona en el futuro.<br>
 Por eso ten en cuenta que los siguientes &quot;apuntes&quot; provienen de alguien autodidacta que solo esta estudiando y que quiere compartir el conocimiento que obtenido.</p>
 <hr>
 <h2 id="documentaci%C3%B3n-utilizada">Documentación Utilizada</h2>
@@ -394,7 +394,7 @@ Por eso ten en cuenta que los siguientes &quot;apuntes&quot; provienen de alguie
 <h2 id="%C2%BF-para-que-se-usa-node">¿ Para que se usa Node ?</h2>
 <p>Node es utilizado para crear <strong>aplicaciones web escalables</strong>, esto quiere decir que estaremos creando un programa que pueda ser corrido desde nuestra propia pc o servidor y que ademas tendrá funcionalidades web. Con escalables se refiere a que la sintaxis y la forma en la que se construyen estas aplicaciones pueden cubrir necesidades basicas o mas complejas, ya que, el entorno se ajusta dependiendo de la complejidad de sus funciones. Ademas otra ventaja es que, gracias a la asincronía, el sistema no se bloquea, por lo que es mas facil trabajar con este tipo de aplicaciones.</p>
 <h2 id="requerimientos">Requerimientos</h2>
-<p>Para empezar a trabajar con NodeJs primero necesitamos descargarlo desde la pagina oficial. <a href="https://nodejs.org/en/">NodeJs.org</a>
+<p>Para empezar a trabajar con NodeJs primero necesitamos descargarlo desde la pagina oficial. <a href="https://nodejs.org/en/">NodeJs.org</a><br>
 La instalación realizará 2 cosas importantes que deberemos que tener en cuenta, la primera es que al instalar Node tambien estaremos instalando npm, y la segunda es que se integrará el comando &quot;node&quot; a nuestro PATH.</p>
 <h3 id="%C2%BFqu%C3%A9-es-npm">¿Qué es NPM?</h3>
 <p>NPM significa Node Package Manager o en español Gestor de Paquetes de Node. Este es un herramienta que permite la instalación de paquetes para nuestro entorno de ejecución. Los paquetes son, un conjunto de modulos o archivos javascript los cuales cumplen funcionalidades específicas, y pueden ser llamados desde nuestra aplicación de manera sencilla y práctica. Frameworks como React pueden ser integrados a traves de esta herramienta.</p>
@@ -402,7 +402,7 @@ La instalación realizará 2 cosas importantes que deberemos que tener en cuenta
 <p>El Path es el listado de las rutas a programas que pueden ser llamados desde nuestra terminal, o sea, en este caso, el programa o script &quot;node&quot; se utilizara desde la terminal.</p>
 <hr>
 <h2 id="hola-mundo-en-nodejs">Hola Mundo en NodeJs</h2>
-<p>Recomiendo que para la proxima lección
+<p>Recomiendo que para la proxima lección<br>
 Guardamos el siguiente codigo en un archivo holaMundoNode.js</p>
 <pre class="hljs"><code><div>
 <span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>);
@@ -423,11 +423,11 @@ server.listen(port, hostname, () =&gt; {
 </div></code></pre>
 <p>Desde la terminal nos dirigimos a la carpeta donde guardamos el script anterior (<code>cd Curso-Nodejs</code>) y ejecutamos el comando <code>node holaMundoNode.js</code></p>
 <p>Luego nos dirigimos a la ruta que nos indica la aplicación en mi caso, <code>http://127.0.0.1:3000/</code>.</p>
-<p>Deberiamos ver algo como esto...
-<img src="readme-imgs/img1.png" alt="img1">
+<p>Deberiamos ver algo como esto...<br>
+<img src="readme-imgs/img1.png" alt="img1"><br>
 <img src="readme-imgs/img2.png" alt="img2"></p>
 <h2 id="desglozando-el-hola-mundo">Desglozando el Hola Mundo</h2>
-<p>En este caso se hace uso del modulo <code>http</code>, es se utiliza para montar el servidor en nuestra pc y es el que permite responder a los usuarios con información.
+<p>En este caso se hace uso del modulo <code>http</code>, es se utiliza para montar el servidor en nuestra pc y es el que permite responder a los usuarios con información.<br>
 <code>Con respecto a los modulos hay algo que tenemos que remarcar y es el tipo de modulo al que se esta haciendo referencia, en este caso, el modulo</code>http` es un modulo que ya viene instalado con Node por lo que no es necesario hacer ningun llamado &quot;especial&quot; o descargarlo de npm por ejemplo. Este tipo de modulos se los conoce como <strong>Modulos Core</strong>, ya que vienen preinstalados. (Un poco más adelante veremos sobre módulos)</p>
 <p>Una vez importado en la linea uno, se guardan en variables constantes los datos para configurar el servidor (<code>const hostname = '127.0.0.1';</code> y <code>const port = 3000;</code>)</p>
 <p>Ahora bien, a continuación podemos ver uno de los conceptos mas importantes que se mencionaron anteriormente. Vease el siguiente fragmento...</p>
@@ -523,7 +523,7 @@ subtract(<span class="hljs-number">10</span>, <span class="hljs-number">5</span>
         <span class="hljs-keyword">return</span> a - b;
 }
 </div></code></pre>
-<p>Fijese que ahora la sintaxis es mucho mas limpia y agradable a la vista.
+<p>Fijese que ahora la sintaxis es mucho mas limpia y agradable a la vista.<br>
 Algo que tenemos que aclarar es que el codigo de arriba <strong>NO</strong> lo guardaremos como <code>foo.js</code> <strong>SINO</strong> como <code>foo.mjs</code>.</p>
 <p>Esto permite que Node identifique que el modulo se trata del tipo estandarizado. Pero ahora bien, como seria el archivo <code>main.js</code>?, vease el siguiente codigo...</p>
 <pre class="hljs"><code><div><span class="hljs-keyword">import</span> {add, subtract} <span class="hljs-keyword">from</span> <span class="hljs-string">'./foo.mjs'</span>
@@ -670,7 +670,7 @@ subtract(<span class="hljs-number">10</span>, <span class="hljs-number">5</span>
 <p>Vamos por partes:</p>
 <ul>
 <li>
-<p><code>try</code>: va a ejecutar un fragmento del código, si este arroja cualquier tipo de error, <strong>no detiene la ejecución</strong> y en cambio &quot;le pasa&quot; el error a la sentencia <code>catch</code>, si no occurre un error no arroga nada.
+<p><code>try</code>: va a ejecutar un fragmento del código, si este arroja cualquier tipo de error, <strong>no detiene la ejecución</strong> y en cambio &quot;le pasa&quot; el error a la sentencia <code>catch</code>, si no occurre un error no arroga nada.<br>
 En este caso hace uso del modulo <code>fs</code> para leer un archivo(la veremos mas adelante). Como es evidente la lectura puede fallar por causas externas a la aplicación, por esa razon se coloca dentro de <code>try</code> para ser &quot;evaluada&quot;.</p>
 </li>
 <li>
@@ -684,7 +684,7 @@ En este caso hace uso del modulo <code>fs</code> para leer un archivo(la veremos
 <hr>
 <h2 id="programaci%C3%B3n-as%C3%ADncrona">Programación Asíncrona</h2>
 <h3 id="funciones-callbacks">Funciones Callbacks</h3>
-<p>Las funciones callbacks son aquellas que pueden ser pasadas como argumentos de otra función.
+<p>Las funciones callbacks son aquellas que pueden ser pasadas como argumentos de otra función.<br>
 En este caso, las usaremos para realizar operaciones si aparece un error.</p>
 <p>Generalmente estas se pasan como argumento <em>final</em> de la función principal, estas son llamadas cuando la funcion desde la que se llama a la callback espera necesita un resultado, o cuando se dispara un error. Actuan como manejadores de errores porque permiten ejecutar operaciones si existe un error. Por ejemplo:</p>
 <pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">operacionLargaConError</span>(<span class="hljs-params">callback</span>) </span>{
@@ -850,7 +850,7 @@ getData().then(<span class="hljs-function">(<span class="hljs-params">result</sp
 
 <span class="hljs-string">'Esto se ejecuta primero'</span>)
 </div></code></pre>
-<p>En este ejemplo podemos ver que la palabra <code>async</code> se pone antes de <code>function</code>, lo que convierte al bloque de codigo en una función asíncrona. Ademas vemos que cuando se llama a la función, inmediatamente se accede a la promesa (una vez que se resuelva en 1000ms) con <code>.then</code>.
+<p>En este ejemplo podemos ver que la palabra <code>async</code> se pone antes de <code>function</code>, lo que convierte al bloque de codigo en una función asíncrona. Ademas vemos que cuando se llama a la función, inmediatamente se accede a la promesa (una vez que se resuelva en 1000ms) con <code>.then</code>.<br>
 Por último, fijemonos que la ultima línea es un <code>)</code>, esta linea se ejecutará <strong>antes</strong> que la función, por mas que la funcion haya sido llamada antes. Como sabemos que la función devuelve una promesa, podemos ejecutar todo el codigo que queramos sin necesidad a espera a que la función entregue un resultado.</p>
 <p>Por otro lado tenemos al <code>await</code>. Este lo que hace es <strong>detener la ejecución de la función asíncrona</strong> hasta qeu se resuelva una promesa, vease el siguiente ejemplo:</p>
 <pre class="hljs"><code><div><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getData</span>(<span class="hljs-params"></span>) </span>{
@@ -863,7 +863,7 @@ getData().then(<span class="hljs-function">(<span class="hljs-params">data</span
     data);
 });
 </div></code></pre>
-<p>Miremos que el <code>await</code>, en este caso, va a esperar a que el método <code>fetch</code> retorne una promesa como respuesta, hasta que esto no ocurrá no se realizara la linea siguiente.
+<p>Miremos que el <code>await</code>, en este caso, va a esperar a que el método <code>fetch</code> retorne una promesa como respuesta, hasta que esto no ocurrá no se realizara la linea siguiente.<br>
 Vuelvo a recalcar, solo detiene la ejecucion <strong>de la función</strong>, lo que quiere decir que todo el codigo que se encuentré afuera de la misma seguirá su ejecución normalmente.</p>
 <blockquote>
 <p>El <code>await</code> solo esta habilitado en funciones asíncronas.</p>
@@ -1035,7 +1035,7 @@ process.nextTick(<span class="hljs-function"><span class="hljs-params">()</span>
 </li>
 </ul>
 <h4 id="m%C3%A9todos-writable-streams">Métodos Writable Streams</h4>
-<p><em>Writable = Stream.Writable instanciado</em>
+<p><em>Writable = Stream.Writable instanciado</em><br>
 <em>Recorda que cuando un método o función tiene sus argumentos encerrados entre corchetes quiere decir que estos son opcionales</em></p>
 <ul>
 <li>
@@ -1206,7 +1206,7 @@ setTimeout(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;<
 <p>Igualmente cabe recalcar que Node ofrece en su módulo de <code>events</code> una clase que permite emular, por asi decirlo, a los eventTarget del DOM, la clase se llama: <code>nodeEventTargets</code>.</p>
 <hr>
 <h2 id="core-modules-nodejs">Core Modules NodeJS</h2>
-<p>Ahora vamos a ver los modulos principales que vienen integrados con Node, estos son las bases de lso frameworks y demas librerías que se utilizan hoy en dia. Estos nos van a permitir, acceder a los recursos del sistema directamente desde JS.
+<p>Ahora vamos a ver los modulos principales que vienen integrados con Node, estos son las bases de lso frameworks y demas librerías que se utilizan hoy en dia. Estos nos van a permitir, acceder a los recursos del sistema directamente desde JS.<br>
 <strong>De cada módulo se mostraran los métodos mas relevantes y ademas habrá en la carpeta 'Core Modules' un ejemplo de uso de cada uno</strong></p>
 <h3 id="os-module">OS Module</h3>
 <p>Este modulo nos permite obtener datos del hardware y software del equipo que esta ejecutando nuestro script:</p>
@@ -1691,7 +1691,7 @@ process.stdin.on(<span class="hljs-string">'data'</span>, (data)=&gt;{
 <p><img src="https://static.platzi.com/media/user_upload/Captura de Pantalla 2022-01-26 a la(s) 7.18.25 p.m.-c9668c1c-6cea-4114-a78f-a37d97f00bea.jpg" alt="modeloOsi-componentes"></p>
 <p>Con respecto a los paquetes de información, podemos decir que este sistema es similar a los sistemas de envios de cartas de la <em><strong>vida real</strong></em>. En el que cada nivel añade su parte de información que debera ser tratada en el nivel par, esto quiere decir que, si nivel de red del TRANSMISOR añade al paquete, la IP del destinatario, entonces cuando el paquete llegué al RECEPTOR su nivel de red debera realizar las operaciones pertinentes para verificar que esa IP se corresponde con la de la maquina actual.</p>
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/9/90/Modelo_osi.png" alt="paquetes-OSI"></p>
-<p>Mas información:
+<p>Mas información:<br>
 <a href="https://es.wikipedia.org/wiki/Modelo_OSI"><img src="https://img.shields.io/badge/Mas Informacion-blue" alt="Modelo Osi"></a></p>
 <h4 id="el-protocolo-tcpip">El Protocolo TCP/IP</h4>
 <blockquote>
@@ -1804,7 +1804,7 @@ Content-Type: text/html
 <p><strong>Encabezados/Cabeceras:</strong> Aqui se guardan los metadatos del mensaje, cada cabecera tiene un nombre y un valor asignado, al ser una estructura tan simple esta puede mutar y pueden aparecer nuevos datos. Algunos de los datos que pueden aparecer son:</p>
 <ul>
 <li>
-<p>Cabeceras que indican las capacidades aceptadas por el que envía el mensaje: Accept (indica el MIME aceptado), Accept-Charset (indica el código de caracteres aceptado), Accept-Encoding (indica el método de compresión aceptado), Accept-Language (indica el idioma aceptado), User-Agent (para describir al cliente), Server (indica el tipo de servidor), Allow (métodos permitidos para el recurso)
+<p>Cabeceras que indican las capacidades aceptadas por el que envía el mensaje: Accept (indica el MIME aceptado), Accept-Charset (indica el código de caracteres aceptado), Accept-Encoding (indica el método de compresión aceptado), Accept-Language (indica el idioma aceptado), User-Agent (para describir al cliente), Server (indica el tipo de servidor), Allow (métodos permitidos para el recurso)<br>
 Cabeceras que describen el contenido: Content-Type (indica el MIME del contenido), Content-Length (longitud del mensaje), Content-Range, Content-Encoding, Content-Language, Content-Location.</p>
 </li>
 <li>
@@ -1820,7 +1820,7 @@ Cabeceras que describen el contenido: Content-Type (indica el MIME del contenido
 <p>Cabeceras para autentificación: Authorization, WW-Authenticate</p>
 </li>
 <li>
-<p>Cabeceras para describir la comunicación: Host (indica máquina destino del mensaje), Connection (indica como establecer la conexión)
+<p>Cabeceras para describir la comunicación: Host (indica máquina destino del mensaje), Connection (indica como establecer la conexión)<br>
 Otras: Range (para descargar solo partes del recurso), Max-Forward (límite de cabeceras añadidas en TRACE).</p>
 </li>
 </ul>
@@ -1912,14 +1912,14 @@ Otras: Range (para descargar solo partes del recurso), Max-Forward (límite de c
 <p>Y ademas sabemos que el paquete tiene que a travesar varios nodos de internet para llegar al destino.</p>
 </li>
 </ul>
-<p>Ahora, imaginemos que estamos comunicandonos con el servidor de un banco o un e-commerce, ¿ Qué pasaria si nosotros enviamos una petición con las credenciales de nuestra tarjeta de credito al servidor sin ningun tipo de encriptación previa?.
+<p>Ahora, imaginemos que estamos comunicandonos con el servidor de un banco o un e-commerce, ¿ Qué pasaria si nosotros enviamos una petición con las credenciales de nuestra tarjeta de credito al servidor sin ningun tipo de encriptación previa?.<br>
 Pues bien, ya que el paquete viaja por internet, y en internet no todos son buenas personas, podria ocurrir que el paquete sea interceptado por un atacante y este descubra esa información confidencial.</p>
 <p><img src="https://cio.com.mx/wp-content/uploads/2021/12/man-in-the-middle-ataque.jpg" alt="Hacker"></p>
 <p>Para solucionar esto, es que aparece la <strong>encriptación de paquetes</strong>.</p>
 <h4 id="ssl-y-tls">SSL y TLS</h4>
 <p>Si hablamos de encriptación, podemos hablar largo y tendido, pero para este curso vamos a centrarnos en lo básico. Cuando queremos que nuestra comunicación sea segura y queremos hacer uso de las funcionalidades de HTTP, podemos utilizar HTTPS (HiperText Transfer Protocol Secure). Este no es más que el protoclo HTTP sumado a algun protocolo de encriptación, en este caso, SSL/TLS.</p>
 <p><img src="https://cdn-media-1.freecodecamp.org/images/0*wUTFJrRSM2vh1H7v.jpg" alt="HTTPS"></p>
-<p>Ahora, ¿Qué es <strong>SSL</strong> y <strong>TLS</strong>?. Los 2 son protocolos que se utilizan para la encriptación de datos que seran enviados por la web, el cómo lo hacen y el proceso lo explicaremos a continuación, pero primero te diremos la diferencia. La diferecia entre SSL (Secure Sockets Layer) y TLS (Transport Layer Security) es que el segundo es la versión actualizada del primero, ya que el SSL tenía vulnerabilidades en su diseño es que se decidió reinventar y mejorar en TLS, ofreciendo este, mejoras en sus algoritmos de encriptación y autenticidad, entre otras cosas.
+<p>Ahora, ¿Qué es <strong>SSL</strong> y <strong>TLS</strong>?. Los 2 son protocolos que se utilizan para la encriptación de datos que seran enviados por la web, el cómo lo hacen y el proceso lo explicaremos a continuación, pero primero te diremos la diferencia. La diferecia entre SSL (Secure Sockets Layer) y TLS (Transport Layer Security) es que el segundo es la versión actualizada del primero, ya que el SSL tenía vulnerabilidades en su diseño es que se decidió reinventar y mejorar en TLS, ofreciendo este, mejoras en sus algoritmos de encriptación y autenticidad, entre otras cosas.<br>
 Lo que tiene que quedar claro son 2 cosas:</p>
 <ol>
 <li>SSL/TLS: Se podria decir que son <strong>casi</strong> el mismo protocolo.</li>
@@ -1927,10 +1927,10 @@ Lo que tiene que quedar claro son 2 cosas:</p>
 </ol>
 <h4 id="encriptaci%C3%B3n-con-claves-sim%C3%A9tricas-y-asim%C3%A9tricas">Encriptación con Claves Simétricas y Asimétricas</h4>
 <p>El proceso de encriptación que vamos a presentar, es uno de las conocidos, pero no es el único. Las claves no son mas que llaves que desbloquean datos cifrados, como si esto ultimo fuera un candado. Ahora bien tenemos 2 formas de operar, Claves Simétricas o Asimétricas.</p>
-<p><strong>Claves SIMÉTRICAS</strong>
-Las 2 entidades que establecen comunicación (Cliente y Servidor), tienen la misma llave. Se ponen de acuerdo y establecen una llave en comun y cifran los datos basandoce en esa clave. ¿El problema?, Si un atacante se encuentra escuchando en el momento que establecemos la clave o si la descifra, la comunicación se vuelve vulnerable.
+<p><strong>Claves SIMÉTRICAS</strong><br>
+Las 2 entidades que establecen comunicación (Cliente y Servidor), tienen la misma llave. Se ponen de acuerdo y establecen una llave en comun y cifran los datos basandoce en esa clave. ¿El problema?, Si un atacante se encuentra escuchando en el momento que establecemos la clave o si la descifra, la comunicación se vuelve vulnerable.<br>
 <img src="https://jesusfernandeztoledo.com/wp-content/uploads/2020/11/word-image.png" alt="ClavesSimétricas">.</p>
-<p><strong>Claves ASIMÉTRICAS</strong>
+<p><strong>Claves ASIMÉTRICAS</strong><br>
 Para solucionar la vulnerabilidad anterior y mejorar la seguridad, cuando hablamos de ASIMETRÍA nos estamos refiriendo a que usaremos 2 claves y 2 candados para realizar la encripatción. Imaginemos que, ahora, el cliente tiene 2 claves</p>
 <ul>
 <li>
@@ -2026,16 +2026,16 @@ Para solucionar la vulnerabilidad anterior y mejorar la seguridad, cuando hablam
 <p><strong>Mejor rendimiento:</strong> QUIC es más rápido y eficiente que TCP y UDP, ya que utiliza un enfoque de multiplexación de solicitudes y un mecanismo de reenvío de paquetes más avanzado.</p>
 </li>
 </ol>
-<p><img src="https://www.adslzone.net/app/uploads/2019/09/HTTP3.gif" alt="QUIC">
-<img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Yb7iodKh--/c_limit,f_auto,fl_progressive,q_auto,w_880/https://dev-to-uploads.s3.amazonaws.com/i/11eysceayfj7egt0uxmf.jpg" alt="QUIC2">
+<p><img src="https://www.adslzone.net/app/uploads/2019/09/HTTP3.gif" alt="QUIC"><br>
+<img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Yb7iodKh--/c_limit,f_auto,fl_progressive,q_auto,w_880/https://dev-to-uploads.s3.amazonaws.com/i/11eysceayfj7egt0uxmf.jpg" alt="QUIC2"><br>
 Video de HTTP/3 Interesante: <a href="https://www.youtube.com/watch?v=jWe_Zf9bxnk&amp;t=1s">INTERNET MÁS RÁPIDO: Todo lo que tienes que saber sobre HTTP/3 | Xataka Basics</a></p>
 </li>
 </ul>
-<p><strong>Página Interesante:</strong> <a href="https://developer.mozilla.org/es/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP">DEV-MOZILLA | Evolución del Protocolo</a>
+<p><strong>Página Interesante:</strong> <a href="https://developer.mozilla.org/es/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP">DEV-MOZILLA | Evolución del Protocolo</a><br>
 <strong>Video Interesante:</strong> <a href="https://www.youtube.com/watch?v=a-sBfyiXysI">HTTP/1 to HTTP/2 to HTTP/3 | ByteByteGo</a></p>
 <h4 id="sockets">Sockets</h4>
 <p>Antes de pasar a ver el módulo como tal, vamos a presentar un último tema que es redundante cuando hablamos de redes infromaticas, y que además, es utilizado por diferentes aplicaciones web. Los <strong>sockets</strong>, o en español enchufes, son mecanismos o <em>interfaces</em> de red que permiten a 2 <strong>procesos</strong> o programas disntitos comunicarse, aun si estos se encuentran en disntintas computadoras.</p>
-<p><img src="https://vteforte.tripod.com/Image10.gif" alt="sockets">
+<p><img src="https://vteforte.tripod.com/Image10.gif" alt="sockets"><br>
 Anteriormente, cuando hablamos del módelo cliente-servidor, dijimos que una de las desventajas de este, es que para que el servidor pueda enviar datos al usuario, este último tiene que solicitárcelos a traves de una petición. Pues bien, una de las principales características de los sockets es que, una vez establecida la conexión entre los procesos, la comunicación se vuelve bidireccional, por lo que, el servidor puede enviar datos, sin tener que esperar a que el usuario la pida.</p>
 <p><img src="https://slideplayer.es/slide/1064854/3/images/10/El+Nivel+de+Transporte+en+Internet.jpg" alt="sockets2"></p>
 <p>Con respecto al funcionamiento este es bastante sencillo, para que funcione los, programas, aplicaciones y procesos deben estar alojados en un puerto de nuestra pc. Los puertos vienen de la mano de las direcciones IP.</p>
@@ -2207,6 +2207,7 @@ server.on(<span class="hljs-string">'connection'</span>, (socket)=&gt;{
 <p>Como podemos ver, en este caso, tenemos que especificar el mensaje entero, &quot;a puro pulmon&quot;. Si utilizamos <code>res</code>, por ejemplo, podemos especificar los headers de al respuesta con el método <code>response.setHeader(name, value)</code>.</p>
 <p>Las diferencias son muchas, pero no ahondaremos mucho mas, porque, como dijimos antes, estariamos redundando mucho en temas anteriores.</p>
 <p>Para cerrar, el módulo http es difícil de entender al principio, ya que posee muchas clases las cuales se relacionan directamente con conceptos como Streams y Sockets, que tambien requieren un cierto grado de estudio. Por esa razon es recomndable conocer y entender muy bien estos conceptos fundamentales, si queremos entender a profundidad el módulo.</p>
+<hr>
 <h2 id="aditional-packages">Aditional Packages</h2>
 <p>Ya hemos terminado con los temas principales de NodeJs, hasta este momento hemos explicado, trabajado y comprendido, los conceptos mas basicos y fundamentales con los que nos encontramos a la hora de trabajar en el entorno de Node.</p>
 <p>Ahora vamos a ver contenidos que, si bien no son estrictamente necesarios para desarrollar nuestras tareas como programadores de Node, si es muy buena idea conocerlos y, aunque sea, dejarlos por sentados en este curso.</p>
@@ -2558,7 +2559,7 @@ http.createServer(<span class="hljs-function">(<span class="hljs-params">req, re
 </div></code></pre>
 <p>Al igual que con nodemon, PM2 requiere que lo instalemos de manera global en el pc, esto debido a que requiere privilegios del sistema para manejar los procesos, asi como tambien requiere estar instalado en nuestro PATH para poder ejecutar sus comandos</p>
 <h4 id="m%C3%A9todos-pm2">Métodos PM2</h4>
-<p><strong>Estructura del directorio</strong>
+<p><strong>Estructura del directorio</strong><br>
 <img src="" alt=""></p>
 <p><strong>Iniciar, detener, resetear y reiniciar procesos</strong></p>
 <pre class="hljs"><code><div>pm2 start &lt;app_name|json_conf&gt;
@@ -2574,7 +2575,7 @@ pm2 delete &lt;app_name|namespace|id|<span class="hljs-string">'all'</span>|json
 <li>all: Representa todos los procesos que administra pm2</li>
 <li>json_config: Representa el nombre o ruta del archivo de configuracion</li>
 </ul>
-<p><strong>Listar los procesos Admnistrados por PM2</strong>
+<p><strong>Listar los procesos Admnistrados por PM2</strong><br>
 Ahora, imaginemos que inciamos 2 procesos :</p>
 <pre class="hljs"><code><div>pm2 list
 </div></code></pre>
@@ -2673,7 +2674,7 @@ Ahora, imaginemos que inciamos 2 procesos :</p>
 <pre class="hljs"><code><div>pm2 start ecosystem.config.js
 </div></code></pre>
 <p>En este objeto podemos darle muchos argumentos o parametros para el inicio de las distintas aplicaciones que ejecutemos, no vamos a ahondar mucho mas, porque son muchas las configuraciones que podemos darle.</p>
-<p>Documentación de Ecosystem File: <a href="https://pm2.keymetrics.io/docs/usage/application-declaration/">PM2 ECOSYSTEM FILE</a>.
+<p>Documentación de Ecosystem File: <a href="https://pm2.keymetrics.io/docs/usage/application-declaration/">PM2 ECOSYSTEM FILE</a>.<br>
 Aquí podra encontrar de forma muy detallada todo sobre los ecosystem files de PM2.</p>
 <h4 id="el-comando-startup">El comando <code>startup</code></h4>
 <p>Para finalizar con PM2, explicaremos como usar una de las funciones mas importantes que proveé el módulo. Como dijimos antes, PM2 permite iniciar procesos de manera <strong>Automática</strong> cada vez que se reinicie el servidor donde esta alojada nuestra aplicación. Esto es sumamente útil porque nos permite desligarnos de administrar nosotros el servidor.</p>
@@ -2696,6 +2697,7 @@ Aquí podra encontrar de forma muy detallada todo sobre los ecosystem files de P
 <p>Si por alguna razon quisieramos sacar esta configuración de arranque, podemos hacerlo ingresando el siguiente comando:</p>
 <pre class="hljs"><code><div>pm2 unstartup
 </div></code></pre>
+<hr>
 <h2 id="testing-en-nodejs">Testing en Nodejs</h2>
 <p>El testing es el proceso probar y analizar los resultados que produce nuestra aplicación, es una practica que aplica en todos los lenguajes de programación.</p>
 <p>Este nos permite conocer:</p>
@@ -2732,7 +2734,7 @@ Aquí podra encontrar de forma muy detallada todo sobre los ecosystem files de P
 <h3 id="herramientas-de-testing">Herramientas de Testing</h3>
 <p>Cuando hablamos de herramientas, nos estamos refiriendo a aquellos software que emulan o procesan el código de nuestra aplicación basandose en disntintos parametros y en disntintos entornos. Para entender mucho mejor podemos clasificar a los disntitos software basandonos en la piramide:</p>
 <p><img src="https://scontent.faep9-1.fna.fbcdn.net/v/t1.6435-9/174450239_3687374431371213_7281839233968067926_n.png?_nc_cat=104&amp;ccb=1-7&amp;_nc_sid=730e14&amp;_nc_eui2=AeGmQkkJFS3SCLMfbwAEVTl9gxNgMyJMgWmDE2AzIkyBaWCuhMux2td1aqLbW6nAQinv-_9bKAY8jdxsR7SCybWE&amp;_nc_ohc=ytybDD4zvxkAX9hg3gH&amp;_nc_ht=scontent.faep9-1.fna&amp;oh=00_AfCkScdBXk9YQJu5CeXMFu_rWBzHh-6bv2wA_nqfzJVwqA&amp;oe=6426CCA5" alt="testingTools"></p>
-<p>En este caso podemos ver que cada software se especiliza en una cosa diferente, aunque algunos de estos pueden realizar diversas funciones para los distintos niveles. Para fines de este curso, vamos a estudiar estudiar mocha.
+<p>En este caso podemos ver que cada software se especiliza en una cosa diferente, aunque algunos de estos pueden realizar diversas funciones para los distintos niveles. Para fines de este curso, vamos a estudiar estudiar mocha.<br>
 Como curiosidad podemos ver que aparece Postman, y es que si, Postman es una herramienta de desarrollo que nos permite probar las rutas http de nuestro servidor, por esa razon, se encontraría en las pruebas de servicio.</p>
 <p>Las herramientas de testing podemos clasificarlas en 2 grupos:</p>
 <ul>
@@ -2845,7 +2847,589 @@ describe(<span class="hljs-string">'Función de Suma'</span>, <span class="hljs-
 <li><code>assert.strictEqual(actual, expected, message)</code>: Verifica que actual y expected son estrictamente iguales (===).</li>
 <li><code>assert.throws(fn, error, message)</code>: Verifica que fn arroja un error específico o una instancia de error específico.</li>
 </ul>
+<hr>
 <h2 id="logging-en-nodejs">Logging en Nodejs</h2>
+<p>El logging en NodeJs se refiere a la acción de registra información relevante de nuestra aplicación. Esto nos permite realizar un seguimiento de los procesos que estamos ejecutando, nos permite conocer como estan funcionando los componentes. Gracias a esto, y otras técnicas como las de testing, es que podemos depurar (en ingles: Debbuging).</p>
+<p>Una forma sencilla de realizar logging es con el objeto <code>console</code>, con métodos como:</p>
+<ul>
+<li><code>console.log()</code></li>
+<li><code>console.warn()</code></li>
+<li><code>console.error()</code></li>
+<li><code>console.info()</code></li>
+</ul>
+<p>Algunos conceptos importantes que se trabajan en el logging, son los niveles de logging, los destinos de registro y el formateo de registros. Vamos uno por uno:</p>
+<h3 id="niveles-de-logging">Niveles de logging</h3>
+<p>Los niveles de logging no son ni mas ni menos que la forma en la cual se agrupan los distintos mensajes. Se Clasifican segun su importancia o gravedad, esto para identificar rapidamente el estado de la aplicación.</p>
+<p><img src="https://technology.amis.nl/wp-content/uploads/2020/07/loglevels2020-07-07_16-48-34.png" alt="nivelesLogging"></p>
+<p>Como podemos ver en la imagen anterior, lso niveles de logging son:</p>
+<ol>
+<li><strong>Debug:</strong> Son los menos relevantes, indican registros de depuración, son los que nos permiten conocer que se esta ejecutando, que valor tienen ciertas variables, entre otras cosas.</li>
+</ol>
+<p>2.<strong>Info:</strong> Son aquellos registros que indican el estado del rendimiento actual de la aplicación. Sirve tanto para usuarios finales, como para el programador.</p>
+<p>3.<strong>Warn (Advertencia):</strong> Son aquellos registros que indican que algun componente de la aplicación podria generar problemas.</p>
+<p>4: <strong>Error:</strong> Son aquellos registros que indican que ocurrió un problema y que debe ser resuelto para continuar.</p>
+<p>5: <strong>Fatal:</strong> Son aquellos registros que indican que ocurrió un error critico, y que además podría perjudicar a la seguridad e integridad de la aplicación.</p>
+<p>Sin embargo, esta forma ya no es tan eficiente una vez que nuestra aplicación crece. Por esa razón es que aparecieron librerias con módulos que ofrecen mas utilidades para realizar ese proceso.</p>
+<h3 id="destinos-de-registros">Destinos de Registros</h3>
+<p>Los destinos de registro son, simple y llanamente, los lugares en donde se almacenaran estos mensajes de deupación. Poder elegir el destino de donde iran a parar este tipo de mensajes nos permite, por un lado organizarnos, y por otro lado, nos da la posibilidad de restringir el acceso a esta información, la cual a veces, es mejor que no sea visible para el usuario final.</p>
+<p>Los destinos mas comunes a los que podemos enviar los registros son:</p>
+<ul>
+<li>
+<p><strong>Consola:</strong> Los mensajes de registro se muestran en la consola del sistema. Estos son las básicos, este método es el que usa el objeto <code>console</code>, de ahí su nombre.</p>
+</li>
+<li>
+<p><strong>Archivos:</strong> Los mensajes de registro se almacenan en archivos en el sistema de archivos. Un ejemplo de esto, puede ser cuando una aplicación crashea, a veces, esta genera un reporte que podemos guardar en un archivo externo.</p>
+</li>
+<li>
+<p><strong>Correo electrónico:</strong> Los mensajes de registro se envían por correo electrónico a una dirección especificada.</p>
+</li>
+<li>
+<p><strong>Bases de datos:</strong> Los mensajes de registro se almacenan en una base de datos como MySQL, MongoDB, o PostgreSQL. Este puede ser uno de los destinos mas seguros, ya que, nos permite agregar una capa de seguridad</p>
+</li>
+<li>
+<p><strong>Servicios de terceros:</strong> Los mensajes de registro se envían a servicios de terceros como Splunk, Papertrail, o Loggly.</p>
+</li>
+</ul>
+<h3 id="formateo-de-registros">Formateo de registros</h3>
+<p>El formato de registros se refiere a la estructura que toman los registros a la hora de ser mostrados en pantalla o guardados en algun destino. Dependiendo del formato en el que se encuentren, puede cambiar la forma en la cual, se muestran, la legibilidad, el acceso, entre otras cosas. Como en todo hay ventajas y desventejas.</p>
+<p>Ahora, cuales son algunos de los formatos mas comunes cuando hablamos de registros:</p>
+<ul>
+<li>
+<p><strong>Texto simple:</strong> Los mensajes de registro se muestran como texto plano sin ningún formato adicional.</p>
+</li>
+<li>
+<p><strong>JSON:</strong> Los mensajes de registro se muestran como objetos JSON estructurados, lo que facilita el análisis y el procesamiento por parte de herramientas de registro y análisis.</p>
+</li>
+<li>
+<p><strong>Colores:</strong> Los mensajes de registro se muestran en diferentes colores según su nivel de registro. Por ejemplo, los mensajes de depuración pueden aparecer en verde, mientras que los mensajes de error pueden aparecer en rojo.</p>
+</li>
+<li>
+<p><strong>Formato personalizado:</strong> Los desarrolladores pueden crear su propio formato personalizado para los mensajes de registro, lo que les permite controlar exactamente cómo se presentan los mensajes.</p>
+</li>
+</ul>
+<p><img src="https://oracle-max.com/wp-content/uploads/2020/11/3-1024x471.png" alt="logsExample"></p>
+<p>Muy bien, una vez aclarado lo básico, podemos pasar a explicar un módulo muy conocido y utilizado cuando depuramos.</p>
+<h3 id="winston-module">Winston Module</h3>
+<p>En este caso, veremos el módulo <code>Winston</code>, el cual es uno de los módulos mas populares para este tipo de tareas. Algunas de las utilidades que ofrecen son:</p>
+<ul>
+<li>Registrar información en diferentes destinos</li>
+<li>Como archivos de registro</li>
+<li>Bases de datos o servicios de terceros</li>
+</ul>
+<p>Por su propia definición, sabemos que:</p>
+<blockquote>
+<p>winston está diseñado para ser una biblioteca de registro simple y universal con soporte para múltiples transportes. winston tiene como objetivo desacoplar partes del proceso de registro para hacerlo más flexible y extensible.</p>
+</blockquote>
+<h4 id="documentaci%C3%B3n-winston">Documentación Winston</h4>
+<p><a href="https://www.npmjs.com/package/winston"><img src="https://img.shields.io/badge/Documentacion Oficial-red" alt="Winston"></a></p>
+<h4 id="instalaci%C3%B3n-winston">Instalación Winston</h4>
+<pre class="hljs"><code><div>npm install winston
+</div></code></pre>
+<h3 id="uso-winston">Uso Winston</h3>
+<p>Para emepzar a usar <code>winston</code> debemos crear el objeto <code>logger</code>. Este es el que nos permitira crear los registros. Este logger necesita ser configura utilizando el siguiente método:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> logger = winston.createLogger({
+  <span class="hljs-comment">/* Aquí van las configuraciones*/</span>
+});
+</div></code></pre>
+<p>Este método recibe como argumento un objeto que contiene las configuraciones que posteriormente utilizará el logger. Algunas de las configuraciones que acepta son:</p>
+<pre class="hljs"><code><div>{
+    <span class="hljs-attr">level</span>: <span class="hljs-string">'info'</span>, <span class="hljs-comment">// Nivel máximo que puede alcanzar un log </span>
+    <span class="hljs-attr">format</span>: winston.format.json(), <span class="hljs-comment">// formato que tendra el log</span>
+    <span class="hljs-attr">defaultMeta</span>: { <span class="hljs-attr">service</span>: <span class="hljs-string">'Log de Winston'</span> },
+    <span class="hljs-attr">transports</span>: [
+        <span class="hljs-comment">// Destinos de registro, con sus configuraciones</span>
+    ]
+}
+</div></code></pre>
+<p>Cada una de las configuraciones puede ser personalizada al completo, aunque para este curso, solo mostraremos los valores predefinidos</p>
+<p>Vamos a explicar cada atributo uno por uno:</p>
+<ul>
+<li>
+<p><code>level:</code> Este es el nivel máximo que acepta el log, si lo supera, no lo registra. Los niveles son (Siendo el de arriba el más crítico y el de abajo el menos):</p>
+<ul>
+<li>error</li>
+<li>warn</li>
+<li>info</li>
+<li>http</li>
+<li>verbose</li>
+<li>debug</li>
+<li>silly</li>
+</ul>
+</li>
+<li>
+<p><code>defaultMeta:</code> es un objeto que tambien recibe ciertos atributos, la función que cumple este objeto es la de agregar información adicional al registro que generamos. En este caso al final del registro va a decir que este registro fué generado por winston:</p>
+</li>
+<li>
+<p><code>format:</code> Este es el atributo es el más complicado de explicar, asi que vamos por partes.</p>
+<p>Para empezar este atributo acepta distintas funciones, que vienen incluidas en <code>winston.format</code>.<br>
+La forma sencilla de explicarlo sería decir que, <strong>a medida que se agregan funciones al atributo <code>format:</code>, se va estilizando la estructura de salida.</strong> Vea el siguiente ejemplo:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> winston = <span class="hljs-built_in">require</span>(<span class="hljs-string">'winston'</span>);
+
+<span class="hljs-keyword">const</span> logger = winston.createLogger({
+    <span class="hljs-attr">level</span>: <span class="hljs-string">'info'</span>,
+    <span class="hljs-attr">format</span>: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.colorize(),
+        winston.format.align(),
+        winston.format.printf(<span class="hljs-function">(<span class="hljs-params">info</span>)=&gt;</span>{
+            <span class="hljs-keyword">return</span> <span class="hljs-string">`[WinstonLogs - Nivel: <span class="hljs-subst">${info.level}</span> - Timestamp: <span class="hljs-subst">${info.timestamp}</span>] <span class="hljs-subst">${info.message}</span>`</span>
+        })
+    ),
+    <span class="hljs-attr">transports</span>: [
+        <span class="hljs-keyword">new</span> winston.transports.Console(),
+    ]
+});
+
+logger.info(<span class="hljs-string">'Hello, world!'</span>);
+logger.error(<span class="hljs-string">'Something went wrong'</span>);
+<span class="hljs-comment">//[WinstonLogs - Nivel: info - Timestamp: 2023-03-02T19:40:10.320Z]       Hello, world!</span>
+<span class="hljs-comment">//[WinstonLogs - Nivel: error - Timestamp: 2023-03-02T19:40:10.322Z]      Something went wrong</span>
+</div></code></pre>
+<p>En el ejemplo anterior, el formato de salida es totalmente personalizado. Cada función que se agrega dentro de <code>winston.format.combine()</code> agrega un estilo o componente diferente a la salida. Por ejemplo:</p>
+<p><code>.colorize():</code> Cambia el color dependiendo del nivel del mensaje, si es un error se muestra rojo y si es info se muestra en verde.</p>
+<p><code>.align()</code>: Separa el cuerpo del mensaje de los &quot;metadatos&quot;</p>
+<p><code>.timestamp()</code>: Agrega la hora a la cual se realizó el log como atributo de <code>info</code></p>
+<p>y por último. <code>printf(callback(info))</code>: Acepta todo lo que se agregó anteriormente y permite generar la salida totalmente personalizada.</p>
+<p>Para entender mejor este atributo, se recomienda probar sacar y poner funciones para ver los &quot;efectos&quot; que se pueden conseguir</p>
+</li>
+</ul>
+<p>He aquí una lista de las <strong>funciones</strong> que ofrece <code>winston.format()</code>:</p>
+<ul>
+<li>
+<p><code>combine():</code> Combina varios objetos de formato en uno solo.</p>
+</li>
+<li>
+<p><code>colorize():</code> Agrega colores a la salida de registro, según el nivel de registro.</p>
+</li>
+<li>
+<p><code>json():</code> Crea un objeto JSON con la información del registro.</p>
+</li>
+<li>
+<p><code>label():</code> Agrega una etiqueta personalizada al registro.</p>
+</li>
+<li>
+<p><code>metadata():</code> Agrega metadatos personalizados al registro.</p>
+</li>
+<li>
+<p><code>ms():</code> Convierte la marca de tiempo en una cadena de tiempo transcurrido en milisegundos.</p>
+</li>
+<li>
+<p><code>padLevels():</code> Añade padding (relleno) a los niveles de registro.</p>
+</li>
+<li>
+<p><code>prettyPrint():</code> Imprime el objeto de registro en formato JSON con indentación y saltos de línea.</p>
+</li>
+<li>
+<p><code>printf():</code> Crea una función de formato personalizada utilizando una cadena de formato, similar a printf en C.</p>
+</li>
+<li>
+<p><code>simple():</code> Crea una cadena de registro simple con solo el nivel de registro y el mensaje.</p>
+</li>
+<li>
+<p><code>timestamp():</code> Agrega una marca de tiempo a los registros.</p>
+<ul>
+<li><code>Transports:</code> Este es el último atributo que ofrece el objeto <code>logger</code>, este acepta como valor un array que, a su vez, guarda objetos del tipo <code>winston.transport</code>:</li>
+</ul>
+<p>Los objetos de transport representan los destinos de los registros</p>
+<p>Algunos de los destinos mas comunes son:</p>
+<ul>
+<li><code>Console</code>: para enviar registros a la consola</li>
+<li><code>File</code>: para escribir registros en un archivo</li>
+<li><code>Http</code>: para enviar registros a través de una solicitud HTTP</li>
+<li><code>Syslog</code>: para enviar registros a un servidor syslog.</li>
+</ul>
+<p>También puedes crear tus propios destinos de registro personalizados utilizando la clase winston.Transport</p>
+<p>En el siguiente ejemplo se configuran un destino http y un archivo:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> winston = <span class="hljs-built_in">require</span>(<span class="hljs-string">'winston'</span>);
+<span class="hljs-keyword">const</span> { format } = winston;
+
+<span class="hljs-keyword">const</span> fileTransport = <span class="hljs-keyword">new</span> winston.transports.File({
+  <span class="hljs-attr">filename</span>: <span class="hljs-string">'logs/app.log'</span>,
+  <span class="hljs-attr">level</span>: <span class="hljs-string">'info'</span>,
+  <span class="hljs-attr">format</span>: format.combine(
+    format.timestamp(),
+    format.json()
+  )
+});
+
+<span class="hljs-keyword">const</span> httpTransport = <span class="hljs-keyword">new</span> winston.transports.Http({
+  <span class="hljs-attr">host</span>: <span class="hljs-string">'example.com'</span>,
+  <span class="hljs-attr">port</span>: <span class="hljs-number">80</span>,
+  <span class="hljs-attr">path</span>: <span class="hljs-string">'/logs'</span>,
+  <span class="hljs-attr">auth</span>: {
+    <span class="hljs-attr">username</span>: <span class="hljs-string">'user'</span>,
+    <span class="hljs-attr">password</span>: <span class="hljs-string">'password'</span>
+  },
+  <span class="hljs-attr">ssl</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">level</span>: <span class="hljs-string">'error'</span>,
+  <span class="hljs-attr">format</span>: format.combine(
+    format.timestamp(),
+    format.json()
+  )
+});
+
+<span class="hljs-keyword">const</span> logger = winston.createLogger({
+  <span class="hljs-attr">transports</span>: [ fileTransport, httpTransport ]
+});
+
+logger.info(<span class="hljs-string">'Hello, Winston!'</span>);
+logger.error(<span class="hljs-string">'Something went wrong!'</span>);
+</div></code></pre>
+</li>
+</ul>
+<p>Y para finalizar con este módulo veamos como enviar los disntintos tipos de log. Simplemente utilizamos el <code>logger</code> configurado previamente y utilizamos la siguiente estructura:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> logger = winston.createLogger({
+    
+});
+<span class="hljs-comment">//logger.[nivel](...)</span>
+<span class="hljs-comment">// Métodos de registro disponibles en logger:</span>
+logger.log(level, message, [metadata], [callback]);
+logger.error(message, [metadata], [callback]);
+logger.warn(message, [metadata], [callback]);
+logger.info(message, [metadata], [callback]);
+logger.verbose(message, [metadata], [callback]);
+logger.debug(message, [metadata], [callback]);
+logger.silly(message, [metadata], [callback]);
+</div></code></pre>
+<hr>
+<h2 id="threads">Threads</h2>
+<p>Cuando trabajamos con NodeJs se nos dice que este es un lenguaje que trabaja con un solo hilo, que es <strong>Single Thread</strong>. Esto significa que trabaja linea por linea con un &quot;solo flujo&quot;. Si en este flujo aparece un obstaculo, como un proceso que requiere un cierto tiempo para terminar su ejecución, entonces la aplicación se bloquea.</p>
+<p>Este &quot;obstaculo&quot;, a veces, no se puede esquivar, por eso lo que se busca utilizar disntintas técnicas que permitan reducir el tiempo de espera, como por ejemplo, las callbacks o las promesas. Pero también existen situaciones en las cuales estas herramientas no son suficientes, vea el siguiente ejemplo.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">"express"</span>)
+<span class="hljs-keyword">const</span> app = express()
+
+app.get(<span class="hljs-string">"/a"</span>, (req, res) =&gt; {
+  <span class="hljs-keyword">const</span> startTime = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>()
+  <span class="hljs-keyword">const</span> result = fibonacci(<span class="hljs-built_in">parseInt</span>(req.query.number)) <span class="hljs-comment">//parseInt is for converting string to number</span>
+  <span class="hljs-keyword">const</span> endTime = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>()
+  res.json({
+    <span class="hljs-attr">number</span>: <span class="hljs-built_in">parseInt</span>(req.query.number),
+    <span class="hljs-attr">fibonacci</span>: result,
+    <span class="hljs-attr">time</span>: endTime.getTime() - startTime.getTime() + <span class="hljs-string">"ms"</span>,
+  })
+})
+
+<span class="hljs-keyword">const</span> fibonacci = <span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span> {
+  <span class="hljs-keyword">if</span> (n &lt;= <span class="hljs-number">1</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>
+  }
+
+  <span class="hljs-keyword">return</span> fibonacci(n - <span class="hljs-number">1</span>) + fibonacci(n - <span class="hljs-number">2</span>)
+}
+
+app.listen(<span class="hljs-number">3000</span>, () =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"listening on port 3000"</span>))
+</div></code></pre>
+<p>Como podra ver, en el ejemplo anterior usamos express, pero no se preocupe, solo usaremos funciones baásicas del framework, como poder escuchar ciertas rutas, y montar el servidor.</p>
+<p>En el código anterior lo que hacemos  es crear un servidor web, que escucha en el puerto 3000 y responde a las rutas <code>https://localhost:3000/a</code>.</p>
+<p>Los números de <strong>Fibonacci</strong> son una secuencia de números enteros en la que cada número es la suma de los dos números anteriores. La secuencia comienza con los números 0 y 1, y los siguientes números se calculan sumando los dos números anteriores (0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, ...).<br>
+Por ejemplo, si se llama a fibonacci(6), la función devolverá el valor 8, ya que el sexto número de Fibonacci es 8 (la secuencia comienza con 0, 1, 1, 2, 3, 5, 8, ...).</p>
+<p>Para poder pasar este valor a la función desde el navegador, lo hacemos con parametros vía url: <code>https://localhost:3000/a?number=6</code>.</p>
+<p>Ahora bien, esta función es peligrosa, porque dependiendo del numero que ingrese el usuario, al ser recursiva, esta deberá llamarse una y otra vez hasta encontrar el numero que le usuario pidió.</p>
+<p>Y el problema aquí es que, si el numero es muy alto, el programa se bloqueará, y esto nos llevara a tener un alto consumo de recursos. Sin mencionar que, si el servidor debe atender otras cuestiones, estas funciones tambien se veran interrumpidas, ya que, como tenemos un solo hilo este debe terminar este tarea para continuar.</p>
+<p><img src="https://alvinlal.netlify.app/static/b9d4603a6d33a428fa4a9d2b8e5505a2/8a92d/taskmanager.webp" alt="singleThread2"></p>
+<p><img src="https://alvinlal.netlify.app/e2f1dc41ad100e8dc0dd9d1b15125bbd/getfibanacci_hanging.gif" alt="singleThread3"></p>
+<p>En un primer momento, uno pensaría que usando promesas esto tambien se solucionaría, pues bien, la respuesta es no. Esto se debe a que las promesas, por decirlo de alguna forma, internamente se manejan con callbacks, por lo que, el resultado no varía.</p>
+<p>Gracias a la situación anterior cabe recalcar un concepto muy importante sobre las calbacks y promesas. Si bien su función es la de ejecutar tareas en segundo plano, <strong>las tareas que ejecutan son aquellas que demandan tiempo, y no necesariamente procesamiento por parte de la CPU.</strong></p>
+<p>Las tareas que comunmente se destinan a callback y promesas, son aquellas en las que, su realización, <strong>depende de factores externos</strong>, como la conexión de red, el procesamiento de una API o Base de Datos, etc.</p>
+<p>Pero el problema que tenemos aquí es que, la tarea que estamos intentando realizar bloquea la aplicación entera por falta de velocidad procesamiento. Lo que nos lleva al siguiente asunto: Comó se soluciona?<br>
+Pues bien, la cuestión es la siguiente, la velocidad de procesamiento depende de varios componentes de la pc, pero en especial del <strong>procesador</strong> y de la administración del <strong>sistema operativo</strong>.</p>
+<p>Con respecto a la CPU (el procesador), este internamente poseé distintos núcleos que son los que realizan los distintos procesos, y a su vez los procesos pueden tener hilos. Los hilos son como, partes de un mismo proceso, que cumplen diferentes tareas.</p>
+<p>En este caso el ejemplo es mas que claro, Estamos intentando realizar una tarea que ocupa demasiados recursos, y qué debido, a la mala gestión, terminar por bloquear las demas tareas que tiene realizar la aplicación.</p>
+<p>Realmente esto tiene disntitas formas de ser solucionado:</p>
+<h3 id="worker-threads">Worker Threads</h3>
+<p>Como sabemos, Nodejs por defecto trabaja con un <strong>Single Thread</strong>, lo que quiere decir que existe un solo hilo principal o <strong>Main Thread</strong>, alojado en un unico proceso. Aqui es donde vuelve a aparece el concepto de Event Loop.</p>
+<p><img src="https://s1.o7planning.com/fr/11951/images/21212670.png" alt="SingleThread"></p>
+<p>Pues bien, dentro de este único proceso podemos crear worker threads, que no son mas que &quot;hilos adicionales&quot; que trabajan en paralelo con el hilo principal.</p>
+<p>Estos se útilizan para realizar tareas que consuman mucho tiempo en la CPU, Como la resolucion de algun problema matemático. Ademas estos hilos <strong>comparten espacio de memoria</strong>, lo que quiere decir que pueden comunicarse entre ellos usando lo que se conoce como <code>ArrayBuffer</code>.</p>
+<p><img src="http://1.bp.blogspot.com/-4ZARqxV_tmY/T8eS2cl0IuI/AAAAAAAAADo/bg76M7rmpxA/s1600/proceso.png" alt="hilosYProcesos"></p>
+<p><img src="https://images.ctfassets.net/hspc7zpa5cvq/SIXlUR85TDb9uzlnTJEjb/0a9cb1fdcfadbee44283aada6a312443/Worker-Threads-Process.png" alt="workerThread"><br>
+Nodejs, nos proveé un módulo para trabajar con los worker threads. Pero cabe aclarar, que este módulo no sera visto en mucha profundida.</p>
+<h4 id="m%C3%B3dulo-worker-threads">Módulo Worker Threads</h4>
+<p><strong>Importación</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> worker = <span class="hljs-built_in">require</span>(<span class="hljs-string">'worker_threads'</span>)
+</div></code></pre>
+<p><strong>Creación de Workers</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">// new Worker(__filename, {workerData: [var|array]});</span>
+<span class="hljs-keyword">const</span> worker = <span class="hljs-keyword">new</span> Worker(<span class="hljs-string">'./worker.js'</span>, {<span class="hljs-attr">workerData</span>: variable});
+</div></code></pre>
+<p><strong>Métodos y propiedades del objeto worker</strong></p>
+<ul>
+<li>
+<p><code>worker.postMessage(value)</code>: Método que se utiliza para enviar un mensaje al worker thread desde el hilo principal.</p>
+</li>
+<li>
+<p><code>worker.on('message', callback)</code> Evento que se dispara cuando el worker thread envía un mensaje al hilo principal, y que permite ejecutar una función (callback) para procesar dicho mensaje.</p>
+</li>
+<li>
+<p><code>worker.on('error', callback)</code> Evento que se dispara cuando ocurre un error en el worker thread, y que permite ejecutar una función (callback) para manejar dicho error.</p>
+</li>
+<li>
+<p><code>worker.terminate()</code> Método que se utiliza para terminar el worker thread.</p>
+</li>
+<li>
+<p><code>worker.threadId</code> Propiedad que contiene el ID del thread del worker.</p>
+</li>
+<li>
+<p><code>worker.isMainThread</code> Propiedad que indica si el worker está corriendo en el hilo principal o en un thread distinto.</p>
+</li>
+<li>
+<p><code>worker.parentPort</code> Propiedad que contiene una referencia al canal de comunicación entre el hilo principal y el worker, en el caso de que el worker esté corriendo en un thread distinto.</p>
+</li>
+<li>
+<p><code>worker.workerData</code> Propiedad que contiene los datos que se pasaron al worker thread como segundo parámetro del objeto de opciones al momento de crear el worker mediante el constructor Worker().</p>
+</li>
+</ul>
+<h4 id="soluci%C3%B3n-de-problema-con-worker-threads">Solución de Problema Con Worker Threads</h4>
+<p>main.js</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> { Worker } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'worker_threads'</span>);
+
+<span class="hljs-keyword">const</span> app = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express'</span>)()
+
+app.get(<span class="hljs-string">'/a'</span>,(req,res)=&gt;{
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fibonnaci</span>(<span class="hljs-params">n</span>) </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+
+            <span class="hljs-keyword">const</span> worker = <span class="hljs-keyword">new</span> Worker(<span class="hljs-string">'./worker.js'</span>, { <span class="hljs-attr">workerData</span>: n });
+
+            worker.on(<span class="hljs-string">'message'</span>, resolve); <span class="hljs-comment">// Se recibe el mensaje con el resultado del worker</span>
+            worker.on(<span class="hljs-string">'error'</span>, reject); <span class="hljs-comment">// Se recibe un error del worker</span>
+
+        });
+    <span class="hljs-comment">// Se Empieza pidiendo que calcule la suma de 0 a 1000000000</span>
+    }
+    fibonnaci(req.query.number)<span class="hljs-comment">// Como retorna una promesa...</span>
+      .then(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> res.send(<span class="hljs-string">`Fibonnaci: <span class="hljs-subst">${result}</span>`</span>))
+      .catch(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> <span class="hljs-built_in">console</span>.error(error));
+});
+
+app.get(<span class="hljs-string">'/b'</span>,(req,res)=&gt;{
+    res.send(<span class="hljs-string">'Hola'</span>).status(<span class="hljs-number">200</span>)
+})
+
+app.listen(<span class="hljs-number">3636</span>, () =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Escuchando en puerto 3636"</span>))
+</div></code></pre>
+<p>worker.js</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> { workerData, parentPort } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'worker_threads'</span>);
+
+<span class="hljs-keyword">const</span> fibonacci = <span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span> {
+  <span class="hljs-keyword">if</span> (n &lt;= <span class="hljs-number">1</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>
+  }
+
+  <span class="hljs-keyword">return</span> fibonacci(n - <span class="hljs-number">1</span>) + fibonacci(n - <span class="hljs-number">2</span>)
+}
+
+parentPort.postMessage(fibonacci(workerData));
+</div></code></pre>
+<p>Con este método y utilizando 2 hilos, uno se &quot;bloquea&quot; intentando solucionar la operación matemática y el otro , el Main Thread, se queda a la escucha de otras peticiones, por lo que, la ejecución de la aplicación no se interrumpe.</p>
+<h3 id="childprocess">child_process</h3>
+<p>Otra forma de solucionar este problema seria la de <strong>generar procesos hijos o secundarios</strong>. Este método ya no solo creara un hilo, sino que ahora creara un <strong>proceso independiente</strong> que será hijo de nuestra aplicación de nodejs.</p>
+<p>Los procesos secundarios son útiles porqué nos permiten ejecutar un script externo o ejecutar una aplicación externa a la nuestra. Además los procesos secundarios también son útiles cuando se necesita realizar operaciones que consumen muchos recursos, ya que, <strong>Dato importante: Cada proceso secundario se ejecuta en su propio espacio de memoria y su propio hilo. Debido a que, como se dijo antes, son PROCESOS AISLADOS</strong>.</p>
+<p><img src="https://soshace.com/wp-content/uploads/2020/01/component-3-1.jpg" alt="child_process"></p>
+<p>Para todo esto, Node nos ofrece el módulo <code>child_process</code>.</p>
+<h4 id="m%C3%B3dulo-childprocess">Módulo child_process</h4>
+<p><strong>Al igual que con el <code>worker_threads</code>, este módulo no será presentado en profundida.</strong></p>
+<p>Lo primero que tenemos que entender es que, cuando <code>child_process</code> crea un subproceso, este requerirá comunicarse con otros, aquí es cuando aparece el termino IPC.</p>
+<p><strong>IPC (Inter-Process Communication)</strong>: Es un término que se refiere a los mecanismos y técnicas utilizados para permitir la comunicación entre procesos en un sistema operativo.</p>
+<p>Algunos de estos métodos pueden ser:</p>
+<ul>
+<li>Memoria compartida</li>
+<li>Pipes</li>
+<li>Sockets</li>
+<li>Colas de mensajes</li>
+</ul>
+<p>Para este caso, donde tenemos un proceso padre y un proceso hijo, utilizaremos los <strong>pipes</strong>. Si, los mismos pipes de los <strong>streams</strong>. Y tambien, con esto volveremos a ver los streams: STDOUT, STDIN y STDERR.</p>
+<p>Ahora, <code>child_process</code> ofrece varias formas de crear procesos secundarios, incluyendo la creación de un nuevo proceso mediante la invocación de un comando externo, la creación de un proceso secundario a partir de un archivo de script de Node.js, y la creación de un proceso secundario utilizando un archivo binario ejecutable.</p>
+<p><strong>Métodos child_process</strong></p>
+<ul>
+<li>
+<p><code>child_process.exec(command[, options][, callback])</code>: Ejecuta un comando en una <strong>subshell</strong> y devuelve los resultados de la ejecución como una cadena.</p>
+</li>
+<li>
+<p><code>child_process.execFile(file[, args][, options][, callback])</code>: Ejecuta un archivo binario y devuelve los resultados de la ejecución como una cadena. La diferencia con el anterior es que no crea una <strong>subshell</strong> nueva.</p>
+</li>
+<li>
+<p><code>child_process.spawn(command[, args][, options])</code>: Crea un nuevo proceso secundario y devuelve un objeto ChildProcess que permite interactuar con el proceso secundario a través de sus flujos de entrada y salida.</p>
+</li>
+<li>
+<p><code>child_process.fork(modulePath[, args][, options])</code>: Crea un nuevo proceso secundario  y devuelve un objeto ChildProcess que permite comunicarse con el proceso secundario a través de mensajes, utilizando <code>subprocess.send()</code>. Siguen siendo procesos independientes, pero ahora tienen un canal por el que comunicarse directamente entre padre e hijo, y no a traves de eventos.</p>
+</li>
+</ul>
+<p><strong>Cada uno de estos metodos devuelve un objeto <code>ChildProcess</code>, el cual a su vez hereda métodos de la clase <code>EventEmitter</code>.</strong></p>
+<p><img src="https://i.ytimg.com/vi/kR1DCU5kO5s/maxresdefault.jpg" alt="metodosChildProcess"></p>
+<h4 id="soluci%C3%B3n-al-problema-con-childprocess">Solución al Problema con ChildProcess</h4>
+<p>main.js</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">"express"</span>)
+
+<span class="hljs-keyword">const</span> app = express()
+<span class="hljs-keyword">const</span> { fork } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"child_process"</span>)
+
+app.get(<span class="hljs-string">"/a"</span>, (req, res) =&gt; {
+  <span class="hljs-keyword">const</span> childProcess = fork(<span class="hljs-string">"./forkedchild.js"</span>) <span class="hljs-comment">//the first argument to fork() is the name of the js file to be run by the child process</span>
+  childProcess.send({ <span class="hljs-attr">number</span>: <span class="hljs-built_in">parseInt</span>(req.query.number) }) <span class="hljs-comment">//send method is used to send message to child process through IPC</span>
+  <span class="hljs-keyword">const</span> startTime = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>()
+  childProcess.on(<span class="hljs-string">"message"</span>, message =&gt; {
+    <span class="hljs-comment">//on("message") method is used to listen for messages send by the child process</span>
+    <span class="hljs-keyword">const</span> endTime = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>()
+    res.json({
+      ...message,
+      <span class="hljs-attr">time</span>: endTime.getTime() - startTime.getTime() + <span class="hljs-string">"ms"</span>,
+    })
+  })
+})
+
+app.get(<span class="hljs-string">"/b"</span>, (req, res) =&gt; {
+  res.send(<span class="hljs-string">"I am unblocked now"</span>)
+})
+
+app.listen(<span class="hljs-number">3636</span>, () =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"listening on port 3636"</span>))
+</div></code></pre>
+<p>forkedchild.js</p>
+<pre class="hljs"><code><div>process.on(<span class="hljs-string">"message"</span>, message =&gt; {
+  <span class="hljs-comment">//child process is listening for messages by the parent process</span>
+  <span class="hljs-keyword">const</span> result = fibonacci(message.number)
+  process.send(result)
+  process.exit() <span class="hljs-comment">// make sure to use exit() to prevent orphaned processes</span>
+})
+  
+<span class="hljs-keyword">const</span> fibonacci = <span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span> {
+  <span class="hljs-keyword">if</span> (n &lt;= <span class="hljs-number">1</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>
+  }
+
+  <span class="hljs-keyword">return</span> fibonacci(n - <span class="hljs-number">1</span>) + fibonacci(n - <span class="hljs-number">2</span>)
+}
+</div></code></pre>
+<p>Este método es mucho mas intuitivo que el anterior, Aqui creamos el proceso hijo con <code>fork()</code>, luego le enviamos el parametro que llegó por url con <code>childProcess.send(object)</code>, y dejamos un event listeners esperando la respuesta del subproceso.</p>
+<h2 id="cluster">Cluster</h2>
+<p>Los Clusters son grupos de procesos que trabajan en paralelo, los cuales dividen las tareas a realizar, se organizan bajo una jerarquía y comparten un mismo puerto. La <strong>Clusterización</strong> Es una técnica que permite aprovechar significativamente el rendimiento y la capacidad de respuesta de una aplicación, especialmente en aplicaciones que realizan tareas intensivas en CPU.</p>
+<p><img src="https://www.webmound.com/public/uploads/67/nodejs-clustering-increase-server-performance.jpg?ezimgfmt=rs:341x184/rscb4/ngcb4/notWebP" alt="clusterizacion"></p>
+<p>Cada clúster consta de un proceso principal y uno o varios procesos secundarios. El proceso principal actúa como un coordinador y se encarga de distribuir el trabajo a los procesos secundarios. Aquí aparecen 2 formas de distribuir:</p>
+<ul>
+<li>
+<p><strong>&quot;Round-robin&quot;</strong>: Traducido, &quot;turnos rotativos&quot;, se distribuye el trabajo de manera equitativa entre los procesos secundarios. Esto significa que cada proceso secundario tiene una oportunidad igual de realizar trabajo.</p>
+</li>
+<li>
+<p><strong>Escucha de socket</strong>: En este el proceso master, crea un socket que puede ser escuchado por los demas workers, Y solo responde el worker que este desocupado.</p>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/nextapps-de/flexsearch-server/master/doc/cluster.png" alt="cluster"></p>
+<p>La idea detrás de los clústeres es que, en lugar de tener un solo proceso que tenga que hacer todo el trabajo, se pueden crear varios procesos secundarios para dividir la carga de trabajo.</p>
+<p>Con esto aprovechamos al máximo las ventajas de los anteriores métodos.</p>
+<p>El funcionamiento detras de los clusters es el siguiente:</p>
+<ul>
+<li>
+<p>Cuando se recibe una solicitud o tarea en el proceso principal, este selecciona un proceso secundario disponible (es decir, un proceso que no esté actualmente ocupado con otra tarea) y le asigna la tarea.</p>
+</li>
+<li>
+<p>El proceso secundario ejecuta la tarea y devuelve los resultados al proceso principal.</p>
+</li>
+<li>
+<p>El proceso principal luego envía los resultados al cliente que realizó la solicitud original.</p>
+</li>
+</ul>
+<p><img src="https://www.sysleaf.com/static/133a45ee56a5f63eb9f85182af914996/a6906/nodejs-cluster-arch.png" alt="cluster2"></p>
+<p>Además, los procesos secundarios pueden comunicarse entre sí y con el proceso principal utilizando un mecanismo de comunicación de mensajes. Este mecanismo permite que los procesos compartan información y coordinen su trabajo.</p>
+<h3 id="m%C3%B3dulo-cluster">Módulo Cluster</h3>
+<p><strong>Este módulo tampoco será visto en demasiada profundidad</strong></p>
+<p>Este módulo y <code>child_process</code> comparten métodos y propiedades, el módulo cluster también proporciona eventos que se pueden usar para controlar el comportamiento de los procesos secundarios, como el evento <code>fork</code>, que se emite cuando se crea un nuevo proceso secundario, y el evento <code>exit</code>, que se emite cuando un proceso secundario se cierra.</p>
+<h4 id="m%C3%A9todos-cluster">Métodos Cluster</h4>
+<p><code>cluster.fork()</code>: Crea un nuevo proceso secundario que se ejecuta en paralelo al proceso principal.<br>
+<code>cluster.setupMaster([settings])</code>: Configura las opciones globales para todos los procesos secundarios.</p>
+<p><strong>Propiedades:</strong></p>
+<p><code>cluster.isMaster</code>: Devuelve true si el proceso actual es el proceso principal, de lo contrario devuelve false.<br>
+<code>cluster.isWorker</code>: Devuelve true si el proceso actual es un proceso secundario, de lo contrario devuelve false.<br>
+<code>cluster.worker</code>: Proporciona una referencia al objeto worker para el proceso secundario actual.<br>
+<code>cluster.workers</code>: Proporciona un objeto que contiene todos los procesos secundarios que se han creado.</p>
+<h4 id="solucionando-el-problema-con-cluster">Solucionando el Problema con Cluster</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> cluster = <span class="hljs-built_in">require</span>(<span class="hljs-string">"cluster"</span>)
+<span class="hljs-keyword">const</span> numCPUs = <span class="hljs-built_in">require</span>(<span class="hljs-string">"os"</span>).cpus().length
+<span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">"express"</span>)
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fibonacci</span>(<span class="hljs-params">number=<span class="hljs-number">1</span></span>)</span>{
+  <span class="hljs-keyword">if</span> (number &lt;= <span class="hljs-number">1</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>
+  } <span class="hljs-keyword">else</span>{
+    <span class="hljs-keyword">return</span> fibonacci(number - <span class="hljs-number">1</span>) + fibonacci(number - <span class="hljs-number">2</span>)
+  }
+}
+
+<span class="hljs-keyword">if</span> (cluster.isMaster) {
+
+  <span class="hljs-keyword">const</span> app = express()
+  
+  app.get(<span class="hljs-string">"/a"</span>, (req, res) =&gt; {
+    
+    <span class="hljs-comment">// Si se ingresa a la ruta '/a' y el proceso actual es el principal, creamos un worker</span>
+    <span class="hljs-keyword">const</span> worker = cluster.fork()
+    worker.send({ <span class="hljs-attr">number</span>: <span class="hljs-built_in">parseInt</span>(req.query.number)})
+    
+    <span class="hljs-comment">// Escuchamos el evento "message" del worker para recibir la respuesta del cálculo pesado</span>
+      worker.on(<span class="hljs-string">"message"</span>, message =&gt; {
+        <span class="hljs-comment">//const endTime = new Date()</span>
+        res.send(message)
+  
+        <span class="hljs-comment">// Enviamos un mensaje al worker para que se desconecte después de haber manejado la solicitud</span>
+        worker.send(<span class="hljs-string">"disconnect"</span>)
+      })
+  
+      <span class="hljs-comment">// Enviamos un mensaje al worker con los datos de la solicitud</span>
+      <span class="hljs-comment">//const startTime = new Date()</span>
+
+      
+    })
+    
+    app.get(<span class="hljs-string">"/b"</span>, (req, res) =&gt; {
+      res.send(<span class="hljs-string">"I am unblocked now"</span>)
+    })
+    
+    app.listen(<span class="hljs-number">3636</span>, () =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"listening on port 3636"</span>))
+    
+  } <span class="hljs-keyword">else</span> {
+
+    <span class="hljs-comment">// Escuchamos el evento "message" para recibir un mensaje de desconexión y cerramos el worker</span>
+    process.on(<span class="hljs-string">"message"</span>, message =&gt; {
+      
+      <span class="hljs-keyword">if</span> (message === <span class="hljs-string">"disconnect"</span>) {
+        process.disconnect()
+      }
+
+      <span class="hljs-keyword">const</span> result = fibonacci(<span class="hljs-built_in">parseInt</span>(message.number))
+      process.send({ result })
+
+    })
+}
+</div></code></pre>
+<p>Usando este método tenemos que remarcar algo, y es que, por definición, cuando usamos clusters lo que estamos haciendo es crear SUBPROCESOS, los cuales tienen un padre del que dependen. Al depender del proceso padre, este debe compartirles memoria y recursos.</p>
+<p>Entre los recursos que se comparten, se encuentra la <code>call stack</code>. Este componente lo vimos anteriormente, cuando presentamos el Event Loop de Javascript.</p>
+<p><img src="https://linuxhint.com/wp-content/uploads/2022/03/5.png" alt="call stack"></p>
+<p>Al compartir la misma pila, lo que ocurre es que, cuando se realizan operaciones recursivas, si la operación requiere demasiados llamados, el proceso entero termina por saturarce y arroja el error conocido como <code>Maximum call stack size exceeded</code>, que nos indica que hemos excedido el limite permitido, y por ende, el proceso se bloquea.</p>
+<p>Para el caso del ejemplo anterior, si el número que se pasa como argumento para realizar la función de <code>fibonnaci(n)</code> no es muy grande, entonces el programa funcionará y la aplicación podra continuar su ejecución con normalidad.</p>
+<h2 id="diferencias-entre-childprocess-y-cluster">Diferencias entre child_process y cluster</h2>
+<ul>
+<li>
+<p><strong>Creación de procesos:</strong> child_process crea procesos INDEPENDIENTES del proceso principal, mientras que cluster crea subprocesos DEPENDIENTES del proceso principal.</p>
+</li>
+<li>
+<p><strong>Número de procesos:</strong> child_process permite crear cualquier cantidad de procesos, mientras que cluster permite crear una cantidad limitada de subprocesos, según la cantidad de núcleos de la CPU.</p>
+</li>
+<li>
+<p><strong>Creación de procesos secundarios:</strong> child_process permite crear procesos secundarios de diferentes tipos, como procesos independientes, procesos de shell o procesos de spawn, mientras que cluster solo se utiliza para crear subprocesos en el mismo equipo.</p>
+</li>
+<li>
+<p><strong>Comunicación entre procesos:</strong> child_process y cluster pueden comunicarse con el proceso principal a través de la emisión de eventos y el intercambio de mensajes, pero cluster también permite que los subprocesos se comuniquen directamente entre sí, lo que puede ser útil en algunas situaciones. Además, Cluster utiliza IPC para la comunicación entre los subprocesos, mientras que child_process utiliza pipes (tuberías).</p>
+</li>
+<li>
+<p><strong>Carga de trabajo:</strong> child_process se utiliza generalmente para ejecutar procesos pesados y costosos en recursos, como tareas de procesamiento de imágenes o de video, mientras que cluster se utiliza generalmente para servidores web y aplicaciones que requieren una gran cantidad de solicitudes de red.</p>
+</li>
+<li>
+<p><strong>Escalabilidad:</strong> cluster es una solución escalable y fácil de usar para aplicaciones de servidor Node.js que necesitan manejar una gran cantidad de solicitudes simultáneas, mientras que child_process es más adecuado para tareas de procesamiento de datos.</p>
+</li>
+</ul>
+<h2 id="m%C3%A1s-depuraci%C3%B3n-en-nodejs">Más depuración en NodeJs</h2>
+<p>¡Hemos llegado al último tema del curso! Este capítulo no sera más que conceptos puntuales sobre la depuración. Desde que vimos testing podemos decir que los temas siguientes como: logging y threads, no son mas que formas que presentamos para optimizar y solucionar ciertos errores que pueden surgir durante el desarrollo.</p>
+<p>Pues bien, antes hemos mencionado el conpeto de depurar, o debugging, pero no lo hemos definido. La depuración es el proceso de IDENTIFICAR, y RESOLVER errores. Lo que nos interesaría aquí sería identificar estos errores, para tratarlos antes de que la aplicación llegue a producción.</p>
+<p>Una herramienta sumamente útil</p>
 
 </body>
 </html>

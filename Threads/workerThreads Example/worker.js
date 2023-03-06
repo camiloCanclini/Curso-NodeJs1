@@ -1,13 +1,11 @@
 const { workerData, parentPort } = require('worker_threads');
 
-function sum(n) {
-  let result = 0;
-
-  for (let i = 1; i <= n; i++) {
-    result += i;
+const fibonacci = n => {
+  if (n <= 1) {
+    return 1
   }
 
-  return result;
+  return fibonacci(n - 1) + fibonacci(n - 2)
 }
 
-parentPort.postMessage(sum(workerData));
+parentPort.postMessage(fibonacci(workerData));
