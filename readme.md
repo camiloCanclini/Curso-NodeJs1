@@ -3643,19 +3643,35 @@ npm run dev #Inicia el servidor que a creado Vite
 
 ```
 
+### Vite con NPM scripts
+
+Cuando usamos vite este se "llama" utilizando los NPM scripts, por lo que, si chequeamos el archivo `package.json`, podemos encontrar algo como esto:
+
+```js
+{
+  "scripts": {
+    "dev": "vite", // inicia el servidor de desarrollo, alias: `vite dev`, `vite serve`
+    "build": "vite build", // compila para producción
+    "preview": "vite preview" // vista previa local de compilación para producción
+  }
+}
+```
+
+a
+
 ### Funcionamiento
 
-Cuando usamos Vite, este busca simplicar y optimizar al máximo nuestro proyecto, tanto para desarrollo como para producción. Para esto, Vite sigue un cierto comportamiento o reglas que debemos tener en cuenta. No son reglas explicitas, podriamos decir que este espera que configuremos los archivos de cierta forma para poder compilar todo el proyecto correctamente.
+Cuando usamos Vite, este busca simplicar y optimizar al máximo nuestro proyecto, tanto para desarrollo como para producción. Para esto, Vite sigue un cierto comportamiento o reglas que debemos tener en cuenta.
 
-Para empezar, Vite trabaja con la forma EMACSript 6 (Con modulos), por lo que utilizamos `imports`, pero podemos configurarlo.
+> Vite es dogmático y viene con configuraciones predeterminadas listas para usar, pero también es altamente extensible a través de sus API de complementos y API de JavaScript con soporte completo de tipado.
 
-Otra característica importante es que, como ahora todo nuestro proyecto lo procesa Vite, debemos adaptar el proyecto y las tecnologías que usamos para que Vite no tenga problemas al compilar. Hay framewroks y librerías que no daran problemas, pero por ejemplo, librerias como React o librerias que traigan Web Components, requerirán ciertas configuraciones necesarias para funcionar en Vite.
+Para empezar, Vite trabaja con la forma EMACSript 6 (Con modulos), por lo que utilizamos `imports`.
 
 Por lo general estas configuraciones nos las explican en la documentación de dichas librerías, o en la misma documentación de Vite.
 
 #### Mas características de Vite
 
-* Configuración de Vite: Vite se configura mediante un archivo de configuración de JavaScript llamado vite.config.js. Este archivo se utiliza para especificar opciones como el puerto del servidor, la ruta de acceso a los archivos de origen y la configuración de los plugins.
+* Configuración de Vite: Vite se configura mediante un archivo de configuración de JavaScript llamado `vite.config.js.` Este archivo se utiliza para especificar opciones como el puerto del servidor, la ruta de acceso a los archivos de origen y la configuración de los plugins.
 
 * Soporte para diferentes tipos de archivos: Vite admite una amplia gama de tipos de archivos, como JavaScript, TypeScript, CSS, Less, Sass, JSON, SVG, PNG y más. Esto significa que puede utilizar Vite para proyectos que utilicen diferentes tecnologías y lenguajes.
 
@@ -3726,8 +3742,65 @@ ___
 
 Pues bien, antes hemos mencionado el conpeto de depurar, o debugging, pero no lo hemos definido. La depuración es el proceso de IDENTIFICAR, y RESOLVER errores. Lo que nos interesaría aquí sería identificar estos errores, para tratarlos antes de que la aplicación llegue a producción.
 
-Una herramienta sumamente útil 
+Existen diversas herramientas para depurar, addons que podemos instalar en nuestro editor de código, IDEś que ya poseen alguna de estas características, aplicaciones o métodos externos, etc.
 
+Una herramienta sumamente útil a la hora de depurar son las devTools que ofrece el navegador Chrome.
+
+### devTools Chrome
+
+En español, herramientas de desarrollo de Chrome (Chrome DevTools), son un conjunto de herramientas para desarrolladores web integradas en el navegador Chrome. Estas nos permitirán inspeccionar, depurar y optimizar el código HTML, CSS y JavaScript de un sitio web en tiempo real.
+
+La forma "simple" de acceder a ellas es abrir cualquier página web y tocar click derecho > inspeccionar. O presionar Ctrl + Shift + I en Windows.
+
+La forma "completa", que va a ser la que usaremos en este curso, sera la siguiente:
+
+1. Primero debemos tener una version de node superior a la v6.3.0
+
+2. Escribimos en consola el siguiente argumento, al momento de ejecutar nuestro script:
+
+    ```bash
+    node --inspect-brk index.js
+    ```
+
+3. Entramos a Chrome y escribimos en la url:
+
+      ```plain
+      chrome://inspect
+      ```
+
+4. Una vez que llegamos a la siguiente ventana, tocamos lo en `Open dedicated DevTools for Node`:
+
+    ![DevTools](https://media.geeksforgeeks.org/wp-content/uploads/20200610000457/InkedScreenshot-269_LI.jpg)
+
+5. Finalmente en la terminal nos avisará que ya se a conectado el cliente:
+
+    ![DevTools2](https://media.geeksforgeeks.org/wp-content/uploads/20200610005534/InkedScreenshot-261_LI1.jpg)
+
+Una vez que hallamos realizado los pasos anteriores deberiamos poder ver algo como esto:
+
+![DevToolsChrome](./readme-imgs/img30.png)
+
+Algunas de las características que podemos encontrar aquí son:
+
+* Depurar el código de Node.js: puedes establecer puntos de interrupción, o **Breakpoints**, en el código de Node.js y depurar el código línea por línea para encontrar errores. Los Breakpoints son puntos en los cuales la aplicación se detendrá y nos permitirá ver el estado del programa en ese momento concreto de la ejecución.
+
+  ![breakpoint](./readme-imgs/img31.png)
+
+* Inspeccionar el estado de la aplicación: puedes inspeccionar el estado de la aplicación Node.js en tiempo real, lo que te permite ver el valor de las variables, inspeccionar el ámbito de la función y más.
+
+* Evaluar el código en tiempo real: puedes evaluar el código de Node.js en tiempo real y ver los resultados directamente en la ventana de DevTools.
+
+* Ver los registros de la aplicación: puedes ver los registros de la aplicación en la ventana de DevTools y filtrar los registros según el nivel de registro.
+
+* Analizar el rendimiento de la aplicación: puedes analizar el rendimiento de la aplicación y ver la duración de las operaciones de la
+
+### APM
+
+los apm son
+
+### Memory Leaks
+
+Memory Leaks se traduce como
 ___
 
 ## Final del Curso
